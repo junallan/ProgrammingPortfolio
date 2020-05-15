@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/junallanparreno/SoftwareProjects/ToDoList_ASPDotNETMVC_MongoStorage/ToDoList_ASPDotNETMVC_MongoStorage.csproj": {}
+    "/Users/junallanparreno/ProgrammingPortfolio/ToDoList/ToDoList_ASPDotNETMVC_MongoStorage/ToDoList_ASPDotNETMVC_MongoStorage.csproj": {}
   },
   "projects": {
-    "/Users/junallanparreno/SoftwareProjects/ToDoList_ASPDotNETMVC_MongoStorage/ToDoList_ASPDotNETMVC_MongoStorage.csproj": {
+    "/Users/junallanparreno/ProgrammingPortfolio/ToDoList/ToDoList_ASPDotNETMVC_MongoStorage/ToDoList_ASPDotNETMVC_MongoStorage.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/junallanparreno/SoftwareProjects/ToDoList_ASPDotNETMVC_MongoStorage/ToDoList_ASPDotNETMVC_MongoStorage.csproj",
+        "projectUniqueName": "/Users/junallanparreno/ProgrammingPortfolio/ToDoList/ToDoList_ASPDotNETMVC_MongoStorage/ToDoList_ASPDotNETMVC_MongoStorage.csproj",
         "projectName": "ToDoList_ASPDotNETMVC_MongoStorage",
-        "projectPath": "/Users/junallanparreno/SoftwareProjects/ToDoList_ASPDotNETMVC_MongoStorage/ToDoList_ASPDotNETMVC_MongoStorage.csproj",
+        "projectPath": "/Users/junallanparreno/ProgrammingPortfolio/ToDoList/ToDoList_ASPDotNETMVC_MongoStorage/ToDoList_ASPDotNETMVC_MongoStorage.csproj",
         "packagesPath": "/Users/junallanparreno/.nuget/packages/",
-        "outputPath": "/Users/junallanparreno/SoftwareProjects/ToDoList_ASPDotNETMVC_MongoStorage/obj/",
+        "outputPath": "/Users/junallanparreno/ProgrammingPortfolio/ToDoList/ToDoList_ASPDotNETMVC_MongoStorage/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/junallanparreno/.nuget/NuGet/NuGet.Config"
@@ -35,6 +35,12 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "dependencies": {
+            "MongoDB.Driver": {
+              "target": "Package",
+              "version": "[2.10.4, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

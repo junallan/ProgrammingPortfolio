@@ -5,6 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Driver;
 using ToDoList_ASPDotNETMVC_MongoStorage.Models;
 
 namespace ToDoList_ASPDotNETMVC_MongoStorage.Controllers
@@ -20,6 +23,14 @@ namespace ToDoList_ASPDotNETMVC_MongoStorage.Controllers
 
         public IActionResult Index()
         {
+             MongoCRUD db = new MongoCRUD("ToDo");
+            var recs = db.LoadRecords<ToDoItemsModel>("ToDoItems");
+
+            foreach(var rec in recs)
+            {
+                Console.WriteLine($"{rec.Id}: {rec.WorkItemDescription}");
+            }
+
             return View();
         }
 
@@ -34,4 +45,35 @@ namespace ToDoList_ASPDotNETMVC_MongoStorage.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
+
+        public class ToDoItemsModel
+    {
+        [BsonId]
+        public Guid Id{get;set;}
+        public string WorkItemDescription{get;set;}
+    }
+
+    public class MongoCRUD
+    {
+        private IMongoDatabase db;
+
+        public MongoCRUD(string databaseName)
+        {
+            var client = new MongoClient();
+            db = client.GetDatabase(databaseName);
+        }
+
+        public void InsertRecord<T>(string tableName, T record)
+        {
+            var collection = db.GetCollection<T>(tableName);
+            collection.InsertOne(record);
+        }
+
+        public List<T> LoadRecords<T>(string tableName)
+        {
+            var collection = db.GetCollection<T>(tableName);
+
+            return collection.Find(new BsonDocument()).ToList();
+        }
+}
 }
