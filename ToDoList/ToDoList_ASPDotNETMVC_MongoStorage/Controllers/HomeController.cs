@@ -75,5 +75,34 @@ namespace ToDoList_ASPDotNETMVC_MongoStorage.Controllers
 
             return collection.Find(new BsonDocument()).ToList();
         }
+
+        public T LoadRecordById<T>(string table, Guid id)
+        {
+            var collection = db.GetCollection<T>(table);
+            var filter = Builders<T>.Filter.Eq("Id", id);
+
+            return collection.Find(filter).First();
+        }
+
+        [Obsolete]
+        public void UpsertRecord<T>(string table, Guid id, T record)
+        {
+            var collection = db.GetCollection<T>(table);
+
+            ReplaceOneResult replaceOneResult = collection.ReplaceOne(
+                                new BsonDocument("_id",
+                                                 id),
+                                record,
+                                new UpdateOptions { IsUpsert = true }
+                        );
+            var result = replaceOneResult;
+        }
+
+        public void DeleteRecord<T>(string table, Guid id)
+        {
+            var collection = db.GetCollection<T>(table);
+            var filter = Builders<T>.Filter.Eq("Id", id);
+            collection.DeleteOne(filter);
+        }
 }
 }
