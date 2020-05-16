@@ -11,6 +11,16 @@ var todo = {
     // Parse JSON
     // [0] = Task
     // [1] = Status : 0 not done, 1 completed, 2 cancelled
+//localStorage.list = '[["a",0],["b",1],["c",2],["d",0],["e",1],["f",2]]';
+//localStorage.list = "[]";
+ //   alert(localStorage.list);
+
+    $.ajax({
+      url:"/Home/GetToDoItems",
+      method: 'GET',
+      success: function(data){ alert(data);}
+    });
+
 
     todo.data = JSON.parse(localStorage.list);
     //alert(todo.data);

@@ -21,6 +21,10 @@ namespace ToDoList_ASPDotNETMVC_MongoStorage.Controllers
             _logger = logger;
         }
 
+       public JsonResult GetToDoItems() 
+        {
+            return Json("Test");
+        }
         public IActionResult Index()
         {
              MongoCRUD db = new MongoCRUD("ToDo");
