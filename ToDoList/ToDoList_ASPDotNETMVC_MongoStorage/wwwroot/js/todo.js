@@ -18,18 +18,36 @@ var todo = {
     $.ajax({
       url:"/Home/GetToDoItems",
       method: 'GET',
-      success: function(data){ alert(data);}
+      success: function(data){        
+//        var todoListFormatted = data.map(function(d,index,array) { return '["' + d.workItemDescription + '",' + d.state + ']'});
+        var todoListFormatted = data.map(d => '["' + d.workItemDescription + '",' + d.state + ']');
+     
+        localStorage.list = "[" + todoListFormatted + "]";       
+        todo.data = JSON.parse(localStorage.list);//JSON.stringify(data);  
+       
+        todo.list();
+      }
     });
-
-
-    todo.data = JSON.parse(localStorage.list);
-    //alert(todo.data);
-    todo.list();
   },
 
   save: function () {
   // todo.save() : save the current data to local storage
-
+alert('In save: ' + JSON.stringify(todo.data));
+    $.ajax({
+      url:"/Home/SaveToDoItems",
+      method: 'POST',
+      data: {'items' : [{workItemDescription:"a",state:0},{workItemDescription:"b",state:2}]},//JSON.stringify({'items' : todo.data}),
+      success: function(data){   
+        debugger;     
+        // var todoListFormatted = data.map(d => '["' + d.workItemDescription + '",' + d.state + ']');
+    
+        // localStorage.list = "[" + todoListFormatted + "]";       
+        // todo.data = JSON.parse(localStorage.list);//JSON.stringify(data);  
+      
+        todo.list();
+      }
+    });  
+debugger;
     localStorage.list = JSON.stringify(todo.data);
     todo.list();
   },

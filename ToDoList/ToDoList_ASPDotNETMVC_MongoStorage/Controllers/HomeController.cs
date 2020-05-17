@@ -21,19 +21,34 @@ namespace ToDoList_ASPDotNETMVC_MongoStorage.Controllers
             _logger = logger;
         }
 
+        [HttpGet]
        public JsonResult GetToDoItems() 
         {
-            return Json("Test");
+            MongoCRUD db = new MongoCRUD("ToDo");
+            var recs = db.LoadRecords<ToDoItemsModel>("ToDoItems");
+
+            // foreach(var rec in recs)
+            // {
+            //     Console.WriteLine($"{rec.Id}: {rec.State}, {rec.WorkItemDescription}");
+            // }
+
+            return Json(recs);
+        }
+
+        [HttpPost]
+        public JsonResult SaveToDoItems(List<ToDoItemsModel> items)
+        {
+
+
+            return Json(true);
         }
         public IActionResult Index()
         {
-             MongoCRUD db = new MongoCRUD("ToDo");
-            var recs = db.LoadRecords<ToDoItemsModel>("ToDoItems");
+                //MongoCRUD db = new MongoCRUD("ToDo");
 
-            foreach(var rec in recs)
-            {
-                Console.WriteLine($"{rec.Id}: {rec.WorkItemDescription}");
-            }
+               // ToDoItemsModel model = new ToDoItemsModel{ Id= Guid.NewGuid(), WorkItemDescription="Learning Functional Programming", State=2};
+
+            //db.UpsertRecord<ToDoItemsModel>("ToDoItems",model.Id,model);
 
             return View();
         }
@@ -50,11 +65,12 @@ namespace ToDoList_ASPDotNETMVC_MongoStorage.Controllers
         }
     }
 
-        public class ToDoItemsModel
+    public class ToDoItemsModel
     {
         [BsonId]
         public Guid Id{get;set;}
         public string WorkItemDescription{get;set;}
+        public int State{get;set;}
     }
 
     public class MongoCRUD
