@@ -1,3 +1,5 @@
+
+
 var todo = {
   data: [], // holder for todo list array
   load: function () {
@@ -32,13 +34,26 @@ var todo = {
 
   save: function () {
   // todo.save() : save the current data to local storage
-alert('In save: ' + JSON.stringify(todo.data));
+    alert('In save: ' + JSON.stringify(todo.data));
+
+    let workItems = [];
+
+    for(i in todo.data){
+      //alert(i);
+      //alert(todo[i]);
+      //let item = {};
+      //item.workItemDescription = todo.data[i].workItemDescription;
+      //item.state = todo.data[i].state;
+      workItems.push({ workItemDescription: todo.data[i][0], state: todo.data[i][1] });
+    }
+    
+    alert(JSON.stringify(workItems));
     $.ajax({
       url:"/Home/SaveToDoItems",
       method: 'POST',
-      data: {'items' : [{workItemDescription:"a",state:0},{workItemDescription:"b",state:2}]},//JSON.stringify({'items' : todo.data}),
+      data: {'items' : workItems},//{'items' : [{workItemDescription:"a",state:0},{workItemDescription:"b",state:2}]},//JSON.stringify({'items' : todo.data}),
       success: function(data){   
-        debugger;     
+        //debugger;     
         // var todoListFormatted = data.map(d => '["' + d.workItemDescription + '",' + d.state + ']');
     
         // localStorage.list = "[" + todoListFormatted + "]";       
@@ -47,7 +62,7 @@ alert('In save: ' + JSON.stringify(todo.data));
         todo.list();
       }
     });  
-debugger;
+//debugger;
     localStorage.list = JSON.stringify(todo.data);
     todo.list();
   },
