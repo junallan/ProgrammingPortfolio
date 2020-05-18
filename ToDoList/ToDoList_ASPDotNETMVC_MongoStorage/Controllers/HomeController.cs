@@ -36,59 +36,53 @@ namespace ToDoList_ASPDotNETMVC_MongoStorage.Controllers
         }
 
         [HttpPost]
-        public JsonResult SaveToDoItems(List<ToDoItemsModel> items, int saveType)
+        public JsonResult DeleteAllToDoItems()
         {
             MongoCRUD db = new MongoCRUD("ToDo");
-            //var recs = db.LoadRecords<ToDoItemsModel>("ToDoItems");
 
-            if(saveType == 1)//Delete all
-            {
-                // foreach(var rec in items)
-                // {
-                //     db.DeleteRecord<ToDoItemsModel>("ToDoItems", rec.Id);
-                // }
-                var allItems = db.LoadRecords<ToDoItemsModel>("ToDoItems");
+            var allItems = db.LoadRecords<ToDoItemsModel>("ToDoItems");
 
-                foreach(var rec in allItems)
-                {
-                    db.DeleteRecord<ToDoItemsModel>("ToDoItems", rec.Id);
-                }
-            }
-            else if(saveType == 2)//Remove all completed
+            foreach(var rec in allItems)
             {
-                var itemsCompleted = db.LoadRecords<ToDoItemsModel>("ToDoItems").Where(x => x.State != 0);
+                db.DeleteRecord<ToDoItemsModel>("ToDoItems", rec.Id);
+            }
 
-                foreach(var rec in itemsCompleted)
-                {
-                    db.DeleteRecord<ToDoItemsModel>("ToDoItems", rec.Id);
-                }
-            }
-            else if(saveType == 3)//Remove/Add
+            return Json(true);
+        }
+
+        [HttpPost]
+        public JsonResult DeleteCompletedToDoItems()
+        {
+            MongoCRUD db = new MongoCRUD("ToDo");
+
+            var itemsCompleted = db.LoadRecords<ToDoItemsModel>("ToDoItems").Where(x => x.State != 0);
+
+            foreach(var rec in itemsCompleted)
             {
-                foreach(var rec in items)
-                {
-                    if(rec.Id == Guid.Empty)
-                    {
-                        db.InsertRecord<ToDoItemsModel>("ToDoItems",rec);
-                    }
-                    else
-                    {
-                        db.UpsertRecord<ToDoItemsModel>("ToDoItems", rec.Id, rec);
-                    }
-                }    
+                db.DeleteRecord<ToDoItemsModel>("ToDoItems", rec.Id);
             }
-//UpsertRecord<T>(string table, Guid id, T record)
+
+            return Json(true);
+        }
+
+        [HttpPost]
+        public JsonResult SaveToDoItems(ToDoItemsModel item)
+        {
+            MongoCRUD db = new MongoCRUD("ToDo");
+
+            if(item.Id == Guid.Empty)
+            {
+                db.InsertRecord<ToDoItemsModel>("ToDoItems",item);
+            }
+            else
+            {
+                db.UpsertRecord<ToDoItemsModel>("ToDoItems", item.Id, item);
+            }
 
             return Json(true);
         }
         public IActionResult Index()
         {
-                //MongoCRUD db = new MongoCRUD("ToDo");
-
-               // ToDoItemsModel model = new ToDoItemsModel{ Id= Guid.NewGuid(), WorkItemDescription="Learning Functional Programming", State=2};
-
-            //db.UpsertRecord<ToDoItemsModel>("ToDoItems",model.Id,model);
-
             return View();
         }
 

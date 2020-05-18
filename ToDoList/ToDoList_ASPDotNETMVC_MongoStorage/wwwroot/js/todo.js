@@ -1,17 +1,13 @@
 
 
 var todo = {
-  saveType: { DELETEALL:1, DELETECOMPLETED:2, YESNOITEMMARK: 3},
   data: [], // holder for todo list array
+  itemStatus: { NOTDONE:0, COMPLETED:1, CANCELLED:2 },
+  deleteStatus: { ALL:0, COMPLETED:1 },
+  workItemIndexes: { ID:0, DESCRIPTION:1, STATUS:2 },
   mongoStorage: [],
   load: function () {
   // todo.load() : attempt to load todo list from local storage
-
-    // Parse JSON
-    // [1] = Task
-    // [2] = Status : 0 not done, 1 completed, 2 cancelled
-//localStorage.list = '[["a",0],["b",1],["c",2],["d",0],["e",1],["f",2]]';
-
     $.ajax({
       url:"/Home/GetToDoItems",
       method: 'GET',
@@ -25,22 +21,35 @@ var todo = {
       }
     });
   },
-
-  save: function (saveType) {
-  // todo.save() : save the current data to mongo storage
-
-    let workItems = [];
-
-    for(i in todo.data){
-      workItems.push({ id: todo.data[i][0], workItemDescription: todo.data[i][1], state: todo.data[i][2] });
-    }
-    
+  deleteAll: function(){
+    $.ajax({
+      url:"/Home/DeleteAllToDoItems",
+      method: 'POST',
+      success: function(data){   
+        todo.load();
+      }
+    });  
+    mongoStorage = JSON.stringify(todo.data);
+    todo.list();
+  },
+  deleteCompleted: function(){
+    $.ajax({
+      url:"/Home/DeleteCompletedToDoItems",
+      method: 'POST',
+      success: function(data){   
+        todo.load();
+      }
+    });  
+    mongoStorage = JSON.stringify(todo.data);
+    todo.list();
+  },
+  save: function (itemToSave) {
+  // todo.save() : save the current data to mongo storage  
     $.ajax({
       url:"/Home/SaveToDoItems",
       method: 'POST',
-      data: { 'items': workItems, 'saveType': saveType},
+      data: { 'item': {id: itemToSave[todo.workItemIndexes.ID], workItemDescription: itemToSave[todo.workItemIndexes.DESCRIPTION], state: itemToSave[todo.workItemIndexes.STATUS]}},
       success: function(data){   
-        //debugger;     
         todo.load();
       }
     });  
@@ -67,13 +76,13 @@ var todo = {
         // Item text
         el = document.createElement("div");
         el.classList.add("item");
-        if (todo.data[key][2] == 1) {
+        if (todo.data[key][todo.workItemIndexes.STATUS] == todo.itemStatus.COMPLETED) {
           el.classList.add("done");
         }
-        if (todo.data[key][2] == 2) {
+        if (todo.data[key][todo.workItemIndexes.STATUS] == todo.itemStatus.CANCELLED) {
           el.classList.add("cx");
         }
-        el.innerHTML = todo.data[key][1];
+        el.innerHTML = todo.data[key][todo.workItemIndexes.DESCRIPTION];
         row.appendChild(el);
 
         // Add cancel button
@@ -82,7 +91,7 @@ var todo = {
         el.value = "\u2716";
         el.classList.add("bdel");
         el.addEventListener("click", function () {
-          todo.status(this, 2);
+          todo.status(this, todo.itemStatus.CANCELLED);
         });
         row.appendChild(el);
 
@@ -92,7 +101,7 @@ var todo = {
         el.value = "\u2714";
         el.classList.add("bdone");
         el.addEventListener("click", function () {
-          todo.status(this, 1);
+          todo.status(this, todo.itemStatus.COMPLETED);
         });
         row.appendChild(el);
 
@@ -106,18 +115,18 @@ var todo = {
   // todo.add() : add a new item
 
     todo.data.push([
-      "",document.getElementById("todo-add").value, 0
+      "",document.getElementById("todo-add").value, todo.itemStatus.NOTDONE
     ]);
+    todo.save(["",document.getElementById("todo-add").value, todo.itemStatus.NOTDONE]);
     document.getElementById("todo-add").value = "";
-    todo.save(todo.saveType.YESNOITEMMARK);
   },
 
   status: function (el, stat) {
   // todo.status() : update item status
 
     var parent = el.parentElement;
-    todo.data[parent.dataset.id][2] = stat;
-    todo.save(todo.saveType.YESNOITEMMARK);
+    todo.data[parent.dataset.id][todo.workItemIndexes.STATUS] = stat;
+    todo.save(todo.data[parent.dataset.id]);
   },
 
   del: function (type) {
@@ -125,14 +134,12 @@ var todo = {
 
   if (confirm("Delete tasks?")) {
       // Delete all
-      if (type == 0) {
-        todo.data = [];
-        todo.save(todo.saveType.DELETEALL);
+      if (type == todo.deleteStatus.ALL) {
+        todo.deleteAll();
       }
       // Filter, keep only not completed
       else {
-        todo.data = todo.data.filter(row => row[2]==0);
-        todo.save(todo.saveType.DELETECOMPLETED);
+        todo.deleteCompleted();
       }
     }
   }
@@ -141,10 +148,10 @@ var todo = {
 // Page init
 window.addEventListener("load", function () {
   document.getElementById("todo-da").addEventListener("click", function () {
-    todo.del(0);
+    todo.del(todo.deleteStatus.ALL);
   });
   document.getElementById("todo-dc").addEventListener("click", function () {
-    todo.del(1);
+    todo.del(todo.deleteStatus.COMPLETED);
   });
   document.getElementById("todo-form").addEventListener("submit", function (evt) {
     evt.preventDefault();
