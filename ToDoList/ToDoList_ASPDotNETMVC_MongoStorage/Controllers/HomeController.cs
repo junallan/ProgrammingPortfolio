@@ -38,7 +38,21 @@ namespace ToDoList_ASPDotNETMVC_MongoStorage.Controllers
         [HttpPost]
         public JsonResult SaveToDoItems(List<ToDoItemsModel> items)
         {
+            MongoCRUD db = new MongoCRUD("ToDo");
+            //var recs = db.LoadRecords<ToDoItemsModel>("ToDoItems");
 
+            foreach(var rec in items)
+            {
+                if(rec.Id == Guid.Empty)
+                {
+                    db.InsertRecord<ToDoItemsModel>("ToDoItems",rec);
+                }
+                else
+                {
+                    db.UpsertRecord<ToDoItemsModel>("ToDoItems", rec.Id, rec);
+                }
+            }    
+//UpsertRecord<T>(string table, Guid id, T record)
 
             return Json(true);
         }

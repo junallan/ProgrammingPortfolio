@@ -11,8 +11,8 @@ var todo = {
     }
 
     // Parse JSON
-    // [0] = Task
-    // [1] = Status : 0 not done, 1 completed, 2 cancelled
+    // [1] = Task
+    // [2] = Status : 0 not done, 1 completed, 2 cancelled
 //localStorage.list = '[["a",0],["b",1],["c",2],["d",0],["e",1],["f",2]]';
 //localStorage.list = "[]";
  //   alert(localStorage.list);
@@ -20,9 +20,8 @@ var todo = {
     $.ajax({
       url:"/Home/GetToDoItems",
       method: 'GET',
-      success: function(data){        
-//        var todoListFormatted = data.map(function(d,index,array) { return '["' + d.workItemDescription + '",' + d.state + ']'});
-        var todoListFormatted = data.map(d => '["' + d.workItemDescription + '",' + d.state + ']');
+      success: function(data){   
+        var todoListFormatted = data.map(d => '["' + d.id + '","' + d.workItemDescription + '",' + d.state + ']');
      
         localStorage.list = "[" + todoListFormatted + "]";       
         todo.data = JSON.parse(localStorage.list);//JSON.stringify(data);  
@@ -33,25 +32,18 @@ var todo = {
   },
 
   save: function () {
-  // todo.save() : save the current data to local storage
-    alert('In save: ' + JSON.stringify(todo.data));
+  // todo.save() : save the current data to mongo storage
 
     let workItems = [];
 
     for(i in todo.data){
-      //alert(i);
-      //alert(todo[i]);
-      //let item = {};
-      //item.workItemDescription = todo.data[i].workItemDescription;
-      //item.state = todo.data[i].state;
-      workItems.push({ workItemDescription: todo.data[i][0], state: todo.data[i][1] });
+      workItems.push({ id: todo.data[i][0], workItemDescription: todo.data[i][1], state: todo.data[i][2] });
     }
     
-    alert(JSON.stringify(workItems));
     $.ajax({
       url:"/Home/SaveToDoItems",
       method: 'POST',
-      data: {'items' : workItems},//{'items' : [{workItemDescription:"a",state:0},{workItemDescription:"b",state:2}]},//JSON.stringify({'items' : todo.data}),
+      data: { 'items': workItems},//{'items' : [{workItemDescription:"a",state:0},{workItemDescription:"b",state:2}]},//JSON.stringify({'items' : todo.data}),
       success: function(data){   
         //debugger;     
         // var todoListFormatted = data.map(d => '["' + d.workItemDescription + '",' + d.state + ']');
@@ -62,7 +54,6 @@ var todo = {
         todo.list();
       }
     });  
-//debugger;
     localStorage.list = JSON.stringify(todo.data);
     todo.list();
   },
@@ -86,13 +77,13 @@ var todo = {
         // Item text
         el = document.createElement("div");
         el.classList.add("item");
-        if (todo.data[key][1] == 1) {
+        if (todo.data[key][2] == 1) {
           el.classList.add("done");
         }
-        if (todo.data[key][1] == 2) {
+        if (todo.data[key][2] == 2) {
           el.classList.add("cx");
         }
-        el.innerHTML = todo.data[key][0];
+        el.innerHTML = todo.data[key][1];
         row.appendChild(el);
 
         // Add cancel button
@@ -125,7 +116,7 @@ var todo = {
   // todo.add() : add a new item
 
     todo.data.push([
-      document.getElementById("todo-add").value, 0
+      "",document.getElementById("todo-add").value, 0
     ]);
     document.getElementById("todo-add").value = "";
     todo.save();
@@ -135,7 +126,7 @@ var todo = {
   // todo.status() : update item status
 
     var parent = el.parentElement;
-    todo.data[parent.dataset.id][1] = stat;
+    todo.data[parent.dataset.id][2] = stat;
     todo.save();
   },
 
@@ -150,7 +141,7 @@ var todo = {
       }
       // Filter, keep only not completed
       else {
-        todo.data = todo.data.filter(row => row[1]==0);
+        todo.data = todo.data.filter(row => row[2]==0);
         todo.save();
       }
     }
