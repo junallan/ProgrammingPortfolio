@@ -36,22 +36,47 @@ namespace ToDoList_ASPDotNETMVC_MongoStorage.Controllers
         }
 
         [HttpPost]
-        public JsonResult SaveToDoItems(List<ToDoItemsModel> items)
+        public JsonResult SaveToDoItems(List<ToDoItemsModel> items, int saveType)
         {
             MongoCRUD db = new MongoCRUD("ToDo");
             //var recs = db.LoadRecords<ToDoItemsModel>("ToDoItems");
 
-            foreach(var rec in items)
+            if(saveType == 1)//Delete all
             {
-                if(rec.Id == Guid.Empty)
+                // foreach(var rec in items)
+                // {
+                //     db.DeleteRecord<ToDoItemsModel>("ToDoItems", rec.Id);
+                // }
+                var allItems = db.LoadRecords<ToDoItemsModel>("ToDoItems");
+
+                foreach(var rec in allItems)
                 {
-                    db.InsertRecord<ToDoItemsModel>("ToDoItems",rec);
+                    db.DeleteRecord<ToDoItemsModel>("ToDoItems", rec.Id);
                 }
-                else
+            }
+            else if(saveType == 2)//Remove all completed
+            {
+                var itemsCompleted = db.LoadRecords<ToDoItemsModel>("ToDoItems").Where(x => x.State != 0);
+
+                foreach(var rec in itemsCompleted)
                 {
-                    db.UpsertRecord<ToDoItemsModel>("ToDoItems", rec.Id, rec);
+                    db.DeleteRecord<ToDoItemsModel>("ToDoItems", rec.Id);
                 }
-            }    
+            }
+            else if(saveType == 3)//Remove/Add
+            {
+                foreach(var rec in items)
+                {
+                    if(rec.Id == Guid.Empty)
+                    {
+                        db.InsertRecord<ToDoItemsModel>("ToDoItems",rec);
+                    }
+                    else
+                    {
+                        db.UpsertRecord<ToDoItemsModel>("ToDoItems", rec.Id, rec);
+                    }
+                }    
+            }
 //UpsertRecord<T>(string table, Guid id, T record)
 
             return Json(true);
@@ -138,5 +163,11 @@ namespace ToDoList_ASPDotNETMVC_MongoStorage.Controllers
             var filter = Builders<T>.Filter.Eq("Id", id);
             collection.DeleteOne(filter);
         }
-}
+
+//         public void DeleteAllRecordsExcept(string table, List<Guid> ids)
+//         {
+//             var collection = db.GetCollection<ToDoItemsModel>(table);
+//             var filter = Builders<ToDoItemsModel>.Filter.ele(x => ids.Any(x.Id),);
+//         }
+ }
 }

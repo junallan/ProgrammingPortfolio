@@ -1,21 +1,16 @@
 
 
 var todo = {
+  saveType: { DELETEALL:1, DELETECOMPLETED:2, YESNOITEMMARK: 3},
   data: [], // holder for todo list array
+  mongoStorage: [],
   load: function () {
   // todo.load() : attempt to load todo list from local storage
-
-    // Init localstorage
-    if (localStorage.list == undefined) {
-      localStorage.list = "[]";
-    }
 
     // Parse JSON
     // [1] = Task
     // [2] = Status : 0 not done, 1 completed, 2 cancelled
 //localStorage.list = '[["a",0],["b",1],["c",2],["d",0],["e",1],["f",2]]';
-//localStorage.list = "[]";
- //   alert(localStorage.list);
 
     $.ajax({
       url:"/Home/GetToDoItems",
@@ -23,15 +18,15 @@ var todo = {
       success: function(data){   
         var todoListFormatted = data.map(d => '["' + d.id + '","' + d.workItemDescription + '",' + d.state + ']');
      
-        localStorage.list = "[" + todoListFormatted + "]";       
-        todo.data = JSON.parse(localStorage.list);//JSON.stringify(data);  
+        mongoStorage = "[" + todoListFormatted + "]";       
+        todo.data = JSON.parse(mongoStorage);
        
         todo.list();
       }
     });
   },
 
-  save: function () {
+  save: function (saveType) {
   // todo.save() : save the current data to mongo storage
 
     let workItems = [];
@@ -43,18 +38,13 @@ var todo = {
     $.ajax({
       url:"/Home/SaveToDoItems",
       method: 'POST',
-      data: { 'items': workItems},//{'items' : [{workItemDescription:"a",state:0},{workItemDescription:"b",state:2}]},//JSON.stringify({'items' : todo.data}),
+      data: { 'items': workItems, 'saveType': saveType},
       success: function(data){   
         //debugger;     
-        // var todoListFormatted = data.map(d => '["' + d.workItemDescription + '",' + d.state + ']');
-    
-        // localStorage.list = "[" + todoListFormatted + "]";       
-        // todo.data = JSON.parse(localStorage.list);//JSON.stringify(data);  
-      
-        todo.list();
+        todo.load();
       }
     });  
-    localStorage.list = JSON.stringify(todo.data);
+    mongoStorage = JSON.stringify(todo.data);
     todo.list();
   },
 
@@ -119,7 +109,7 @@ var todo = {
       "",document.getElementById("todo-add").value, 0
     ]);
     document.getElementById("todo-add").value = "";
-    todo.save();
+    todo.save(todo.saveType.YESNOITEMMARK);
   },
 
   status: function (el, stat) {
@@ -127,22 +117,22 @@ var todo = {
 
     var parent = el.parentElement;
     todo.data[parent.dataset.id][2] = stat;
-    todo.save();
+    todo.save(todo.saveType.YESNOITEMMARK);
   },
 
   del: function (type) {
   // todo.del() : delete items
- 
-    if (confirm("Delete tasks?")) {
+
+  if (confirm("Delete tasks?")) {
       // Delete all
       if (type == 0) {
         todo.data = [];
-        todo.save();
+        todo.save(todo.saveType.DELETEALL);
       }
       // Filter, keep only not completed
       else {
         todo.data = todo.data.filter(row => row[2]==0);
-        todo.save();
+        todo.save(todo.saveType.DELETECOMPLETED);
       }
     }
   }
