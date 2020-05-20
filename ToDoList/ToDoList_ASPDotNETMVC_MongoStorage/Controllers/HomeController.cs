@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
@@ -40,12 +39,8 @@ namespace ToDoList_ASPDotNETMVC_MongoStorage.Controllers
         {
             MongoCRUD db = new MongoCRUD("ToDo");
 
-            var allItems = db.LoadRecords<ToDoItemsModel>("ToDoItems");
-
-            foreach(var rec in allItems)
-            {
-                db.DeleteRecord<ToDoItemsModel>("ToDoItems", rec.Id);
-            }
+            db.LoadRecords<ToDoItemsModel>("ToDoItems").ToList()
+                    .ForEach(x => db.DeleteRecord<ToDoItemsModel>("ToDoItems", x.Id));
 
             return Json(true);
         }
@@ -55,12 +50,10 @@ namespace ToDoList_ASPDotNETMVC_MongoStorage.Controllers
         {
             MongoCRUD db = new MongoCRUD("ToDo");
 
-            var itemsCompleted = db.LoadRecords<ToDoItemsModel>("ToDoItems").Where(x => x.State != 0);
+            db.LoadRecords<ToDoItemsModel>("ToDoItems")
+                    .Where(x => x.State != 0).ToList()
+                    .ForEach(x => db.DeleteRecord<ToDoItemsModel>("ToDoItems", x.Id));
 
-            foreach(var rec in itemsCompleted)
-            {
-                db.DeleteRecord<ToDoItemsModel>("ToDoItems", rec.Id);
-            }
 
             return Json(true);
         }
