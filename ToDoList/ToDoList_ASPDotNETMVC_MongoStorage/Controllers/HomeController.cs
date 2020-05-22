@@ -39,8 +39,9 @@ namespace ToDoList_ASPDotNETMVC_MongoStorage.Controllers
         {
             MongoCRUD db = new MongoCRUD("ToDo");
 
-            db.LoadRecords<ToDoItemsModel>("ToDoItems").ToList()
-                    .ForEach(x => db.DeleteRecord<ToDoItemsModel>("ToDoItems", x.Id));
+            db.DeleteAllRecords<ToDoItemsModel>("ToDoItems");
+            //db.LoadRecords<ToDoItemsModel>("ToDoItems").ToList()
+            //        .ForEach(x => db.DeleteRecord<ToDoItemsModel>("ToDoItems", x.Id));
 
             return Json(true);
         }
@@ -148,13 +149,14 @@ namespace ToDoList_ASPDotNETMVC_MongoStorage.Controllers
         {
             var collection = db.GetCollection<T>(table);
             var filter = Builders<T>.Filter.Eq("Id", id);
-            collection.DeleteOne(filter);
+            collection.DeleteOne(filter);           
         }
 
-//         public void DeleteAllRecordsExcept(string table, List<Guid> ids)
-//         {
-//             var collection = db.GetCollection<ToDoItemsModel>(table);
-//             var filter = Builders<ToDoItemsModel>.Filter.ele(x => ids.Any(x.Id),);
-//         }
+        //public void DeleteAllRecordsExcept(string table, List<Guid> ids)
+        public void DeleteAllRecords<T>(string table)        
+        {
+            var collection = db.GetCollection<T>(table);
+            var result = collection.DeleteMany(new BsonDocument());        
+        }
  }
 }
