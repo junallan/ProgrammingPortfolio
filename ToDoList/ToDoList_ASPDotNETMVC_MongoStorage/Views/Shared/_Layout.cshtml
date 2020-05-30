@@ -6,6 +6,8 @@
     <title>@ViewData["Title"] - ToDoList - Mongo Storage</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/app.css"/>
+    <link rel="stylesheet" href="~/css/webcli.css"/>
 </head>
 <body>   
     <div class="container">
@@ -16,6 +18,10 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/webcli.js"></script>
+    <script>
+        window.demoCLI = new WebCLI();
+    </script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>
