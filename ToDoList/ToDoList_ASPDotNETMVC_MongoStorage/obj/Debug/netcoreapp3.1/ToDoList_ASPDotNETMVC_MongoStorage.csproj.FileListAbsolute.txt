@@ -78,3 +78,6 @@
 /Users/junallanparreno/ProgrammingPortfolio/ToDoList/ToDoList_ASPDotNETMVC_MongoStorage/obj/Debug/netcoreapp3.1/ToDoList_ASPDotNETMVC_MongoStorage.genruntimeconfig.cache
 /Users/junallanparreno/ProgrammingPortfolio/ToDoList/ToDoList_ASPDotNETMVC_MongoStorage/bin/Debug/netcoreapp3.1/MongoDbCRUD.dll
 /Users/junallanparreno/ProgrammingPortfolio/ToDoList/ToDoList_ASPDotNETMVC_MongoStorage/bin/Debug/netcoreapp3.1/MongoDbCRUD.pdb
+/Users/junallanparreno/ProgrammingPortfolio/ToDoList/ToDoList_ASPDotNETMVC_MongoStorage/bin/Debug/netcoreapp3.1/CoreCompat.System.ComponentModel.Attributes.dll
+/Users/junallanparreno/ProgrammingPortfolio/ToDoList/ToDoList_ASPDotNETMVC_MongoStorage/bin/Debug/netcoreapp3.1/CoreCompat.System.ComponentModel.DataAnnotations.dll
+/Users/junallanparreno/ProgrammingPortfolio/ToDoList/ToDoList_ASPDotNETMVC_MongoStorage/bin/Debug/netcoreapp3.1/CoreCompat.System.ComponentModel.Design.dll

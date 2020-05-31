@@ -97,9 +97,17 @@
       "frameworks": {
         "netcoreapp3.1": {
           "dependencies": {
+            "CoreCompat.System.ComponentModel.DataAnnotations": {
+              "target": "Package",
+              "version": "[4.2.3-r7, )"
+            },
             "MongoDB.Driver": {
               "target": "Package",
               "version": "[2.10.4, )"
+            },
+            "System.ComponentModel.Annotations": {
+              "target": "Package",
+              "version": "[4.7.0, )"
             }
           },
           "imports": [

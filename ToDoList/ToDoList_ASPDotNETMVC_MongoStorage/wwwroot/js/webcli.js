@@ -104,6 +104,7 @@ class WebCLI
         self.busy(true);
 
         fetch("/Home/WebCLI",
+        //fetch("/api/webcli",
         {
             method: "post",
             headers: new Headers({ "Content-Type": "application/json" }),

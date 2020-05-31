@@ -9,30 +9,26 @@ using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 using ToDoList_ASPDotNETMVC_MongoStorage.Models;
 using MongoDbCRUD;
+using ToDoList_ASPDotNETMVC_MongoStorage.WebCLI.Infrastructure;
+using System.Reflection;
 
 namespace ToDoList_ASPDotNETMVC_MongoStorage.Controllers
 {
-  public class CommandLine
-    {
-        public string cmdLine { get; set; }
-
-        // public string[] GetArgs()
-        // {
-        //     //Matches (1 or more chars that are NOT space or ") or (" any # of chars not a " followed by a ")
-        //     // var tokenEx = new Regex(@"[^\s""]+|""[^""]*""");
-
-        //     // return tokenEx.Matches(CmdLine)
-        //     //                      .Cast<Match>()
-        //     //                      .Select(m => m.Value.Replace("\"", ""))  //Remove " from the arg
-        //     //                      .ToArray();
-        //     return null;
-        // }
-    }
-
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
         private MongoDatabase  _db;
+        public static readonly Type AttributeType = typeof(ConsoleCommandAttribute);
+        public static readonly List<Type> CommandTypes;
+
+        static HomeController()
+        {
+            var type = typeof(IConsoleCommand);
+            var types = AppDomain.CurrentDomain.GetAssemblies().SelectMany(asm => asm.GetTypes());
+
+            CommandTypes = types.Where(t => t.GetInterfaces().Contains(type)).ToList();
+        }
+
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -41,9 +37,37 @@ namespace ToDoList_ASPDotNETMVC_MongoStorage.Controllers
         }
 
         [HttpPost]
-        public JsonResult WebCLI([FromBody] CommandLine command)
+        public ConsoleResult WebCLI([FromBody] CommandLine command)
         {
-            return Json("Test");
+            var args = command.GetArgs();
+            var cmd  = args.First().ToUpper();
+            Type cmdTypeToRun = null;
+
+            //Get command type
+            foreach (var cmdType in CommandTypes)
+            {
+                var attr = (ConsoleCommandAttribute)cmdType.GetTypeInfo().GetCustomAttributes(AttributeType).FirstOrDefault();
+                if(attr != null && attr.Name.ToUpper() == cmd)
+                {
+                    cmdTypeToRun = cmdType; break;
+                }
+            }
+            if(cmdTypeToRun == null) { return new ConsoleErrorResult(); }
+            
+
+            //Instantiate and run the command
+            try
+            {
+                var cmdObj = Activator.CreateInstance(cmdTypeToRun) as IConsoleCommand;
+                return cmdObj.Run(args);
+            }
+            catch
+            {
+                return new ConsoleErrorResult();
+            }
+
+
+            //return new ConsoleErrorResult();
         }
 
         [HttpGet]

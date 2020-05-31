@@ -1,9 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "JMd+87SoJxfk5OKmR4BR4VcvFkeHFxRPRQ+YjPD6IAlPykw/6HrfKrx5+o7i7PmnS60v5eMfx2OPuJZB5NhmNw==",
+  "dgSpecHash": "nSGU3FJ3dHpuv4I+OV8kGJID6g30y/uNdevmf3Xb1sNyvqIn4+eeeHAQd9DfX8FaRX7P9igq2XStsv9hC0kyVw==",
   "success": true,
   "projectFilePath": "/Users/junallanparreno/ProgrammingPortfolio/ToDoList/ToDoList_ASPDotNETMVC_MongoStorage/ToDoList_ASPDotNETMVC_MongoStorage.csproj",
   "expectedPackageFiles": [
+    "/Users/junallanparreno/.nuget/packages/corecompat.system.componentmodel.attributes/4.2.3-rg/corecompat.system.componentmodel.attributes.4.2.3-rg.nupkg.sha512",
+    "/Users/junallanparreno/.nuget/packages/corecompat.system.componentmodel.dataannotations/4.2.3-r7/corecompat.system.componentmodel.dataannotations.4.2.3-r7.nupkg.sha512",
+    "/Users/junallanparreno/.nuget/packages/corecompat.system.componentmodel.design/4.2.3-r3/corecompat.system.componentmodel.design.4.2.3-r3.nupkg.sha512",
     "/Users/junallanparreno/.nuget/packages/dnsclient/1.3.1/dnsclient.1.3.1.nupkg.sha512",
     "/Users/junallanparreno/.nuget/packages/microsoft.netcore.platforms/2.1.2/microsoft.netcore.platforms.2.1.2.nupkg.sha512",
     "/Users/junallanparreno/.nuget/packages/microsoft.netcore.targets/1.1.0/microsoft.netcore.targets.1.1.0.nupkg.sha512",
@@ -39,6 +42,7 @@
     "/Users/junallanparreno/.nuget/packages/system.collections.nongeneric/4.0.1/system.collections.nongeneric.4.0.1.nupkg.sha512",
     "/Users/junallanparreno/.nuget/packages/system.collections.specialized/4.0.1/system.collections.specialized.4.0.1.nupkg.sha512",
     "/Users/junallanparreno/.nuget/packages/system.componentmodel/4.0.1/system.componentmodel.4.0.1.nupkg.sha512",
+    "/Users/junallanparreno/.nuget/packages/system.componentmodel.annotations/4.7.0/system.componentmodel.annotations.4.7.0.nupkg.sha512",
     "/Users/junallanparreno/.nuget/packages/system.componentmodel.primitives/4.1.0/system.componentmodel.primitives.4.1.0.nupkg.sha512",
     "/Users/junallanparreno/.nuget/packages/system.componentmodel.typeconverter/4.1.0/system.componentmodel.typeconverter.4.1.0.nupkg.sha512",
     "/Users/junallanparreno/.nuget/packages/system.console/4.3.0/system.console.4.3.0.nupkg.sha512",
