@@ -4,25 +4,24 @@ using System.Diagnostics;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Driver;
 using ToDoList_ASPDotNETMVC_MongoStorage.Models;
-using MongoDbCRUD;
 using ToDoList_ASPDotNETMVC_MongoStorage.WebCLI.Infrastructure;
 using System.Reflection;
+using ToDoList_ASPDotNETMVC_MongoStorage.ToDoListService;
 
 namespace ToDoList_ASPDotNETMVC_MongoStorage.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private MongoDatabase  _db;
+        public static ToDoListService.ToDoListService _toDoListService;
         public static readonly Type AttributeType = typeof(ConsoleCommandAttribute);
         public static readonly List<Type> CommandTypes;
 
         static HomeController()
         {
+            _toDoListService = new ToDoListService.ToDoListService();
+            
             var type = typeof(IConsoleCommand);
             var types = AppDomain.CurrentDomain.GetAssemblies().SelectMany(asm => asm.GetTypes());
 
@@ -33,7 +32,6 @@ namespace ToDoList_ASPDotNETMVC_MongoStorage.Controllers
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            _db = new MongoDatabase("ToDo");
         }
 
         [HttpPost]
@@ -65,58 +63,30 @@ namespace ToDoList_ASPDotNETMVC_MongoStorage.Controllers
             {
                 return new ConsoleErrorResult();
             }
-
-
-            //return new ConsoleErrorResult();
         }
 
         [HttpGet]
        public JsonResult GetToDoItems() 
         {
-            var recs = _db.LoadRecords<ToDoItemsModel>("ToDoItems");
-
-            // foreach(var rec in recs)
-            // {
-            //     Console.WriteLine($"{rec.Id}: {rec.State}, {rec.WorkItemDescription}");
-            // }
-
-            return Json(recs);
+            return Json(_toDoListService.GetToDoItems());
         }
 
         [HttpPost]
         public JsonResult DeleteAllToDoItems()
         {
-            _db.DeleteAllRecords<ToDoItemsModel>("ToDoItems");
-            //db.LoadRecords<ToDoItemsModel>("ToDoItems").ToList()
-            //        .ForEach(x => db.DeleteRecord<ToDoItemsModel>("ToDoItems", x.Id));
-
-            return Json(true);
+            return Json(_toDoListService.DeleteAllToDoItems());
         }
 
         [HttpPost]
         public JsonResult DeleteCompletedToDoItems()
         {
-            _db.LoadRecords<ToDoItemsModel>("ToDoItems")
-                    .Where(x => x.State != 0).ToList()
-                    .ForEach(x => _db.DeleteRecord<ToDoItemsModel>("ToDoItems", x.Id));
-
-
-            return Json(true);
+            return Json(_toDoListService.DeleteCompletedToDoItems());
         }
 
         [HttpPost]
         public JsonResult SaveToDoItems(ToDoItemsModel item)
         {
-            if(item.Id == Guid.Empty)
-            {
-                _db.InsertRecord<ToDoItemsModel>("ToDoItems",item);
-            }
-            else
-            {
-                _db.UpsertRecord<ToDoItemsModel>("ToDoItems", item.Id, item);
-            }
-
-            return Json(true);
+            return Json(_toDoListService.SaveToDoItems(item));
         }
         public IActionResult Index()
         {
@@ -133,13 +103,5 @@ namespace ToDoList_ASPDotNETMVC_MongoStorage.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-    }
-
-    public class ToDoItemsModel
-    {
-        [BsonId]
-        public Guid Id{get;set;}
-        public string WorkItemDescription{get;set;}
-        public int State{get;set;}
     }
 }
