@@ -1,4 +1,5 @@
 using ToDoList_ASPDotNETMVC_MongoStorage.WebCLI.Infrastructure;
+using ToDoList_ASPDotNETMVC_MongoStorage.ToDoListService;
 
 namespace ToDoList_ASPDotNETMVC_MongoStorage.WebCLI.Commands
 {
@@ -7,12 +8,22 @@ namespace ToDoList_ASPDotNETMVC_MongoStorage.WebCLI.Commands
     {
         public ConsoleResult Run(string[] args)
         {
-            if(args.Length > 1)
-            {
+            if(args.Length == 1)
+            {    
+                ToDoListService.ToDoListService toDoListService = new ToDoListService.ToDoListService();
 
-                return new ConsoleResult(args[1]);
+                var result = toDoListService.DeleteAllToDoItems();
+ 
+                if(result)
+                {
+                    return new ConsoleResult("To do list items deleted successfully.");
+                }
+                else
+                {
+                    return new ConsoleResult("Error in deleting to do list items. No items deleted.");
+                }
             }
-            return new ConsoleErrorResult("I didn't hear anything!");
+            return new ConsoleErrorResult("Command doesn't require parameters.  Enter without parameters.");
         }
     }
 }
