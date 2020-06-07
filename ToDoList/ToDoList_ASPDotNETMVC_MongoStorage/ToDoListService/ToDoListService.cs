@@ -21,33 +21,45 @@ namespace ToDoList_ASPDotNETMVC_MongoStorage.ToDoListService
             //db.LoadRecords<ToDoItemsModel>("ToDoItems").ToList()
             //        .ForEach(x => db.DeleteRecord<ToDoItemsModel>("ToDoItems", x.Id));
 
-              _db.DeleteAllRecords<ToDoItemsModel>("ToDoItems");
+              return _db.DeleteAllRecords<ToDoItemsModel>("ToDoItems");
               //TODO: It's better if DeleteAllRecords returns success or failure,
               //same in other methods 
-              return true;
+              //return true;
         }
 
         public bool DeleteCompletedToDoItems()
         {
-            _db.LoadRecords<ToDoItemsModel>("ToDoItems")
-                    .Where(x => x.State != 0).ToList()
-                    .ForEach(x => _db.DeleteRecord<ToDoItemsModel>("ToDoItems", x.Id));
+            bool result = true;
 
-            return true;
+            var completedRecordsToDelete = _db.LoadRecords<ToDoItemsModel>("ToDoItems")
+                                                .Where(x => x.State != 0).ToList();
+
+            foreach(var itm in completedRecordsToDelete)
+            {
+                if(!_db.DeleteRecord<ToDoItemsModel>("ToDoItems", itm.Id)){ result = false; }
+            }                
+
+            //  _db.LoadRecords<ToDoItemsModel>("ToDoItems")
+            //                 .Where(x => x.State != 0).ToList()
+            //                 .ForEach(x => _db.DeleteRecord<ToDoItemsModel>("ToDoItems", x.Id));
+
+            return result;
         }
 
         public bool SaveToDoItems(ToDoItemsModel item)
         {
+            bool result;
+
             if(item.Id == System.Guid.Empty)
             {
-                _db.InsertRecord<ToDoItemsModel>("ToDoItems",item);
+               result = _db.InsertRecord<ToDoItemsModel>("ToDoItems",item);
             }
             else
             {
-                _db.UpsertRecord<ToDoItemsModel>("ToDoItems", item.Id, item);
+                result = _db.UpsertRecord<ToDoItemsModel>("ToDoItems", item.Id, item);
             }
 
-            return true;
+            return result;
         }
 
         public List<ToDoItemsModel> GetToDoItems() 

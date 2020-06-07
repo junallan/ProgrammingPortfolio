@@ -15,10 +15,21 @@ namespace MongoDbCRUD
             db = client.GetDatabase(databaseName);
         }
 
-        public void InsertRecord<T>(string tableName, T record)
+        public bool InsertRecord<T>(string tableName, T record)
         {
-            var collection = db.GetCollection<T>(tableName);
-            collection.InsertOne(record);
+            try
+            {
+                var collection = db.GetCollection<T>(tableName);
+                collection.InsertOne(record);
+
+                return true;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex);
+
+                return false;
+            }
         }
 
         public List<T> LoadRecords<T>(string tableName)
@@ -37,7 +48,7 @@ namespace MongoDbCRUD
         }
 
         [Obsolete]
-        public void UpsertRecord<T>(string table, Guid id, T record)
+        public bool UpsertRecord<T>(string table, Guid id, T record)
         {
             var collection = db.GetCollection<T>(table);
 
@@ -47,21 +58,27 @@ namespace MongoDbCRUD
                                 record,
                                 new UpdateOptions { IsUpsert = true }
                         );
-            var result = replaceOneResult;
+            return replaceOneResult.ModifiedCount == 1;
+
+
         }
 
-        public void DeleteRecord<T>(string table, Guid id)
+        public bool DeleteRecord<T>(string table, Guid id)
         {
             var collection = db.GetCollection<T>(table);
             var filter = Builders<T>.Filter.Eq("Id", id);
-            collection.DeleteOne(filter);           
+            var result = collection.DeleteOne(filter);
+
+            return result.DeletedCount == 1;          
         }
 
         //public void DeleteAllRecordsExcept(string table, List<Guid> ids)
-        public void DeleteAllRecords<T>(string table)        
+        public bool DeleteAllRecords<T>(string table)        
         {
             var collection = db.GetCollection<T>(table);
             var result = collection.DeleteMany(new BsonDocument());        
+        
+            return result.DeletedCount > 0;
         }
 
     }
