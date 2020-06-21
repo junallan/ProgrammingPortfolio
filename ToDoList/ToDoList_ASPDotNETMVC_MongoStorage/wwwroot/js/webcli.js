@@ -43,6 +43,7 @@ class WebCLI
             else
             {
                 ctrlStyle.display = "none";
+                window.location = "/Home/Index";
             }
             return;
         }
@@ -118,7 +119,7 @@ class WebCLI
 
             if (result.isHTML)
             {
-                self.writeHTML(output);
+                self.writeHTML(output, style);
             }
             else
             {
@@ -162,9 +163,11 @@ class WebCLI
         this.newLine();
     }
 
-    writeHTML(markup)
+    writeHTML(markup, cssSuffix)
     {
         var div = document.createElement("div");
+        cssSuffix = cssSuffix || "ok";
+        div.className = "webcli-" + cssSuffix;
         div.innerHTML = markup;
         this.outputEl.appendChild(div);
         this.newLine();
