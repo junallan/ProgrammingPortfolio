@@ -1,0 +1,120 @@
+{
+  "version": 3,
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "Recipes.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "compile": {
+          "bin/placeholder/Recipes.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Recipes.Core.dll": {}
+        }
+      },
+      "Recipes.Data/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "dependencies": {
+          "Recipes.Core": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Recipes.Data.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Recipes.Data.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Recipes.Core/1.0.0": {
+      "type": "project",
+      "path": "../Recipes.Core/Recipes.Core.csproj",
+      "msbuildProject": "../Recipes.Core/Recipes.Core.csproj"
+    },
+    "Recipes.Data/1.0.0": {
+      "type": "project",
+      "path": "../Recipes.Data/Recipes.Data.csproj",
+      "msbuildProject": "../Recipes.Data/Recipes.Data.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    ".NETCoreApp,Version=v3.1": [
+      "Recipes.Data >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\Jun\\.nuget\\packages\\": {},
+    "C:\\Microsoft\\Xamarin\\NuGet\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\ProgrammingPortflio\\Recipes\\Recipes\\Recipes.csproj",
+      "projectName": "Recipes",
+      "projectPath": "C:\\ProgrammingPortflio\\Recipes\\Recipes\\Recipes.csproj",
+      "packagesPath": "C:\\Users\\Jun\\.nuget\\packages\\",
+      "outputPath": "C:\\ProgrammingPortflio\\Recipes\\Recipes\\obj\\",
+      "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Microsoft\\Xamarin\\NuGet\\"
+      ],
+      "configFilePaths": [
+        "C:\\Users\\Jun\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "netcoreapp3.1"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "projectReferences": {
+            "C:\\ProgrammingPortflio\\Recipes\\Recipes.Data\\Recipes.Data.csproj": {
+              "projectPath": "C:\\ProgrammingPortflio\\Recipes\\Recipes.Data\\Recipes.Data.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "netcoreapp3.1": {
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[3.1.2, 3.1.2]"
+          }
+        ],
+        "frameworkReferences": {
+          "Microsoft.AspNetCore.App": {
+            "privateAssets": "none"
+          },
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.300\\RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}

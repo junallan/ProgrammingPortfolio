@@ -1,0 +1,17 @@
+﻿@page
+@model Recipes.Pages.Categories.ListModel
+@{
+}
+
+<h1>Categories</h1>
+
+<table class="table">
+    @foreach (var category in Model.Categories)
+    {
+        <tr>
+            <td>@category.Name</td>
+        </tr>
+    }
+</table>
+
+<div>@Model.Message</div>
