@@ -5,7 +5,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MongoDB.Bson" Version="2.11.0" />
+    <PackageReference Include="MongoDB.Driver" Version="2.11.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Recipes.Core\Recipes.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="MongoDbCRUD">
+      <HintPath>..\..\MongoDbCRUD\bin\Debug\netstandard2.0\MongoDbCRUD.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

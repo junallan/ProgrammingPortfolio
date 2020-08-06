@@ -18,7 +18,9 @@ C:\ProgrammingPortflio\Recipes\Recipes.Data\bin\Debug\netcoreapp3.1\Recipes.Core
 C:\ProgrammingPortflio\Recipes\Recipes.Data\obj\Debug\netcoreapp3.1\Recipes.Data.csprojAssemblyReference.cache
 C:\ProgrammingPortflio\Recipes\Recipes.Data\obj\Debug\netcoreapp3.1\Recipes.Data.AssemblyInfoInputs.cache
 C:\ProgrammingPortflio\Recipes\Recipes.Data\obj\Debug\netcoreapp3.1\Recipes.Data.AssemblyInfo.cs
-C:\ProgrammingPortflio\Recipes\Recipes.Data\obj\Debug\netcoreapp3.1\Recipes.Data.csproj.CoreCompileInputs.cache
 C:\ProgrammingPortflio\Recipes\Recipes.Data\obj\Debug\netcoreapp3.1\Recipes.Data.csproj.CopyComplete
 C:\ProgrammingPortflio\Recipes\Recipes.Data\obj\Debug\netcoreapp3.1\Recipes.Data.dll
 C:\ProgrammingPortflio\Recipes\Recipes.Data\obj\Debug\netcoreapp3.1\Recipes.Data.pdb
+C:\ProgrammingPortflio\Recipes\Recipes.Data\bin\Debug\netcoreapp3.1\MongoDbCRUD.dll
+C:\ProgrammingPortflio\Recipes\Recipes.Data\bin\Debug\netcoreapp3.1\MongoDbCRUD.pdb
+C:\ProgrammingPortflio\Recipes\Recipes.Data\obj\Debug\netcoreapp3.1\Recipes.Data.csproj.CoreCompileInputs.cache
