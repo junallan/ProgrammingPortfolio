@@ -8,9 +8,10 @@
 <table class="table">
     @foreach (var category in Model.Categories)
     {
-        <tr>
-            <td>@category.Name</td>
-        </tr>
+    <tr>
+        <td>@category.Name</td>
+        <td><a class="btn btn-lg" asp-page="./Edit" asp-route-categoryId="@category.Id"><i class="glyphicon glyphicon-zoom-in"></i></a></td>
+    </tr>
     }
 </table>
 

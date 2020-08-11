@@ -13,14 +13,15 @@ namespace Recipes.Data
     public interface ICategoryData
     {
         IEnumerable<Category> GetAll();
+        Category GetById(string Id);
     }
 
 
     public class CategoriesModel
     {
         [BsonId]
-        public ObjectId _id { get; set; }
-        public int Id { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
         public string Name { get; set; }
     }
 
@@ -30,13 +31,18 @@ namespace Recipes.Data
         public MongoCategoryData()
         {
             _db = new MongoDatabase("Recipes");
-
         }
 
         public IEnumerable<Category> GetAll()
         {
             var recs = _db.LoadRecords<CategoriesModel>("Categories");
-            return recs.Select(x => new Category { Id = x.Id, Name = x.Name });
+            return recs.Select(x => new Category { Id=x.Id, Name = x.Name });
+        }
+
+        public Category GetById(string Id)
+        {
+            var rec = _db.LoadRecordById<Category>("Categories", Id);
+            return rec;
         }
     }
 
@@ -48,15 +54,19 @@ namespace Recipes.Data
         {
             categories = new List<Category>()
             {
-                new Category{Id=1, Name="Breakfasts"},
-                new Category{Id=2, Name="Meat Recipes"}
+                new Category{ Id=ObjectId.GenerateNewId().ToString(), Name="Breakfasts" },
+                new Category{ Id=ObjectId.GenerateNewId().ToString(), Name="Meat Recipes"}
             };
         }
 
         public IEnumerable<Category> GetAll()
         {
-            var test = new MongoCategoryData().GetAll();
             return categories;
+        }
+
+        public Category GetById(string Id)
+        {
+            return categories.Where(x => x.Id == Id).SingleOrDefault();
         }
     }
 }

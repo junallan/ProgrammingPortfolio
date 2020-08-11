@@ -27,6 +27,9 @@ namespace Recipes.Pages.Categories
         public void OnGet()
         {
             Message = config["Message"];
+                           
+            
+               
             Categories = categoryData.GetAll();
         }
     }

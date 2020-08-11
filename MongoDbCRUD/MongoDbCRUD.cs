@@ -47,6 +47,14 @@ namespace MongoDbCRUD
             return collection.Find(filter).First();
         }
 
+        public T LoadRecordById<T>(string table, string id)
+        {
+            var collection = db.GetCollection<T>(table);
+            var filter = Builders<T>.Filter.Eq("Id", id);
+
+            return collection.Find(filter).First();
+        }
+
         [Obsolete]
         public bool UpsertRecord<T>(string table, Guid id, T record)
         {

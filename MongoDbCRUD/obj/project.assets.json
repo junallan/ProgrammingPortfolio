@@ -5240,24 +5240,31 @@
     ]
   },
   "packageFolders": {
-    "/Users/junallanparreno/.nuget/packages/": {}
+    "C:\\Users\\Jun\\.nuget\\packages\\": {},
+    "C:\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/junallanparreno/ProgrammingPortfolio/MongoDbCRUD/MongoDbCRUD.csproj",
+      "projectUniqueName": "C:\\ProgrammingPortflio\\MongoDbCRUD\\MongoDbCRUD.csproj",
       "projectName": "MongoDbCRUD",
-      "projectPath": "/Users/junallanparreno/ProgrammingPortfolio/MongoDbCRUD/MongoDbCRUD.csproj",
-      "packagesPath": "/Users/junallanparreno/.nuget/packages/",
-      "outputPath": "/Users/junallanparreno/ProgrammingPortfolio/MongoDbCRUD/obj/",
+      "projectPath": "C:\\ProgrammingPortflio\\MongoDbCRUD\\MongoDbCRUD.csproj",
+      "packagesPath": "C:\\Users\\Jun\\.nuget\\packages\\",
+      "outputPath": "C:\\ProgrammingPortflio\\MongoDbCRUD\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Microsoft\\Xamarin\\NuGet\\"
+      ],
       "configFilePaths": [
-        "/Users/junallanparreno/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\Jun\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netstandard2.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -5295,7 +5302,7 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.301/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.400\\RuntimeIdentifierGraph.json"
       }
     }
   }

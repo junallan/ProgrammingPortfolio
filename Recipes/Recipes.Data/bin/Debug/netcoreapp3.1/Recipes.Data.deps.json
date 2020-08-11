@@ -766,6 +766,9 @@
         }
       },
       "Recipes.Core/1.0.0": {
+        "dependencies": {
+          "MongoDB.Bson": "2.11.0"
+        },
         "runtime": {
           "Recipes.Core.dll": {}
         }

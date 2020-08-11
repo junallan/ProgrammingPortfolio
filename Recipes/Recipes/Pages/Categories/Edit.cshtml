@@ -1,0 +1,8 @@
+﻿@page "{categoryId}"
+@model Recipes.Pages.Categories.EditModel
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Editing @Model.Category.Name</h1>
+<a asp-page="./List" class="btn btn-default">All Categories</a>
