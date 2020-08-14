@@ -10,9 +10,9 @@
 C:\ProgrammingPortflio\MongoDbCRUD\bin\Debug\netstandard2.0\MongoDbCRUD.deps.json
 C:\ProgrammingPortflio\MongoDbCRUD\bin\Debug\netstandard2.0\MongoDbCRUD.dll
 C:\ProgrammingPortflio\MongoDbCRUD\bin\Debug\netstandard2.0\MongoDbCRUD.pdb
-C:\ProgrammingPortflio\MongoDbCRUD\obj\Debug\netstandard2.0\MongoDbCRUD.csprojAssemblyReference.cache
 C:\ProgrammingPortflio\MongoDbCRUD\obj\Debug\netstandard2.0\MongoDbCRUD.AssemblyInfoInputs.cache
 C:\ProgrammingPortflio\MongoDbCRUD\obj\Debug\netstandard2.0\MongoDbCRUD.AssemblyInfo.cs
 C:\ProgrammingPortflio\MongoDbCRUD\obj\Debug\netstandard2.0\MongoDbCRUD.csproj.CoreCompileInputs.cache
 C:\ProgrammingPortflio\MongoDbCRUD\obj\Debug\netstandard2.0\MongoDbCRUD.dll
 C:\ProgrammingPortflio\MongoDbCRUD\obj\Debug\netstandard2.0\MongoDbCRUD.pdb
+C:\ProgrammingPortflio\MongoDbCRUD\obj\Debug\netstandard2.0\MongoDbCRUD.csprojAssemblyReference.cache

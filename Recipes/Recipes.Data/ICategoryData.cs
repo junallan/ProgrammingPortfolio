@@ -14,6 +14,7 @@ namespace Recipes.Data
     {
         IEnumerable<Category> GetAll();
         Category GetById(string Id);
+        Category Update(Category updatedCategory);
     }
 
 
@@ -44,8 +45,19 @@ namespace Recipes.Data
             var rec = _db.LoadRecordById<Category>("Categories", Id);
             return rec;
         }
-    }
 
+        public Category Update(Category updatedCategory)
+        {
+            var rec = GetById(updatedCategory.Id);
+            rec.Name = updatedCategory.Name;
+
+            _db.UpsertRecord<Category>("Categories", rec.Id, rec);
+
+            rec = GetById(updatedCategory.Id);
+            return rec;
+        }
+    }
+    
     public class InMemoryCategoryData : ICategoryData
     {
         List<Category> categories;
@@ -67,6 +79,11 @@ namespace Recipes.Data
         public Category GetById(string Id)
         {
             return categories.Where(x => x.Id == Id).SingleOrDefault();
+        }
+
+        public Category Update(Category updatedCategory)
+        {
+            throw new NotImplementedException();
         }
     }
 }

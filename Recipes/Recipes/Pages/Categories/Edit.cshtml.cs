@@ -14,6 +14,8 @@ namespace Recipes.Pages.Categories
     public class EditModel : PageModel
     {
         private readonly ICategoryData categoryData;
+
+        [BindProperty]
         public Category Category { get; set; }
 
         public EditModel(ICategoryData categoryData)
@@ -25,7 +27,15 @@ namespace Recipes.Pages.Categories
         {
             Category = categoryData.GetById(categoryId);
             return Page();
-
         }
+
+        public IActionResult OnPost()
+        {
+            Category = categoryData.Update(Category);
+
+            return Page();
+        }
+
+
     }
 }

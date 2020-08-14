@@ -51,15 +51,32 @@ namespace MongoDbCRUD
         {
             var collection = db.GetCollection<T>(table);
             var filter = Builders<T>.Filter.Eq("Id", id);
-
+          
             return collection.Find(filter).First();
+        }
+
+        [Obsolete]
+        public bool UpsertRecord<T>(string table, string id, T record)
+        {
+            var collection = db.GetCollection<T>(table);
+            var filter = Builders<T>.Filter.Eq("Id", id);
+            //var update = Builders<T>.Update.(record)
+            //collection.UpdateOne(filter, record);
+            ////var update = Builders<T>.Update.Set()
+
+
+            ReplaceOneResult replaceOneResult = collection.ReplaceOne(
+                                filter,
+                                record,
+                                new UpdateOptions { IsUpsert = true }
+                        ); ;
+            return replaceOneResult.ModifiedCount == 1;
         }
 
         [Obsolete]
         public bool UpsertRecord<T>(string table, Guid id, T record)
         {
             var collection = db.GetCollection<T>(table);
-
             ReplaceOneResult replaceOneResult = collection.ReplaceOne(
                                 new BsonDocument("_id",
                                                  id),
@@ -67,8 +84,6 @@ namespace MongoDbCRUD
                                 new UpdateOptions { IsUpsert = true }
                         );
             return replaceOneResult.ModifiedCount == 1;
-
-
         }
 
         public bool DeleteRecord<T>(string table, Guid id)
