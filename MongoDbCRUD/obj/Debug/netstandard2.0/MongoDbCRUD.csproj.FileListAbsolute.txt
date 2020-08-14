@@ -15,4 +15,3 @@ C:\ProgrammingPortflio\MongoDbCRUD\obj\Debug\netstandard2.0\MongoDbCRUD.Assembly
 C:\ProgrammingPortflio\MongoDbCRUD\obj\Debug\netstandard2.0\MongoDbCRUD.csproj.CoreCompileInputs.cache
 C:\ProgrammingPortflio\MongoDbCRUD\obj\Debug\netstandard2.0\MongoDbCRUD.dll
 C:\ProgrammingPortflio\MongoDbCRUD\obj\Debug\netstandard2.0\MongoDbCRUD.pdb
-C:\ProgrammingPortflio\MongoDbCRUD\obj\Debug\netstandard2.0\MongoDbCRUD.csprojAssemblyReference.cache

@@ -60,10 +60,6 @@ namespace MongoDbCRUD
         {
             var collection = db.GetCollection<T>(table);
             var filter = Builders<T>.Filter.Eq("Id", id);
-            //var update = Builders<T>.Update.(record)
-            //collection.UpdateOne(filter, record);
-            ////var update = Builders<T>.Update.Set()
-
 
             ReplaceOneResult replaceOneResult = collection.ReplaceOne(
                                 filter,
