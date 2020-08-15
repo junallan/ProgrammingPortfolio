@@ -54,17 +54,17 @@ namespace MongoDbCRUD
           
             return collection.Find(filter).First();
         }
-
-        [Obsolete]
+        
+       
         public bool UpsertRecord<T>(string table, string id, T record)
         {
             var collection = db.GetCollection<T>(table);
             var filter = Builders<T>.Filter.Eq("Id", id);
-
+            //TODO: TEST THIS
             ReplaceOneResult replaceOneResult = collection.ReplaceOne(
                                 filter,
                                 record,
-                                new UpdateOptions { IsUpsert = true }
+                                new ReplaceOptions { IsUpsert = true }
                         ); ;
             return replaceOneResult.ModifiedCount == 1;
         }
@@ -91,7 +91,6 @@ namespace MongoDbCRUD
             return result.DeletedCount == 1;          
         }
 
-        //public void DeleteAllRecordsExcept(string table, List<Guid> ids)
         public bool DeleteAllRecords<T>(string table)        
         {
             var collection = db.GetCollection<T>(table);
