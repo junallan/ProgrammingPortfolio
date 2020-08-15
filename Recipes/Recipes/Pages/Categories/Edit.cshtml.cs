@@ -25,13 +25,14 @@ namespace Recipes.Pages.Categories
 
         public IActionResult OnGet(string categoryId)
         {
-            Category = categoryData.GetById(categoryId);
+            Category = string.IsNullOrEmpty(categoryId) ? new Category() : categoryData.GetById(categoryId);
+            
             return Page();
         }
 
         public IActionResult OnPost()
         {
-            Category = categoryData.Update(Category);
+            Category = Category.Id == null ? categoryData.Add(Category) : categoryData.Update(Category);
 
             return Page();
         }

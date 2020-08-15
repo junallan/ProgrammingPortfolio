@@ -52,21 +52,21 @@ namespace MongoDbCRUD
             var collection = db.GetCollection<T>(table);
             var filter = Builders<T>.Filter.Eq("Id", id);
           
-            return collection.Find(filter).First();
+            return collection.Find(filter).FirstOrDefault();
         }
         
        
-        public bool UpsertRecord<T>(string table, string id, T record)
+        public T UpsertRecord<T>(string table, string id, T record)
         {
             var collection = db.GetCollection<T>(table);
             var filter = Builders<T>.Filter.Eq("Id", id);
-            //TODO: TEST THIS
             ReplaceOneResult replaceOneResult = collection.ReplaceOne(
                                 filter,
                                 record,
                                 new ReplaceOptions { IsUpsert = true }
                         ); ;
-            return replaceOneResult.ModifiedCount == 1;
+
+            return LoadRecordById<T>(table, id);
         }
 
         [Obsolete]

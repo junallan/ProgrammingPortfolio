@@ -15,6 +15,7 @@ namespace Recipes.Data
         IEnumerable<Category> GetAll();
         Category GetById(string Id);
         Category Update(Category updatedCategory);
+        Category Add(Category newCategory);
     }
 
 
@@ -56,6 +57,13 @@ namespace Recipes.Data
             rec = GetById(updatedCategory.Id);
             return rec;
         }
+
+        Category ICategoryData.Add(Category newCategory)
+        {
+            newCategory.Id = ObjectId.GenerateNewId().ToString();
+            var categoryAdded = _db.UpsertRecord<Category>("Categories", newCategory.Id, newCategory);
+            return categoryAdded;
+        }
     }
     
     public class InMemoryCategoryData : ICategoryData
@@ -70,7 +78,7 @@ namespace Recipes.Data
                 new Category{ Id=ObjectId.GenerateNewId().ToString(), Name="Meat Recipes"}
             };
         }
-
+        
         public IEnumerable<Category> GetAll()
         {
             return categories;
@@ -83,7 +91,21 @@ namespace Recipes.Data
 
         public Category Update(Category updatedCategory)
         {
-            throw new NotImplementedException();
+            var categoryLookedUp = categories.Where(c => c.Id == updatedCategory.Id).SingleOrDefault();
+            
+            if(categoryLookedUp != null)
+            {
+                categoryLookedUp.Name = updatedCategory.Name;
+            }
+
+            return categoryLookedUp;
+        }
+
+        Category ICategoryData.Add(Category newCategory)
+        {
+            categories.Add(newCategory);
+
+            return newCategory;
         }
     }
 }
