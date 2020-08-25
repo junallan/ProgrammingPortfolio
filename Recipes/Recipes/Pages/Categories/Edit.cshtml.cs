@@ -17,6 +17,12 @@ namespace Recipes.Pages.Categories
 
         [BindProperty]
         public Category Category { get; set; }
+        public string FormTitle { get; set; }
+        public enum Action
+        {
+            Adding,
+            Editing
+        }
 
         public EditModel(ICategoryData categoryData)
         {
@@ -25,14 +31,34 @@ namespace Recipes.Pages.Categories
 
         public IActionResult OnGet(string categoryId)
         {
-            Category = string.IsNullOrEmpty(categoryId) ? new Category() : categoryData.GetById(categoryId);
-            
-            return Page();
+            if (string.IsNullOrEmpty(categoryId))
+            {
+                Category = new Category();
+                FormTitle = $" {Action.Adding.ToString()} Category";
+            }
+            else
+            {
+                Category = categoryData.GetById(categoryId);
+                FormTitle = $"{Action.Editing.ToString()} {Category.Name}";
+            }
+
+                return Page();
         }
 
         public IActionResult OnPost()
         {
-            Category = Category.Id == null ? categoryData.Add(Category) : categoryData.Update(Category);
+            //Category = Category.Id == null ? categoryData.Add(Category) : categoryData.Update(Category);
+
+            if(string.IsNullOrEmpty(Category.Id))
+            {
+                Category = categoryData.Add(Category);
+                FormTitle = $"{Action.Adding.ToString()} {Category.Name}";
+            }
+            else
+            {
+                Category = categoryData.Update(Category);
+                FormTitle = $"{Action.Editing.ToString()} {Category.Name}";
+            }
 
             return Page();
         }
