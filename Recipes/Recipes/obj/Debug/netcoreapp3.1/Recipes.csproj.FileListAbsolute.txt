@@ -168,3 +168,4 @@ C:\ProgrammingPortflio\Recipes\Recipes\obj\Debug\netcoreapp3.1\Recipes.csproj.Co
 C:\ProgrammingPortflio\Recipes\Recipes\obj\Debug\netcoreapp3.1\Recipes.MvcApplicationPartsAssemblyInfo.cache
 C:\ProgrammingPortflio\Recipes\Recipes\obj\Debug\netcoreapp3.1\Razor\Pages\Categories\Edit.cshtml.g.cs
 C:\ProgrammingPortflio\Recipes\Recipes\obj\Debug\netcoreapp3.1\Razor\Pages\Categories\Test.cshtml.g.cs
+C:\ProgrammingPortflio\Recipes\Recipes\obj\Debug\netcoreapp3.1\Razor\Pages\Categories\Delete.cshtml.g.cs

@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipes", "Recipes\Recipes.csproj", "{7F53533C-DA57-4334-91FD-070939409923}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Recipes", "Recipes\Recipes.csproj", "{7F53533C-DA57-4334-91FD-070939409923}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipes.Core", "Recipes.Core\Recipes.Core.csproj", "{2E080FB4-4255-4F83-AE7C-0428AA255BAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Recipes.Core", "Recipes.Core\Recipes.Core.csproj", "{2E080FB4-4255-4F83-AE7C-0428AA255BAD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipes.Data", "Recipes.Data\Recipes.Data.csproj", "{9019893B-D8E2-4A06-A199-2A3CE8B8BBF3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Recipes.Data", "Recipes.Data\Recipes.Data.csproj", "{9019893B-D8E2-4A06-A199-2A3CE8B8BBF3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

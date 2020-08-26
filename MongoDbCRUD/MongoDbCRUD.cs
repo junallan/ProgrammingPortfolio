@@ -7,7 +7,7 @@ namespace MongoDbCRUD
 {
     public class MongoDatabase
     {
-                private IMongoDatabase db;
+        private IMongoDatabase db;
 
         public MongoDatabase(string databaseName)
         {
@@ -24,7 +24,7 @@ namespace MongoDbCRUD
 
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex);
 
@@ -51,11 +51,11 @@ namespace MongoDbCRUD
         {
             var collection = db.GetCollection<T>(table);
             var filter = Builders<T>.Filter.Eq("Id", id);
-          
+
             return collection.Find(filter).FirstOrDefault();
         }
-        
-       
+
+
         public T UpsertRecord<T>(string table, string id, T record)
         {
             var collection = db.GetCollection<T>(table);
@@ -84,11 +84,22 @@ namespace MongoDbCRUD
 
         public bool DeleteRecord<T>(string table, Guid id)
         {
-            var collection = db.GetCollection<T>(table);
             var filter = Builders<T>.Filter.Eq("Id", id);
+            return DeleteRecord(table, filter);
+        }
+
+        public bool DeleteRecord<T>(string table, string id)
+        {
+            var filter = Builders<T>.Filter.Eq("Id", id);
+            return DeleteRecord(table, filter);
+        }
+
+        private bool DeleteRecord<T>(string table, FilterDefinition<T> filter)
+        {
+            var collection = db.GetCollection<T>(table);
             var result = collection.DeleteOne(filter);
 
-            return result.DeletedCount == 1;          
+            return result.DeletedCount == 1;
         }
 
         public bool DeleteAllRecords<T>(string table)        

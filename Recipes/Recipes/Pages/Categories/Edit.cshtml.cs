@@ -42,13 +42,11 @@ namespace Recipes.Pages.Categories
                 FormTitle = $"{Action.Editing.ToString()} {Category.Name}";
             }
 
-                return Page();
+            return Page();
         }
 
         public IActionResult OnPost()
         {
-            //Category = Category.Id == null ? categoryData.Add(Category) : categoryData.Update(Category);
-
             if(string.IsNullOrEmpty(Category.Id))
             {
                 Category = categoryData.Add(Category);

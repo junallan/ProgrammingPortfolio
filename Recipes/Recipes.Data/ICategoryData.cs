@@ -16,6 +16,7 @@ namespace Recipes.Data
         Category GetById(string Id);
         Category Update(Category updatedCategory);
         Category Add(Category newCategory);
+        Category Delete(string Id);
     }
 
 
@@ -55,7 +56,7 @@ namespace Recipes.Data
             _db.UpsertRecord<Category>("Categories", rec.Id, rec);
 
             rec = GetById(updatedCategory.Id);
-            return rec;
+            return rec; 
         }
 
         Category ICategoryData.Add(Category newCategory)
@@ -63,6 +64,13 @@ namespace Recipes.Data
             newCategory.Id = ObjectId.GenerateNewId().ToString();
             var categoryAdded = _db.UpsertRecord<Category>("Categories", newCategory.Id, newCategory);
             return categoryAdded;
+        }
+
+        public Category Delete(string id)
+        {
+            var category = GetById(id);
+            var isDeletedCategory =_db.DeleteRecord<Category>("Categories", id);
+            return isDeletedCategory ? category : null;
         }
     }
     
@@ -78,7 +86,7 @@ namespace Recipes.Data
                 new Category{ Id=ObjectId.GenerateNewId().ToString(), Name="Meat Recipes"}
             };
         }
-        
+
         public IEnumerable<Category> GetAll()
         {
             return categories;
@@ -106,6 +114,14 @@ namespace Recipes.Data
             categories.Add(newCategory);
 
             return newCategory;
+        }
+
+        public Category Delete(string Id)
+        {
+            var categoryToDelete = GetById(Id);
+            categories.Remove(categoryToDelete);
+
+            return categoryToDelete;
         }
     }
 }
