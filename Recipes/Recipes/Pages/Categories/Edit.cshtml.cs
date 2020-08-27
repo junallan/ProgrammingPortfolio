@@ -31,6 +31,13 @@ namespace Recipes.Pages.Categories
 
         public IActionResult OnGet(string categoryId)
         {
+            RetrieveCategory(categoryId);
+
+            return Page();
+        }
+
+        private void RetrieveCategory(string categoryId)
+        {
             if (string.IsNullOrEmpty(categoryId))
             {
                 Category = new Category();
@@ -41,25 +48,37 @@ namespace Recipes.Pages.Categories
                 Category = categoryData.GetById(categoryId);
                 FormTitle = $"{Action.Editing.ToString()} {Category.Name}";
             }
-
-            return Page();
         }
 
         public IActionResult OnPost()
         {
-            if(string.IsNullOrEmpty(Category.Id))
+            if(ModelState.IsValid)
             {
-                Category = categoryData.Add(Category);
-                FormTitle = $"{Action.Adding.ToString()} {Category.Name}";
+                if (string.IsNullOrEmpty(Category.Id))
+                {
+                    Category = categoryData.Add(Category);
+                }
+                else
+                {
+                    var categoryBeforeUpdate = categoryData.GetById(Category.Id);
+                    if (categoryBeforeUpdate == null) { return RedirectToPage("./NotFound"); }
+
+                    Category = categoryData.Update(Category);
+
+                    if (Category == null) { return RedirectToPage("./NotFound"); }
+                }
+
+                return RedirectToPage("./Detail", new { categoryId = Category.Id });
             }
             else
             {
-                Category = categoryData.Update(Category);
-                FormTitle = $"{Action.Editing.ToString()} {Category.Name}";
+                RetrieveCategory(Category.Id);
             }
 
             return Page();
         }
+
+
 
 
     }
