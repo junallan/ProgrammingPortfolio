@@ -18,5 +18,7 @@ namespace Recipes.Core
         public int Servings { get; set; }
         public List<string> Ingredients { get; set; }
         public List<string> Directions { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string CategoryId { get; set; }
     }
 }
