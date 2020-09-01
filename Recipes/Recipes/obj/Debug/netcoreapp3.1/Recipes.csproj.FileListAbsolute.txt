@@ -167,7 +167,7 @@ C:\ProgrammingPortflio\Recipes\Recipes\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft
 C:\ProgrammingPortflio\Recipes\Recipes\obj\Debug\netcoreapp3.1\Recipes.csproj.CoreCompileInputs.cache
 C:\ProgrammingPortflio\Recipes\Recipes\obj\Debug\netcoreapp3.1\Recipes.MvcApplicationPartsAssemblyInfo.cache
 C:\ProgrammingPortflio\Recipes\Recipes\obj\Debug\netcoreapp3.1\Razor\Pages\Categories\Edit.cshtml.g.cs
-C:\ProgrammingPortflio\Recipes\Recipes\obj\Debug\netcoreapp3.1\Razor\Pages\Categories\Test.cshtml.g.cs
 C:\ProgrammingPortflio\Recipes\Recipes\obj\Debug\netcoreapp3.1\Razor\Pages\Categories\Delete.cshtml.g.cs
 C:\ProgrammingPortflio\Recipes\Recipes\obj\Debug\netcoreapp3.1\Razor\Pages\Categories\NotFound.cshtml.g.cs
 C:\ProgrammingPortflio\Recipes\Recipes\obj\Debug\netcoreapp3.1\Razor\Pages\Categories\Detail.cshtml.g.cs
+C:\ProgrammingPortflio\Recipes\Recipes\obj\Debug\netcoreapp3.1\Razor\Pages\MenuRecipes\List.cshtml.g.cs

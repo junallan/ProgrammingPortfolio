@@ -30,7 +30,7 @@ namespace Recipes.Data
 
     public class MongoCategoryData : ICategoryData
     {
-        private MongoDatabase _db;
+        private readonly MongoDatabase _db;
         public MongoCategoryData()
         {
             _db = new MongoDatabase("Recipes");
@@ -76,7 +76,7 @@ namespace Recipes.Data
     
     public class InMemoryCategoryData : ICategoryData
     {
-        List<Category> categories;
+        readonly List<Category> categories;
 
         public InMemoryCategoryData()
         {

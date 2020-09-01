@@ -25,6 +25,7 @@ namespace Recipes
         {
             //services.AddSingleton<Recipes.Data.ICategoryData, Recipes.Data.InMemoryCategoryData>();
             services.AddSingleton<Recipes.Data.ICategoryData, Recipes.Data.MongoCategoryData>();
+            services.AddSingleton<Recipes.Data.IRecipeData, Recipes.Data.InMemoryRecipeData>();
             services.AddRazorPages();
         }
 

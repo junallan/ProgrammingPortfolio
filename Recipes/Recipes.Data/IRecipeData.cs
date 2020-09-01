@@ -9,6 +9,7 @@ namespace Recipes.Data
     public interface IRecipeData
     {
         Recipe Add(Recipe newRecipe);
+        IEnumerable<Recipe> GetAll();
     }
 
     //public class MongoCategoryData : ICategoryData
@@ -59,7 +60,7 @@ namespace Recipes.Data
 
     public class InMemoryRecipeData : IRecipeData
     {
-        List<Recipe> recipes;
+        readonly List<Recipe> recipes;
 
         public InMemoryRecipeData()
         {
@@ -86,7 +87,7 @@ namespace Recipes.Data
                                                 "Add potatoes and toss to coat",
                                                 "Peel eggs, cho them, add them to salad and toss again.",
                                                 "Add salt and pepper t the taste; stir and serve your salad with toasted bread slices."},
-                                CategoryId = ObjectId.GenerateNewId().ToString()
+                                CategoryId = "5f2abad27f7947b1a07bb8a9"
                                 },
                 new Recipe{ Id = ObjectId.GenerateNewId().ToString(),
                                 Name="Beef and Cabbage",
@@ -106,10 +107,15 @@ namespace Recipes.Data
                                 Directions = new List<string>{
                                                 "Put beef brisket and water in your instant pot, add salt, pepper, garlic and bay leaves, seal the intant pot lid and cook at High for 1 hour and 15 minutes.",
                                                 "Quick release the pressure, carefully open the lid; add carrots, cabbage, potatoes, and turnips; then stir well.  Seal the instant pot lid again and cook at High for 6 minutes",
-                                                "Release the pressure naturally, carefully open the lid; divide among plates and serve with horseradish sauce on top."
-                                }
+                                                "Release the pressure naturally, carefully open the lid; divide among plates and serve with horseradish sauce on top."},
+                                CategoryId = "5f2abb417f7947b1a07bb8aa"
                 }
             };
+        }
+
+        public IEnumerable<Recipe> GetAll()
+        {
+            return recipes;
         }
 
         Recipe IRecipeData.Add(Recipe newRecipe)

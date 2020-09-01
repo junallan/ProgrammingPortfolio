@@ -1,0 +1,20 @@
+﻿@page
+@model Recipes.Pages.MenuRecipes.ListModel
+@{
+}
+
+<h1>Recipes</h1>
+@*<div class="alert-info">@TempData["Message"]</div>*@
+<table class="table">
+    @foreach (var recipe in Model.Recipes)
+    {
+        <tr>
+            <td>@recipe.Name</td>
+            <td><a class="btn btn-lg" asp-page="./Detail" asp-route-categoryId="@recipe.Id"><i class="glyphicon glyphicon-zoom-in"></i></a></td>
+            <td><a class="btn btn-lg" asp-page="./Edit" asp-route-categoryId="@recipe.Id"><i class="glyphicon glyphicon-edit"></i></a></td>
+            <td><a class="btn btn-lg" asp-page="./Delete" asp-route-categoryId="@recipe.Id"><i class="glyphicon glyphicon-trash"></i></a></td>
+        </tr>
+    }
+</table>
+
+<a asp-page=".\Edit" class="btn btn-primary">Add New</a>
