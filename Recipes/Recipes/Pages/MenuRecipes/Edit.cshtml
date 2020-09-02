@@ -1,0 +1,31 @@
+﻿@page "{recipeId?}"
+@model Recipes.Pages.MenuRecipes.EditModel
+@{
+}
+
+<h1>@Model.FormTitle</h1>
+
+<form method="post">
+    <input type="hidden" asp-for="Recipe.Id" />
+    <div class="form-group">
+        <label asp-for="Recipe.Name"></label>
+        <input asp-for="Recipe.Name" class="form-control" />
+        <span class="text-danger" asp-validation-for="Recipe.Name"></span>
+        <label asp-for="Recipe.CookTimeMinutes"></label>
+        <input asp-for="Recipe.CookTimeMinutes" class="form-control" />
+        <span class="text-danger" asp-validation-for="Recipe.CookTimeMinutes"></span>
+        <label asp-for="Recipe.Servings"></label>
+        <input asp-for="Recipe.Servings" class="form-control" />
+        <span class="text-danger" asp-validation-for="Recipe.Servings"></span>
+        @*<ul style="list-style-type:disc">
+            <li>Coffee</li>
+            <li>Tea</li>
+            <li>Milk</li>
+        </ul>*@
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+
+
+<a asp-page="./List" class="btn btn-default">All Recipes</a>

@@ -2,6 +2,7 @@
 using Recipes.Core;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Recipes.Data
@@ -10,6 +11,7 @@ namespace Recipes.Data
     {
         Recipe Add(Recipe newRecipe);
         IEnumerable<Recipe> GetAll();
+        Recipe GetById(string Id);
     }
 
     //public class MongoCategoryData : ICategoryData
@@ -116,6 +118,11 @@ namespace Recipes.Data
         public IEnumerable<Recipe> GetAll()
         {
             return recipes;
+        }
+
+        public Recipe GetById(string Id)
+        {
+            return recipes.Where(x => x.Id == Id).SingleOrDefault();
         }
 
         Recipe IRecipeData.Add(Recipe newRecipe)

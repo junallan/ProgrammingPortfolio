@@ -14,6 +14,7 @@ namespace Recipes.Core
         public string Id { get; set; }
         [Required]
         public string Name { get; set; }
+        [Display(Name="Cook Time (minutes)")]
         public int CookTimeMinutes { get; set; }
         public int Servings { get; set; }
         public List<string> Ingredients { get; set; }
