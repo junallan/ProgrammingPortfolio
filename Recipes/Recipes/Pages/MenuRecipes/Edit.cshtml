@@ -12,16 +12,25 @@
         <input asp-for="Recipe.Name" class="form-control" />
         <span class="text-danger" asp-validation-for="Recipe.Name"></span>
         <label asp-for="Recipe.CookTimeMinutes"></label>
-        <input asp-for="Recipe.CookTimeMinutes" class="form-control" />
+        <input asp-for="Recipe.CookTimeMinutes" class="form-control" pattern="[0-9]{10}" />
         <span class="text-danger" asp-validation-for="Recipe.CookTimeMinutes"></span>
         <label asp-for="Recipe.Servings"></label>
-        <input asp-for="Recipe.Servings" class="form-control" />
+        <input asp-for="Recipe.Servings" class="form-control" type="number" min="1" />
         <span class="text-danger" asp-validation-for="Recipe.Servings"></span>
-        @*<ul style="list-style-type:disc">
-            <li>Coffee</li>
-            <li>Tea</li>
-            <li>Milk</li>
-        </ul>*@
+        <label asp-for="Recipe.Ingredients"></label>
+        <ul style="list-style-type:disc">
+            @foreach (var ingredient in Model.Recipe.Ingredients)
+            {
+                <li>@ingredient</li>
+            }
+        </ul>
+        <label asp-for="Recipe.Directions"></label>
+        <ol>
+            @foreach (var direction in Model.Recipe.Directions)
+            {
+                <li>@direction</li>
+            }
+        </ol>
     </div>
 
     <button type="submit" class="btn btn-primary">Save</button>
