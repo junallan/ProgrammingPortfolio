@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis;
 using Recipes.Core;
 using Recipes.Data;
 
@@ -12,9 +14,13 @@ namespace Recipes.Pages.MenuRecipes
     public class EditModel : PageModel
     {
         private readonly IRecipeData recipeData;
+        private readonly ICategoryData categoryData;
+        private readonly IHtmlHelper htmlHelper;
 
         [BindProperty]
         public Recipe Recipe { get; set; }
+        public IEnumerable<SelectListItem> Categories { get; set; }
+
         public string FormTitle { get; set; }
         public enum Action
         {
@@ -22,15 +28,18 @@ namespace Recipes.Pages.MenuRecipes
             Editing
         }
 
-        public EditModel(IRecipeData recipeData)
+        public EditModel(IRecipeData recipeData, ICategoryData categoryData, IHtmlHelper htmlHelper)
         {
             this.recipeData = recipeData;
+            this.categoryData = categoryData;
+            this.htmlHelper = htmlHelper;
         }
 
         public IActionResult OnGet(string recipeId)
         {
             RetrieveRecipe(recipeId);
-
+            Categories = this.categoryData.GetAll().Select(c => new SelectListItem { Value = c.Id, Text = c.Name }).ToList();
+            //Recipe.CategoryId;.
             return Page();
         }
 
