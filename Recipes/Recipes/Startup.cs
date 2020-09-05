@@ -27,6 +27,7 @@ namespace Recipes
             services.AddSingleton<Recipes.Data.ICategoryData, Recipes.Data.MongoCategoryData>();
             services.AddSingleton<Recipes.Data.IRecipeData, Recipes.Data.InMemoryRecipeData>();
             services.AddRazorPages();
+            services.AddMvc().AddRazorPagesOptions(options => { options.Conventions.AddPageRoute("/MenuRecipes/List", ""); });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

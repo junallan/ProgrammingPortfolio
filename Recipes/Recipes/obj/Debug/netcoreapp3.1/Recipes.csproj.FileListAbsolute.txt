@@ -65,8 +65,6 @@ C:\ProgrammingPortflio\Recipes\Recipes\obj\Debug\netcoreapp3.1\Recipes.TagHelper
 C:\ProgrammingPortflio\Recipes\Recipes\obj\Debug\netcoreapp3.1\Recipes.RazorCoreGenerate.cache
 C:\ProgrammingPortflio\Recipes\Recipes\obj\Debug\netcoreapp3.1\Razor\Pages\Categories\List.cshtml.g.cs
 C:\ProgrammingPortflio\Recipes\Recipes\obj\Debug\netcoreapp3.1\Razor\Pages\Error.cshtml.g.cs
-C:\ProgrammingPortflio\Recipes\Recipes\obj\Debug\netcoreapp3.1\Razor\Pages\Index.cshtml.g.cs
-C:\ProgrammingPortflio\Recipes\Recipes\obj\Debug\netcoreapp3.1\Razor\Pages\Privacy.cshtml.g.cs
 C:\ProgrammingPortflio\Recipes\Recipes\obj\Debug\netcoreapp3.1\Razor\Pages\Shared\_Layout.cshtml.g.cs
 C:\ProgrammingPortflio\Recipes\Recipes\obj\Debug\netcoreapp3.1\Razor\Pages\Shared\_ValidationScriptsPartial.cshtml.g.cs
 C:\ProgrammingPortflio\Recipes\Recipes\obj\Debug\netcoreapp3.1\Razor\Pages\_ViewImports.cshtml.g.cs

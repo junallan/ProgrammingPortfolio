@@ -19,6 +19,8 @@ namespace Recipes.Pages.MenuRecipes
 
         [BindProperty]
         public Recipe Recipe { get; set; }
+        //[BindProperty]
+        //public string CategoryId { get; set; }
         public IEnumerable<SelectListItem> Categories { get; set; }
 
         public string FormTitle { get; set; }
@@ -39,7 +41,7 @@ namespace Recipes.Pages.MenuRecipes
         {
             RetrieveRecipe(recipeId);
             Categories = this.categoryData.GetAll().Select(c => new SelectListItem { Value = c.Id, Text = c.Name }).ToList();
-            //Recipe.CategoryId;.
+            //CategoryId = Recipe.CategoryId;
             return Page();
         }
 
