@@ -31,8 +31,9 @@
                 <li>@direction</li>
             }
         </ol>
+
+        <select id="CategoryId" name="CategoryId" asp-for="Recipe.CategoryId" asp-items="Model.Categories"></select>
     </div>
-    <select id="CategoryId" name="CategoryId" asp-for="Recipe.CategoryId" asp-items="Model.Categories"></select>
 
     <button type="submit" class="btn btn-primary">Save</button>
 </form>

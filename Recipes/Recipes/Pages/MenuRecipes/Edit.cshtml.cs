@@ -50,6 +50,8 @@ namespace Recipes.Pages.MenuRecipes
             if (string.IsNullOrEmpty(recipeId))
             {
                 Recipe = new Recipe();
+                Recipe.Ingredients = new List<string>();
+                Recipe.Directions = new List<string>();
                 FormTitle = $" {Action.Adding.ToString()} Recipe";
             }
             else
