@@ -37,6 +37,14 @@ namespace Recipes.Pages.MenuRecipes
             this.htmlHelper = htmlHelper;
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddIngredientItem([Bind("Ingredients")] Recipe recipe)
+        {
+            recipe.Ingredients.Add(string.Empty);
+            return Partial("IngredientItem");
+        }
+
         public IActionResult OnGet(string recipeId)
         {
             RetrieveRecipe(recipeId);

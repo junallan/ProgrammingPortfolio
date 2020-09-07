@@ -5,7 +5,7 @@
 
 <h1>@Model.FormTitle</h1>
 
-<form method="post">
+<form id="form" method="post">
     <input type="hidden" asp-for="Recipe.Id" />
     <div class="form-group">
         <label asp-for="Recipe.Name"></label>
@@ -16,8 +16,13 @@
         <span class="text-danger" asp-validation-for="Recipe.CookTimeMinutes"></span>
         <label asp-for="Recipe.Servings"></label>
         <input asp-for="Recipe.Servings" class="form-control" type="number" min="1" />
-        <span class="text-danger" asp-validation-for="Recipe.Servings"></span>
-        <label asp-for="Recipe.Ingredients"></label>
+        <span class="text-danger" asp-validation-for="Recipe.Servings"></span>  
+        @*<div id="ingredientItemsContainer">
+            <partial name="_Ingredient" model="Model.Recipe" />
+        </div>*@
+
+        <input class="btn btn-default" type="button" id="btnAddIngredient" value="Add ingredient" />
+    
         <ul style="list-style-type:disc">
             @foreach (var ingredient in Model.Recipe.Ingredients)
             {
@@ -40,3 +45,22 @@
 
 
 <a asp-page="./List" class="btn btn-default">All Recipes</a>
+
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+        $("#btnAddIngredient").on('click', function () {
+            //alert('clicked');
+            $.ajax({
+                async: true,
+                data: $('#form').serialize(),
+                type: "POST",
+                url: '/MenuRecipes/Edit/AddIngredientItem',
+                success: function (partialView) {
+                    console.log("partialView: " + partialView);
+                    $('#ingredientItemsContainer').html(partialView);
+                }
+            });
+        });
+    </script>
+}

@@ -170,3 +170,4 @@ C:\ProgrammingPortflio\Recipes\Recipes\obj\Debug\netcoreapp3.1\Razor\Pages\Categ
 C:\ProgrammingPortflio\Recipes\Recipes\obj\Debug\netcoreapp3.1\Razor\Pages\Categories\Detail.cshtml.g.cs
 C:\ProgrammingPortflio\Recipes\Recipes\obj\Debug\netcoreapp3.1\Razor\Pages\MenuRecipes\List.cshtml.g.cs
 C:\ProgrammingPortflio\Recipes\Recipes\obj\Debug\netcoreapp3.1\Razor\Pages\MenuRecipes\Edit.cshtml.g.cs
+C:\ProgrammingPortflio\Recipes\Recipes\obj\Debug\netcoreapp3.1\Razor\Pages\Shared\_Ingredient.cshtml.g.cs
