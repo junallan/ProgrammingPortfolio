@@ -14,5 +14,5 @@ C:\ProgrammingPortflio\Recipes\Recipes.Core\obj\Debug\netcoreapp3.1\Recipes.Core
 C:\ProgrammingPortflio\Recipes\Recipes.Core\obj\Debug\netcoreapp3.1\Recipes.Core.AssemblyInfo.cs
 C:\ProgrammingPortflio\Recipes\Recipes.Core\obj\Debug\netcoreapp3.1\Recipes.Core.dll
 C:\ProgrammingPortflio\Recipes\Recipes.Core\obj\Debug\netcoreapp3.1\Recipes.Core.pdb
-C:\ProgrammingPortflio\Recipes\Recipes.Core\obj\Debug\netcoreapp3.1\Recipes.Core.csproj.CoreCompileInputs.cache
 C:\ProgrammingPortflio\Recipes\Recipes.Core\obj\Debug\netcoreapp3.1\Recipes.Core.csprojAssemblyReference.cache
+C:\ProgrammingPortflio\Recipes\Recipes.Core\obj\Debug\netcoreapp3.1\Recipes.Core.csproj.CoreCompileInputs.cache

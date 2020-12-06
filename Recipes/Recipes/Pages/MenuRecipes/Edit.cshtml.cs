@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.CodeAnalysis;
 using Recipes.Core;
 using Recipes.Data;
@@ -16,7 +17,7 @@ namespace Recipes.Pages.MenuRecipes
         private readonly IRecipeData recipeData;
         private readonly ICategoryData categoryData;
         private readonly IHtmlHelper htmlHelper;
-
+       
         [BindProperty]
         public Recipe Recipe { get; set; }
         //[BindProperty]
@@ -37,13 +38,37 @@ namespace Recipes.Pages.MenuRecipes
             this.htmlHelper = htmlHelper;
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddIngredientItem([Bind("Ingredients")] Recipe recipe)
+
+        public PartialViewResult OnPostAddIngredientItem()
         {
-            recipe.Ingredients.Add(string.Empty);
-            return Partial("IngredientItem");
+            //recipe.Ingredients.Add(string.Empty);
+            return new PartialViewResult
+            {
+                ViewName = "_Ingredient",
+                ViewData = new ViewDataDictionary<Recipe>(ViewData, new Recipe() { Id = "1", Ingredients = new List<string> { "a", "b", "c" } })
+            };
         }
+
+
+        public PartialViewResult OnGetAddIngredientItem(/*[Bind("Ingredients")]*//*Recipe recipe*/ List<string> test)
+        {
+            //recipe.Ingredients.Add(string.Empty);
+            return new PartialViewResult
+            {
+                ViewName = "_Ingredient",
+                ViewData = new ViewDataDictionary<Recipe>(ViewData, new Recipe() { Id="1", Ingredients = new List<string> { "a", "b", "c" } })
+            };
+        }
+
+        //public IActionResult OnPostAddIngredientItem(/*[Bind("Ingredients")] Recipe recipe*/)
+        //{
+        //    //recipe.Ingredients.Add(string.Empty);
+        //    return new PartialViewResult
+        //    {
+        //        ViewName = "_Ingredient",
+        //        ViewData = new ViewDataDictionary<Recipe>(ViewData, new Recipe() { Id = "1", Ingredients = new List<string> { "a", "b", "c" } })
+        //    };
+        //}
 
         public IActionResult OnGet(string recipeId)
         {

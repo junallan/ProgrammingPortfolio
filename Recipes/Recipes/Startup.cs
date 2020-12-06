@@ -28,6 +28,8 @@ namespace Recipes
             services.AddSingleton<Recipes.Data.IRecipeData, Recipes.Data.InMemoryRecipeData>();
             services.AddRazorPages();
             services.AddMvc().AddRazorPagesOptions(options => { options.Conventions.AddPageRoute("/MenuRecipes/List", ""); });
+            //services.AddMvc();
+            //services.AddAntiforgery(options => options.HeaderName = "XSRF-TOKEN");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
