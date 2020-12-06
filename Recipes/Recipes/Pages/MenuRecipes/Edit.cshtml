@@ -41,7 +41,10 @@
                 {
                     <tr>
                         <td>@ingredient</td>
-                    </tr>
+                        <td>
+                            <button class="btn btn-primary edit-button" data-id="@ingredient">Edit</button>
+                        </td>
+                     </tr>
                 }
             </tbody>
         </table>
@@ -78,7 +81,14 @@
             });*@
         });
 
-        $("#btnAddIngredient").on('click', function () {
+    $('.edit-button').click(function (e) {
+        e.preventDefault();
+        alert(this.dataset.id);
+    })
+
+
+    
+    $("#btnAddIngredient").on('click', function () {
             let recipe = $('#form').serialize();
             //recipe.Name = 'Test';
             //recipe.Ingredients = ['aa', 'bb', 'cc'];
