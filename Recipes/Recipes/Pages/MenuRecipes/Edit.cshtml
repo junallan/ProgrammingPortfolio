@@ -83,10 +83,34 @@
 
     $('.edit-button').click(function (e) {
         e.preventDefault();
-        alert(this.dataset.id);
+        let id = this.dataset.id;
+
+        $(this).closest('tr').find('td').each(function (index, value) {
+            if (index < inputNames.length) {
+                let text = $(value).text().trim();
+                let name = inputNames[index];
+                $(value).append('<input type="text" name="' + name + '" id="' + name + '" class="form-control" value="' + text + '" />');
+                $(value).find('span').remove();
+            }
+            else {
+                alert('On Save');
+                $(value).find('button').remove();
+                $(value).append('<input type="submit" value="Save" name="Save" class="btn btn-primary" />');
+                $(value).append('<input type="hidden" name="Id" value="' + id + '" />');
+            }
+        });
     })
 
 
+    var inputNames = [];
+    $('.table > thead > tr > th').each(function (index, value) {
+        alert(index);
+        alert($(value).text().trim());
+        
+        if ($(value).text().trim() != "") {
+            inputNames.push($(value).text().trim());
+        }
+    });
     
     $("#btnAddIngredient").on('click', function () {
             let recipe = $('#form').serialize();
