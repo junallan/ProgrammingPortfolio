@@ -34,17 +34,21 @@
             <thead>
                 <tr>
                     <th>Ingredients</th>
-                </tr>
+                    @*<th>Edit</th>
+                    <th>Delete</th>*@
+               </tr>
             </thead>
             <tbody>
                 @foreach (var ingredient in Model.Recipe.Ingredients)
                 {
-                    <tr>
-                        <td>@ingredient</td>
-                        <td>
-                            <button class="btn btn-primary edit-button" data-id="@ingredient">Edit</button>
-                        </td>
-                     </tr>
+                <tr>
+                    <td>@ingredient</td>
+                    @*<td><a href="" class="editor_edit">Edit</a></td>
+                    <td><a href="" class="editor_remove">Delete</a></td>*@
+                    <td>
+                        <button class="btn btn-primary edit-button" data-id="@ingredient">Edit</button>
+                    </td>
+                </tr>
                 }
             </tbody>
         </table>
@@ -67,8 +71,9 @@
 
 @section Scripts{
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-<script type="text/javascript">
+<script type="text/javascript">  
     $(document).ready(function () {
+
         $('#tableIngredients').DataTable();
             @*$('#tableIngredients').DataTable({
                 "processing": true,
@@ -79,13 +84,44 @@
                     headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() }
                 }
             });*@
-        });
+    });
+
+
+    function EditIngredient() {
+        //e.preventDefault();
+        //alert($("#Ingredients").val());
+    }
+    
+
+    //$('#tableIngredients').on('click', 'a.editor_edit', function (e) {
+    //    e.preventDefault();
+
+    //    alert('edit');
+
+    //    //editor.editor($(this).closest('tr'), {
+    //    //    title: 'Edit record',
+    //    //    buttons: 'Update'
+    //    //});
+    //});
+
+    //var ingredientsTable = $('#tableIngredients').DataTable();
+
+    //$('#tableIngredients').on('click', 'tbody tr', function () {
+    //    $('#tableIngredients').DataTable().row(this).edit({
+    //        buttons: [
+    //            { label: 'Cancel', fn: function () { this.close(); } },
+    //              'Edit'
+    //        ]
+    //    });
+    //}); 
 
     $('.edit-button').click(function (e) {
         e.preventDefault();
         let id = this.dataset.id;
 
         $(this).closest('tr').find('td').each(function (index, value) {
+            //alert(id);
+            //alert(index);
             if (index < inputNames.length) {
                 let text = $(value).text().trim();
                 let name = inputNames[index];
@@ -93,10 +129,10 @@
                 $(value).find('span').remove();
             }
             else {
-                alert('On Save');
+                //alert('On Save');
                 $(value).find('button').remove();
-                $(value).append('<input type="submit" value="Save" name="Save" class="btn btn-primary" />');
-                $(value).append('<input type="hidden" name="Id" value="' + id + '" />');
+                $(value).append('<input type="submit" value="Save" onclick="return EditIngredient();" name="Save" class="btn btn-primary" />');
+                $(value).append('<input type="hidden" name="IngredientOriginal" value="' + id + '" />');
             }
         });
     })
@@ -104,9 +140,6 @@
 
     var inputNames = [];
     $('.table > thead > tr > th').each(function (index, value) {
-        alert(index);
-        alert($(value).text().trim());
-        
         if ($(value).text().trim() != "") {
             inputNames.push($(value).text().trim());
         }

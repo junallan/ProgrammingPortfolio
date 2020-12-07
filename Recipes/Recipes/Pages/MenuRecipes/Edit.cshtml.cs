@@ -70,6 +70,18 @@ namespace Recipes.Pages.MenuRecipes
         //    };
         //}
 
+        public IActionResult OnPost(string recipeId, string IngredientOriginal, string Ingredients)
+        {
+            RetrieveRecipe(recipeId);
+            Categories = this.categoryData.GetAll().Select(c => new SelectListItem { Value = c.Id, Text = c.Name }).ToList();
+         
+           
+           var ingredientEditedIndex = Recipe.Ingredients.FindIndex(ingredient => ingredient == IngredientOriginal);      
+            Recipe.Ingredients[ingredientEditedIndex] = Ingredients;
+      
+            return Page();
+        }
+         
         public IActionResult OnGet(string recipeId)
         {
             RetrieveRecipe(recipeId);
