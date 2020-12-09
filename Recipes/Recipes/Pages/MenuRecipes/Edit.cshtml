@@ -87,9 +87,10 @@
     });
 
 
-    function EditIngredient() {
+    function UndoIngredientUpdate() {
         //e.preventDefault();
         //alert($("#Ingredients").val());
+        location.href = "";
     }
     
 
@@ -131,7 +132,8 @@
             else {
                 //alert('On Save');
                 $(value).find('button').remove();
-                $(value).append('<input type="submit" value="Save" onclick="return EditIngredient();" name="Save" class="btn btn-primary" />');
+                $(value).append('<input type="submit" value="Save" name="Save" class="btn btn-primary" />');
+                $(value).append('&nbsp;<input type="button" value="Cancel" onclick="UndoIngredientUpdate();" name="Cancel" class="btn btn-primary" />');
                 $(value).append('<input type="hidden" name="IngredientOriginal" value="' + id + '" />');
             }
         });
