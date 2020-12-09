@@ -20,8 +20,8 @@
         @*<div id="ingredientItemsContainer">
                 <partial name="_Ingredient" model="Model.Recipe" />
             </div>*@
-        <div id="testDiv"></div>
-        <input class="btn btn-default" type="button" id="btnAddIngredient" value="Add ingredient" />
+        @*<div id="testDiv"></div>*@
+  
 
         <ul style="list-style-type:disc">
     
@@ -51,6 +51,16 @@
                 </tr>
                 }
             </tbody>
+            <tfoot>
+                <tr>
+                    <td>
+                        <input type="text" id="IngredientToAdd" class="form-control" />
+                    </td>
+                    <td>
+                        <input class="btn btn-default" type="button" id="btnAddIngredient" value="Add ingredient" onclick="AddIngredient()" />
+                    </td>
+                </tr>
+            </tfoot>
         </table>
         @*<label asp-for="Recipe.Directions"></label>
             <ol>
@@ -71,7 +81,8 @@
 
 @section Scripts{
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-<script type="text/javascript">  
+<script type="text/javascript">
+
     $(document).ready(function () {
 
         $('#tableIngredients').DataTable();
@@ -87,12 +98,28 @@
     });
 
 
-    function UndoIngredientUpdate() {
-        //e.preventDefault();
+    function UndoUpdateIngredient() {
+        //e.preventtDefault();
         //alert($("#Ingredients").val());
         location.href = "";
     }
-    
+
+    function AddIngredient() {
+        let ingredientToAdd = $("#IngredientToAdd").val();
+        //alert($("#IngredientToAdd").val());
+         $.ajax({
+                type: "GET",
+                //dataType:'json',
+                data: { ingredientToAdd },
+                //traditional: true,
+                contentType: "application/json; charset=utf-8",
+                url: '@Url.Page("Edit","AddIngredient")',
+                success: function (result) {
+                    alert(result);
+                }
+            });
+    }
+
 
     //$('#tableIngredients').on('click', 'a.editor_edit', function (e) {
     //    e.preventDefault();
@@ -114,7 +141,7 @@
     //              'Edit'
     //        ]
     //    });
-    //}); 
+    //});
 
     $('.edit-button').click(function (e) {
         e.preventDefault();
@@ -133,7 +160,7 @@
                 //alert('On Save');
                 $(value).find('button').remove();
                 $(value).append('<input type="submit" value="Save" name="Save" class="btn btn-primary" />');
-                $(value).append('&nbsp;<input type="button" value="Cancel" onclick="UndoIngredientUpdate();" name="Cancel" class="btn btn-primary" />');
+                $(value).append('&nbsp;<input type="button" value="Cancel" onclick="UndoUpdateIngredient();" name="Cancel" class="btn btn-primary" />');
                 $(value).append('<input type="hidden" name="IngredientOriginal" value="' + id + '" />');
             }
         });
@@ -146,8 +173,8 @@
             inputNames.push($(value).text().trim());
         }
     });
-    
-    $("#btnAddIngredient").on('click', function () {
+
+    @*$("#btnAddIngredient").on('click', function () {
             let recipe = $('#form').serialize();
             //recipe.Name = 'Test';
             //recipe.Ingredients = ['aa', 'bb', 'cc'];
@@ -165,6 +192,6 @@
                     $("#testDiv").html(partialView)
                 }
             });
-        });
+        });*@
 </script>
 }

@@ -70,6 +70,13 @@ namespace Recipes.Pages.MenuRecipes
         //    };
         //}
 
+
+    
+        public IActionResult OnGetAddIngredient(string IngredientToAdd)
+        {
+            return Page();
+        }
+    
         public IActionResult OnPost(string recipeId, string IngredientOriginal, string Ingredients)
         {
             RetrieveRecipe(recipeId);
