@@ -72,8 +72,12 @@ namespace Recipes.Pages.MenuRecipes
 
 
     
-        public IActionResult OnGetAddIngredient(string IngredientToAdd)
+        public IActionResult OnGetAddIngredient(string recipeId, string ingredientToAdd)
         {
+            RetrieveRecipe(recipeId);
+
+            Recipe.Ingredients.Add(ingredientToAdd);
+            
             return Page();
         }
     
@@ -83,8 +87,13 @@ namespace Recipes.Pages.MenuRecipes
             Categories = this.categoryData.GetAll().Select(c => new SelectListItem { Value = c.Id, Text = c.Name }).ToList();
          
            
-           var ingredientEditedIndex = Recipe.Ingredients.FindIndex(ingredient => ingredient == IngredientOriginal);      
-            Recipe.Ingredients[ingredientEditedIndex] = Ingredients;
+           var ingredientEditedIndex = Recipe.Ingredients.FindIndex(ingredient => ingredient == IngredientOriginal); 
+            
+            if(ingredientEditedIndex >= 0)
+            {
+                Recipe.Ingredients[ingredientEditedIndex] = Ingredients;
+            }
+           
       
             return Page();
         }

@@ -17,11 +17,6 @@
         <label asp-for="Recipe.Servings"></label>
         <input asp-for="Recipe.Servings" class="form-control" type="number" min="1" />
         <span class="text-danger" asp-validation-for="Recipe.Servings"></span>
-        @*<div id="ingredientItemsContainer">
-                <partial name="_Ingredient" model="Model.Recipe" />
-            </div>*@
-        @*<div id="testDiv"></div>*@
-  
 
         <ul style="list-style-type:disc">
     
@@ -34,8 +29,6 @@
             <thead>
                 <tr>
                     <th>Ingredients</th>
-                    @*<th>Edit</th>
-                    <th>Delete</th>*@
                </tr>
             </thead>
             <tbody>
@@ -84,17 +77,7 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-
         $('#tableIngredients').DataTable();
-            @*$('#tableIngredients').DataTable({
-                "processing": true,
-                "serverSide": true,
-                "ajax": {
-                    url: '@Url.Page("Edit","AddIngredientItem")',
-                    type: 'POST',
-                    headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() }
-                }
-            });*@
     });
 
 
@@ -110,46 +93,25 @@
          $.ajax({
                 type: "GET",
                 //dataType:'json',
-                data: { ingredientToAdd },
+                data: { recipeId: `@Model.Recipe.Id`, ingredientToAdd: ingredientToAdd },
                 //traditional: true,
                 contentType: "application/json; charset=utf-8",
                 url: '@Url.Page("Edit","AddIngredient")',
-                success: function (result) {
-                    alert(result);
+             success: function (result) {
+                 location.href = "";
+                    //alert(result);
                 }
             });
     }
 
 
-    //$('#tableIngredients').on('click', 'a.editor_edit', function (e) {
-    //    e.preventDefault();
-
-    //    alert('edit');
-
-    //    //editor.editor($(this).closest('tr'), {
-    //    //    title: 'Edit record',
-    //    //    buttons: 'Update'
-    //    //});
-    //});
-
-    //var ingredientsTable = $('#tableIngredients').DataTable();
-
-    //$('#tableIngredients').on('click', 'tbody tr', function () {
-    //    $('#tableIngredients').DataTable().row(this).edit({
-    //        buttons: [
-    //            { label: 'Cancel', fn: function () { this.close(); } },
-    //              'Edit'
-    //        ]
-    //    });
-    //});
-
+  
     $('.edit-button').click(function (e) {
         e.preventDefault();
-        let id = this.dataset.id;
 
+        let id = this.dataset.id;
+       
         $(this).closest('tr').find('td').each(function (index, value) {
-            //alert(id);
-            //alert(index);
             if (index < inputNames.length) {
                 let text = $(value).text().trim();
                 let name = inputNames[index];
