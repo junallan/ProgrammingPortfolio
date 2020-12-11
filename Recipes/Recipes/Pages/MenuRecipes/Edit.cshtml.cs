@@ -31,6 +31,9 @@ namespace Recipes.Pages.MenuRecipes
             Editing
         }
 
+        [BindProperty]
+        public string Message { get; set; }
+
         public EditModel(IRecipeData recipeData, ICategoryData categoryData, IHtmlHelper htmlHelper)
         {
             this.recipeData = recipeData;
@@ -39,51 +42,26 @@ namespace Recipes.Pages.MenuRecipes
         }
 
 
-        public PartialViewResult OnPostAddIngredientItem()
-        {
-            //recipe.Ingredients.Add(string.Empty);
-            return new PartialViewResult
-            {
-                ViewName = "_Ingredient",
-                ViewData = new ViewDataDictionary<Recipe>(ViewData, new Recipe() { Id = "1", Ingredients = new List<string> { "a", "b", "c" } })
-            };
-        }
 
-
-        public PartialViewResult OnGetAddIngredientItem(/*[Bind("Ingredients")]*//*Recipe recipe*/ List<string> test)
-        {
-            //recipe.Ingredients.Add(string.Empty);
-            return new PartialViewResult
-            {
-                ViewName = "_Ingredient",
-                ViewData = new ViewDataDictionary<Recipe>(ViewData, new Recipe() { Id="1", Ingredients = new List<string> { "a", "b", "c" } })
-            };
-        }
-
-        //public IActionResult OnPostAddIngredientItem(/*[Bind("Ingredients")] Recipe recipe*/)
-        //{
-        //    //recipe.Ingredients.Add(string.Empty);
-        //    return new PartialViewResult
-        //    {
-        //        ViewName = "_Ingredient",
-        //        ViewData = new ViewDataDictionary<Recipe>(ViewData, new Recipe() { Id = "1", Ingredients = new List<string> { "a", "b", "c" } })
-        //    };
-        //}
-
-
-    
         public IActionResult OnGetAddIngredient(string recipeId, string ingredientToAdd)
-        {
-            RetrieveRecipe(recipeId);
+        { 
+            RetrieveRecipe(recipeId, string.Empty);
 
-            Recipe.Ingredients.Add(ingredientToAdd);
-            
-            return Page();
+            if (Recipe.Ingredients.Contains(ingredientToAdd))
+            {
+                Message = $"Ingredient ({ingredientToAdd}) was not added.  It already exists.";
+            }
+            else
+            {
+                Recipe.Ingredients.Add(ingredientToAdd);
+                Message = $"Ingredient ({ingredientToAdd}) added.";
+            }
+            return new JsonResult(Message);
         }
     
         public IActionResult OnPost(string recipeId, string IngredientOriginal, string Ingredients)
         {
-            RetrieveRecipe(recipeId);
+            RetrieveRecipe(recipeId, string.Empty);
             Categories = this.categoryData.GetAll().Select(c => new SelectListItem { Value = c.Id, Text = c.Name }).ToList();
          
            
@@ -98,15 +76,16 @@ namespace Recipes.Pages.MenuRecipes
             return Page();
         }
          
-        public IActionResult OnGet(string recipeId)
+        public IActionResult OnGet(string recipeId, string message)
         {
-            RetrieveRecipe(recipeId);
+            RetrieveRecipe(recipeId, message);
             Categories = this.categoryData.GetAll().Select(c => new SelectListItem { Value = c.Id, Text = c.Name }).ToList();
+           // Message = "Test";
             //CategoryId = Recipe.CategoryId;
             return Page();
         }
 
-        private void RetrieveRecipe(string recipeId)
+        private void RetrieveRecipe(string recipeId, string message)
         {
             if (string.IsNullOrEmpty(recipeId))
             {
@@ -119,6 +98,7 @@ namespace Recipes.Pages.MenuRecipes
             {
                 Recipe = recipeData.GetById(recipeId);
                 FormTitle = $"{Action.Editing.ToString()} {Recipe.Name}";
+                Message = message;
             }
         }
 

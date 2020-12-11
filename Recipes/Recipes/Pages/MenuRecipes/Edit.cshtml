@@ -1,4 +1,4 @@
-﻿@page "{recipeId?}"
+﻿@page "{recipeId?}/{message?}"
 @model Recipes.Pages.MenuRecipes.EditModel
 @{
 }
@@ -6,7 +6,7 @@
 <h1>@Model.FormTitle</h1>
 @Html.AntiForgeryToken()
 <form id="form" method="post">
-    <input type="hidden" asp-for="Recipe.Id" />
+    <input type="hidden" asp-for="Recipe.Id" />   
     <div class="form-group">
         <label asp-for="Recipe.Name"></label>
         <input asp-for="Recipe.Name" class="form-control" />
@@ -77,6 +77,7 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
+        alert(`@Model.Message`);
         $('#tableIngredients').DataTable();
     });
 
@@ -92,25 +93,25 @@
         //alert($("#IngredientToAdd").val());
          $.ajax({
                 type: "GET",
-                //dataType:'json',
                 data: { recipeId: `@Model.Recipe.Id`, ingredientToAdd: ingredientToAdd },
-                //traditional: true,
                 contentType: "application/json; charset=utf-8",
                 url: '@Url.Page("Edit","AddIngredient")',
              success: function (result) {
-                 location.href = "";
-                    //alert(result);
+                 //alert('location.href');
+                 //alert(result);
+                 @*location.href = "/MenuRecipes/Edit?recipeId=@Model.Recipe.Id&message="+result;*@
+                   location.href = "/MenuRecipes/Edit/@Model.Recipe.Id/" + result;
                 }
             });
     }
 
 
-  
+
     $('.edit-button').click(function (e) {
         e.preventDefault();
 
         let id = this.dataset.id;
-       
+
         $(this).closest('tr').find('td').each(function (index, value) {
             if (index < inputNames.length) {
                 let text = $(value).text().trim();
@@ -119,7 +120,6 @@
                 $(value).find('span').remove();
             }
             else {
-                //alert('On Save');
                 $(value).find('button').remove();
                 $(value).append('<input type="submit" value="Save" name="Save" class="btn btn-primary" />');
                 $(value).append('&nbsp;<input type="button" value="Cancel" onclick="UndoUpdateIngredient();" name="Cancel" class="btn btn-primary" />');
