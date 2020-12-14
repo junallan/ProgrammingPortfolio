@@ -1,4 +1,6 @@
 ﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDbCRUD;
 using Recipes.Core;
 using System;
 using System.Collections.Generic;
@@ -14,51 +16,70 @@ namespace Recipes.Data
         Recipe GetById(string Id);
     }
 
-    //public class MongoCategoryData : ICategoryData
-    //{
-    //    private MongoDatabase _db;
-    //    public MongoCategoryData()
-    //    {
-    //        _db = new MongoDatabase("Recipes");
-    //    }
+    public class RecipesModel
+    {
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public int CookTimeMinutes { get; set; }
+        public int Servings { get; set; }
+        public List<string> Ingredients { get; set; }
+        public List<string> Directions { get; set; }
+        //[BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string CategoryId { get; set; }
+    }
 
-    //    public IEnumerable<Category> GetAll()
-    //    {
-    //        var recs = _db.LoadRecords<CategoriesModel>("Categories");
-    //        return recs.Select(x => new Category { Id = x.Id, Name = x.Name });
-    //    }
+    public class MongoRecipeData : IRecipeData
+    {
+        private MongoDatabase _db;
+        public MongoRecipeData()
+        {
+            _db = new MongoDatabase("Recipes");
+        }
 
-    //    public Category GetById(string Id)
-    //    {
-    //        var rec = _db.LoadRecordById<Category>("Categories", Id);
-    //        return rec;
-    //    }
+        public IEnumerable<Recipe> GetAll()
+        {
+            var recs = _db.LoadRecords<RecipesModel>("Recipes");
+            return recs.Select(x => new Recipe { Id = x.Id, Name = x.Name, CookTimeMinutes = x.CookTimeMinutes, Servings = x.Servings, Ingredients = x.Ingredients, Directions = x.Directions, CategoryId = x.CategoryId });
+        }
 
-    //    public Category Update(Category updatedCategory)
-    //    {
-    //        var rec = GetById(updatedCategory.Id);
-    //        rec.Name = updatedCategory.Name;
+        public Recipe GetById(string Id)
+        {
+            return null;
+            //var rec = _db.LoadRecordById<Category>("Categories", Id);
+            //return rec;
+        }
 
-    //        _db.UpsertRecord<Category>("Categories", rec.Id, rec);
+        public Recipe Update(Category updatedCategory)
+        {
+            return null;
+            //var rec = GetById(updatedCategory.Id);
+            //rec.Name = updatedCategory.Name;
 
-    //        rec = GetById(updatedCategory.Id);
-    //        return rec;
-    //    }
+            //_db.UpsertRecord<Category>("Categories", rec.Id, rec);
 
-    //    Category ICategoryData.Add(Category newCategory)
-    //    {
-    //        newCategory.Id = ObjectId.GenerateNewId().ToString();
-    //        var categoryAdded = _db.UpsertRecord<Category>("Categories", newCategory.Id, newCategory);
-    //        return categoryAdded;
-    //    }
+            //rec = GetById(updatedCategory.Id);
+            //return rec;
+        }
 
-    //    public Category Delete(string id)
-    //    {
-    //        var category = GetById(id);
-    //        var isDeletedCategory = _db.DeleteRecord<Category>("Categories", id);
-    //        return isDeletedCategory ? category : null;
-    //    }
-    //}
+        Recipe IRecipeData.Add(Recipe newRecipe)
+        {
+            return null;
+            //newCategory.Id = ObjectId.GenerateNewId().ToString();
+            //var categoryAdded = _db.UpsertRecord<Category>("Categories", newCategory.Id, newCategory);
+            //return categoryAdded;
+        }
+
+        public Recipe Delete(string id)
+        {
+            return null;
+            //var category = GetById(id);
+            //var isDeletedCategory = _db.DeleteRecord<Category>("Categories", id);
+            //return isDeletedCategory ? category : null;
+        }
+    }
 
     public class InMemoryRecipeData : IRecipeData
     {

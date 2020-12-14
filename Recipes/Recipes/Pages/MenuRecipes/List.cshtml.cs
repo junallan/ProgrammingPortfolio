@@ -21,6 +21,7 @@ namespace Recipes.Pages.MenuRecipes
         }
         public void OnGet()
         {
+            //TODO: Next implement get by id recipe interface method
             Recipes = recipeData.GetAll();
         }
     }

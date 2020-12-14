@@ -25,7 +25,8 @@ namespace Recipes
         {
             //services.AddSingleton<Recipes.Data.ICategoryData, Recipes.Data.InMemoryCategoryData>();
             services.AddSingleton<Recipes.Data.ICategoryData, Recipes.Data.MongoCategoryData>();
-            services.AddSingleton<Recipes.Data.IRecipeData, Recipes.Data.InMemoryRecipeData>();
+            //services.AddSingleton<Recipes.Data.IRecipeData, Recipes.Data.InMemoryRecipeData>();
+            services.AddSingleton<Recipes.Data.IRecipeData, Recipes.Data.MongoRecipeData>();
             services.AddRazorPages();
             services.AddMvc().AddRazorPagesOptions(options => { options.Conventions.AddPageRoute("/MenuRecipes/List", ""); });
             //services.AddMvc();
