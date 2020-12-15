@@ -54,6 +54,9 @@ namespace Recipes.Pages.MenuRecipes
             else
             {
                 Recipe.Ingredients.Add(ingredientToAdd);
+
+                Recipe = recipeData.Update(Recipe);
+
                 Message = $"Ingredient ({ingredientToAdd}) added.";
             }
             return new JsonResult(Message);

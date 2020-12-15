@@ -14,6 +14,8 @@ namespace Recipes.Data
         Recipe Add(Recipe newRecipe);
         IEnumerable<Recipe> GetAll();
         Recipe GetById(string Id);
+        Recipe Update(Recipe updatedRecipe);
+
     }
 
     public class RecipesModel
@@ -47,29 +49,28 @@ namespace Recipes.Data
 
         public Recipe GetById(string Id)
         {
-            return null;
-            //var rec = _db.LoadRecordById<Category>("Categories", Id);
-            //return rec;
+            var rec = _db.LoadRecordById<Recipe>("Recipes", Id);
+            return rec;
         }
 
-        public Recipe Update(Category updatedCategory)
+        public Recipe Update(Recipe updatedRecipe)
         {
-            return null;
-            //var rec = GetById(updatedCategory.Id);
-            //rec.Name = updatedCategory.Name;
+            //return null;
+            var rec = GetById(updatedRecipe.Id);
+            rec.Ingredients = updatedRecipe.Ingredients;
 
-            //_db.UpsertRecord<Category>("Categories", rec.Id, rec);
+            _db.UpsertRecord<Recipe>("Recipes", rec.Id, rec);
 
-            //rec = GetById(updatedCategory.Id);
-            //return rec;
+            rec = GetById(updatedRecipe.Id);
+            return rec;
         }
 
         Recipe IRecipeData.Add(Recipe newRecipe)
         {
-            return null;
-            //newCategory.Id = ObjectId.GenerateNewId().ToString();
-            //var categoryAdded = _db.UpsertRecord<Category>("Categories", newCategory.Id, newCategory);
-            //return categoryAdded;
+            //return null;
+            newRecipe.Id = ObjectId.GenerateNewId().ToString();
+            var recipeAdded = _db.UpsertRecord<Recipe>("Recipes", newRecipe.Id, newRecipe);
+            return recipeAdded;
         }
 
         public Recipe Delete(string id)
@@ -144,6 +145,11 @@ namespace Recipes.Data
         public Recipe GetById(string Id)
         {
             return recipes.Where(x => x.Id == Id).SingleOrDefault();
+        }
+
+        public Recipe Update(Recipe updatedRecipe)
+        {
+            throw new NotImplementedException();
         }
 
         Recipe IRecipeData.Add(Recipe newRecipe)

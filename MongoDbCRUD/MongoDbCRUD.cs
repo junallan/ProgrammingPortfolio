@@ -64,7 +64,7 @@ namespace MongoDbCRUD
                                 filter,
                                 record,
                                 new ReplaceOptions { IsUpsert = true }
-                        ); ;
+                        ); 
 
             return LoadRecordById<T>(table, id);
         }
