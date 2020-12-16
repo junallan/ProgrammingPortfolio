@@ -57,6 +57,11 @@ namespace Recipes.Data
         {
             //return null;
             var rec = GetById(updatedRecipe.Id);
+
+            rec.Name = updatedRecipe.Name;
+            rec.CookTimeMinutes = updatedRecipe.CookTimeMinutes;
+            rec.Servings = updatedRecipe.Servings;
+            rec.CategoryId = updatedRecipe.CategoryId;
             rec.Ingredients = updatedRecipe.Ingredients;
 
             _db.UpsertRecord<Recipe>("Recipes", rec.Id, rec);

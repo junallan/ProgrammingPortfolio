@@ -62,20 +62,31 @@ namespace Recipes.Pages.MenuRecipes
             return new JsonResult(Message);
         }
     
-        public IActionResult OnPost(string recipeId, string IngredientOriginal, string Ingredients)
+        public IActionResult OnPost(string IngredientOriginal, string Ingredients, Recipe recipe, string categoryId)
         {
-            RetrieveRecipe(recipeId, string.Empty);
+            RetrieveRecipe(recipe.Id, string.Empty);
+            Recipe.Name = recipe.Name;        
+            Recipe.CookTimeMinutes = recipe.CookTimeMinutes;
+            Recipe.Servings = recipe.Servings;
+            Recipe.CategoryId = categoryId;
+
             Categories = this.categoryData.GetAll().Select(c => new SelectListItem { Value = c.Id, Text = c.Name }).ToList();
-         
-           
-           var ingredientEditedIndex = Recipe.Ingredients.FindIndex(ingredient => ingredient == IngredientOriginal); 
-            
-            if(ingredientEditedIndex >= 0)
+                  
+            if(IngredientOriginal == null || Ingredients == null)
             {
-                Recipe.Ingredients[ingredientEditedIndex] = Ingredients;
+                Recipe = recipeData.Update(Recipe);
+                Message = "Recipe updated";
             }
-           
-      
+            else
+            {
+                var ingredientEditedIndex = Recipe.Ingredients.FindIndex(ingredient => ingredient == IngredientOriginal);
+
+                if (ingredientEditedIndex >= 0)
+                {
+                    Recipe.Ingredients[ingredientEditedIndex] = Ingredients;
+                }
+            }
+
             return Page();
         }
          
