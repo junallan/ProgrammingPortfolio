@@ -14,64 +14,94 @@
             @Model.Message
         </div>
     }
-    <div class="form-group">
-        <label asp-for="Recipe.Name"></label>
-        <input asp-for="Recipe.Name" class="form-control" />
-        <span class="text-danger" asp-validation-for="Recipe.Name"></span>
-        <label asp-for="Recipe.CookTimeMinutes"></label>
-        <input asp-for="Recipe.CookTimeMinutes" class="form-control" pattern="[0-9]{10}" />
-        <span class="text-danger" asp-validation-for="Recipe.CookTimeMinutes"></span>
-        <label asp-for="Recipe.Servings"></label>
-        <input asp-for="Recipe.Servings" class="form-control" type="number" min="1" />
-        <span class="text-danger" asp-validation-for="Recipe.Servings"></span>
+<div class="form-group">
+    <label asp-for="Recipe.Name"></label>
+    <input asp-for="Recipe.Name" class="form-control" />
+    <span class="text-danger" asp-validation-for="Recipe.Name"></span>
+    <label asp-for="Recipe.CookTimeMinutes"></label>
+    <input asp-for="Recipe.CookTimeMinutes" class="form-control" pattern="[0-9]{10}" />
+    <span class="text-danger" asp-validation-for="Recipe.CookTimeMinutes"></span>
+    <label asp-for="Recipe.Servings"></label>
+    <input asp-for="Recipe.Servings" class="form-control" type="number" min="1" />
+    <span class="text-danger" asp-validation-for="Recipe.Servings"></span>
 
-        <ul style="list-style-type:disc">
+    <ul style="list-style-type:disc">
 
-            @*@foreach (var ingredient in Model.Recipe.Ingredients)
-                {
-                    <li>@ingredient</li>
-                }*@
-        </ul>
-        <table id="tableIngredients" class="table">
-            <thead>
+        @*@foreach (var ingredient in Model.Recipe.Ingredients)
+            {
+                <li>@ingredient</li>
+            }*@
+    </ul>
+    <table id="tableIngredients" class="table">
+        <thead>
+            <tr>
+                <th>Ingredients</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ingredient in Model.Recipe.Ingredients)
+            {
                 <tr>
-                    <th>Ingredients</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var ingredient in Model.Recipe.Ingredients)
-                {
-                    <tr>
-                        <td>@ingredient</td>
-                        @*<td><a href="" class="editor_edit">Edit</a></td>
-                            <td><a href="" class="editor_remove">Delete</a></td>*@
-                        <td>
-                            <button class="btn btn-primary edit-button" data-id="@ingredient">Edit</button>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-            <tfoot>
-                <tr>
+                    <td>@ingredient</td>
+                    @*<td><a href="" class="editor_edit">Edit</a></td>
+                        <td><a href="" class="editor_remove">Delete</a></td>*@
                     <td>
-                        <input type="text" id="IngredientToAdd" class="form-control" />
-                    </td>
-                    <td>
-                        <input class="btn btn-default" type="button" id="btnAddIngredient" value="Add ingredient" onclick="AddIngredient()" />
+                        <button class="btn btn-primary edit-button" data-id="@ingredient" data-listtoedit="IngredientsList">Edit</button>
                     </td>
                 </tr>
-            </tfoot>
-        </table>
-        @*<label asp-for="Recipe.Directions"></label>
-            <ol>
-                @foreach (var direction in Model.Recipe.Directions)
-                {
-                    <li>@direction</li>
-                }
-            </ol>*@
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>
+                    <input type="text" id="IngredientToAdd" class="form-control" />
+                </td>
+                <td>
+                    <input class="btn btn-default" type="button" id="btnAddIngredient" value="Add Ingredient" onclick="AddIngredient()" />
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    <table id="tableDirections" class="table">
+        <thead>
+            <tr>
+                <th>Directions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var direction in Model.Recipe.Directions)
+            {
+                <tr>
+                    <td>@direction</td>
+                    @*<td><a href="" class="editor_edit">Edit</a></td>
+                        <td><a href="" class="editor_remove">Delete</a></td>*@
+                    <td>
+                        <button class="btn btn-primary edit-button" data-id="@direction" data-listtoedit="DirectionsList">Edit</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>
+                    <input type="text" id="DirectionToAdd" class="form-control" />
+                </td>
+                <td>
+                    <input class="btn btn-default" type="button" id="btnAddDirection" value="Add Direction" onclick="AddDirection()" />
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    @*<label asp-for="Recipe.Directions"></label>
+        <ol>
+            @foreach (var direction in Model.Recipe.Directions)
+            {
+                <li>@direction</li>
+            }
+        </ol>*@
 
-        <select id="CategoryId" name="CategoryId" asp-for="Recipe.CategoryId" asp-items="Model.Categories"></select>
-    </div>
+    <select id="CategoryId" name="CategoryId" asp-for="Recipe.CategoryId" asp-items="Model.Categories"></select>
+</div>
 
     <button type="submit" class="btn btn-primary">Save</button>
 </form>
@@ -86,10 +116,11 @@
     $(document).ready(function () {
         //alert(`@Model.Message`);
         $('#tableIngredients').DataTable();
+        $('#tableDirections').DataTable();
     });
 
 
-    function UndoUpdateIngredient() {
+    function UndoUpdateList() {
         //e.preventtDefault();
         //alert($("#Ingredients").val());
         location.href = "";
@@ -112,12 +143,33 @@
             });
     }
 
+      function AddDirection() {
+        let directionToAdd = $("#DirectionToAdd").val();
+        //alert($("#IngredientToAdd").val());
+         $.ajax({
+                type: "GET",
+                data: { recipeId: `@Model.Recipe.Id`, directionToAdd: directionToAdd },
+                contentType: "application/json; charset=utf-8",
+                url: '@Url.Page("Edit","AddDirection")',
+             success: function (result) {
+                 //alert('location.href');
+                 //alert(result);
+                 @*location.href = "/MenuRecipes/Edit?recipeId=@Model.Recipe.Id&message="+result;*@
+                   location.href = "/MenuRecipes/Edit/@Model.Recipe.Id/" + result;
+                }
+            });
+    }
+
 
 
     $('.edit-button').click(function (e) {
         e.preventDefault();
 
+    
         let id = this.dataset.id;
+        let listtoedit = this.dataset.listtoedit;
+        //alert(listtoedit);
+        let inputNames = listtoedit === "IngredientsList" ? ["Ingredients"] : ["Directions"];
 
         $(this).closest('tr').find('td').each(function (index, value) {
             if (index < inputNames.length) {
@@ -129,38 +181,25 @@
             else {
                 $(value).find('button').remove();
                 $(value).append('<input type="submit" value="Save" name="Save" class="btn btn-primary" />');
-                $(value).append('&nbsp;<input type="button" value="Cancel" onclick="UndoUpdateIngredient();" name="Cancel" class="btn btn-primary" />');
-                $(value).append('<input type="hidden" name="IngredientOriginal" value="' + id + '" />');
+                $(value).append('&nbsp;<input type="button" value="Cancel" onclick="UndoUpdateList();" name="Cancel" class="btn btn-primary" />');
+
+               
+                if (listtoedit === "IngredientsList") {
+                    $(value).append('<input type="hidden" name="IngredientOriginal" value="' + id + '" />');
+                } else {
+                    $(value).append('<input type="hidden" name="DirectionOriginal" value="' + id + '" />');
+                }
+               
             }
         });
     })
 
 
-    var inputNames = [];
-    $('.table > thead > tr > th').each(function (index, value) {
-        if ($(value).text().trim() != "") {
-            inputNames.push($(value).text().trim());
-        }
-    });
-
-    @*$("#btnAddIngredient").on('click', function () {
-            let recipe = $('#form').serialize();
-            //recipe.Name = 'Test';
-            //recipe.Ingredients = ['aa', 'bb', 'cc'];
-            let test = ["aa", "bb", "cc"];
-            $.ajax({
-                type: "GET",
-                //dataType:'json',
-                data: { test },
-                traditional: true,
-                //data: { test },
-                contentType: "application/json; charset=utf-8",
-                url: '@Url.Page("Edit","AddIngredientItem")',//"/MenuRecipes/Edit?handler=AddIngredientItem",
-                success: function (partialView) {
-                    console.log("partialView: " + partialView);
-                    $("#testDiv").html(partialView)
-                }
-            });
-        });*@
+    //var inputNames = [];
+    //$('.table > thead > tr > th').each(function (index, value) {
+    //    if ($(value).text().trim() != "") {
+    //        inputNames.push($(value).text().trim());
+    //    }
+    //});
 </script>
 }

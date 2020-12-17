@@ -62,7 +62,7 @@ namespace Recipes.Pages.MenuRecipes
             return new JsonResult(Message);
         }
     
-        public IActionResult OnPost(string IngredientOriginal, string Ingredients, Recipe recipe, string categoryId)
+        public IActionResult OnPost(string IngredientOriginal, string Ingredients, string DirectionOriginal, string Directions, Recipe recipe, string categoryId)
         {
             RetrieveRecipe(recipe.Id, string.Empty);
             Recipe.Name = recipe.Name;        
@@ -72,18 +72,31 @@ namespace Recipes.Pages.MenuRecipes
 
             Categories = this.categoryData.GetAll().Select(c => new SelectListItem { Value = c.Id, Text = c.Name }).ToList();
                   
-            if(IngredientOriginal == null || Ingredients == null)
+            if(IngredientOriginal == null && Ingredients == null && DirectionOriginal == null && Directions == null)
             {
                 Recipe = recipeData.Update(Recipe);
                 Message = "Recipe updated";
             }
-            else
+            else if(IngredientOriginal != null || Ingredients != null)
             {
                 var ingredientEditedIndex = Recipe.Ingredients.FindIndex(ingredient => ingredient == IngredientOriginal);
 
                 if (ingredientEditedIndex >= 0)
                 {
                     Recipe.Ingredients[ingredientEditedIndex] = Ingredients;
+                    Recipe = recipeData.Update(Recipe);
+                    Message = "Ingredient updated";
+                }
+            }
+            else if (DirectionOriginal != null || Directions != null)
+            {
+                var directionEditedIndex = Recipe.Directions.FindIndex(direction => direction == DirectionOriginal);
+
+                if (directionEditedIndex >= 0)
+                {
+                    Recipe.Directions[directionEditedIndex] = Directions;
+                    Recipe = recipeData.Update(Recipe);
+                    Message = "Direction updated";
                 }
             }
 

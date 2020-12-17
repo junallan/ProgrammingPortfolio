@@ -63,6 +63,7 @@ namespace Recipes.Data
             rec.Servings = updatedRecipe.Servings;
             rec.CategoryId = updatedRecipe.CategoryId;
             rec.Ingredients = updatedRecipe.Ingredients;
+            rec.Directions = updatedRecipe.Directions;
 
             _db.UpsertRecord<Recipe>("Recipes", rec.Id, rec);
 
