@@ -65,40 +65,46 @@ namespace Recipes.Pages.MenuRecipes
         public IActionResult OnPost(string IngredientOriginal, string Ingredients, string DirectionOriginal, string Directions, Recipe recipe, string categoryId)
         {
             RetrieveRecipe(recipe.Id, string.Empty);
-            Recipe.Name = recipe.Name;        
-            Recipe.CookTimeMinutes = recipe.CookTimeMinutes;
-            Recipe.Servings = recipe.Servings;
-            Recipe.CategoryId = categoryId;
+            SetUpdatedRecipe(recipe);
 
-            Categories = this.categoryData.GetAll().Select(c => new SelectListItem { Value = c.Id, Text = c.Name }).ToList();
-                  
-            if(IngredientOriginal == null && Ingredients == null && DirectionOriginal == null && Directions == null)
+            bool isUpdatedMainRecipeInfo = IngredientOriginal == null && Ingredients == null && DirectionOriginal == null && Directions == null;
+            bool isUpdateIngredients = IngredientOriginal != null || Ingredients != null;
+            bool isUpdatedDirections = DirectionOriginal != null || Directions != null;
+
+            if(!(isUpdatedMainRecipeInfo || isUpdateIngredients || isUpdatedDirections))
             {
-                Recipe = recipeData.Update(Recipe);
-                Message = "Recipe updated";
+                Message = "Error in updating Recipe";
+                return Page();
             }
-            else if(IngredientOriginal != null || Ingredients != null)
+
+            if (isUpdateIngredients)
             {
                 var ingredientEditedIndex = Recipe.Ingredients.FindIndex(ingredient => ingredient == IngredientOriginal);
 
                 if (ingredientEditedIndex >= 0)
                 {
                     Recipe.Ingredients[ingredientEditedIndex] = Ingredients;
-                    Recipe = recipeData.Update(Recipe);
-                    Message = "Ingredient updated";
                 }
             }
-            else if (DirectionOriginal != null || Directions != null)
+            else if (isUpdatedDirections)
             {
                 var directionEditedIndex = Recipe.Directions.FindIndex(direction => direction == DirectionOriginal);
 
                 if (directionEditedIndex >= 0)
                 {
                     Recipe.Directions[directionEditedIndex] = Directions;
-                    Recipe = recipeData.Update(Recipe);
-                    Message = "Direction updated";
                 }
             }
+
+            Recipe = recipeData.Update(Recipe);
+
+            if(Recipe == null)
+            {
+                Message = "Error in updating Recipe";
+                return Page();
+            }
+
+            Message = isUpdatedMainRecipeInfo ? "Recipe updated" : isUpdateIngredients ? "Ingredient updated" : isUpdatedDirections ? "Direction updated" : "Error in updating Recipe";
 
             return Page();
         }
@@ -106,9 +112,7 @@ namespace Recipes.Pages.MenuRecipes
         public IActionResult OnGet(string recipeId, string message)
         {
             RetrieveRecipe(recipeId, message);
-            Categories = this.categoryData.GetAll().Select(c => new SelectListItem { Value = c.Id, Text = c.Name }).ToList();
-           // Message = "Test";
-            //CategoryId = Recipe.CategoryId;
+    
             return Page();
         }
 
@@ -127,6 +131,16 @@ namespace Recipes.Pages.MenuRecipes
                 FormTitle = $"{Action.Editing.ToString()} {Recipe.Name}";
                 Message = message;
             }
+
+            Categories = this.categoryData.GetAll().Select(c => new SelectListItem { Value = c.Id, Text = c.Name }).ToList();
+        }
+
+        private void SetUpdatedRecipe(Recipe updatedRecipe)
+        {
+            Recipe.Name = updatedRecipe.Name;
+            Recipe.CookTimeMinutes = updatedRecipe.CookTimeMinutes;
+            Recipe.Servings = updatedRecipe.Servings;
+            Recipe.CategoryId = updatedRecipe.CategoryId;
         }
 
         //public IActionResult OnPost()
