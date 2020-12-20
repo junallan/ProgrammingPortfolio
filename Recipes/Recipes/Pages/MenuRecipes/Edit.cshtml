@@ -48,6 +48,10 @@
                     <td>
                         <button class="btn btn-primary edit-button" data-id="@ingredient" data-listtoedit="IngredientsList">Edit</button>
                     </td>
+                    <td>
+                        @*<button class="btn btn-primary delete-button" data-id="@ingredient" data-listtodelete="IngredientsList">Delete</button>*@
+                        <input class="btn btn-default" type="button" id="btnDeleteIngredient" value="Delete" onclick="DeleteIngredient(`@ingredient`)" />
+                    </td>
                 </tr>
             }
         </tbody>
@@ -143,6 +147,18 @@
             });
     }
 
+   function DeleteIngredient(item) {
+         $.ajax({
+                type: "GET",
+                data: { recipeId: `@Model.Recipe.Id`, item: item },
+                contentType: "application/json; charset=utf-8",
+                url: '@Url.Page("Edit","DeleteIngredient")',
+             success: function (result) {
+                   location.href = "/MenuRecipes/Edit/@Model.Recipe.Id/" + result;
+                }
+            });
+    }
+
       function AddDirection() {
         let directionToAdd = $("#DirectionToAdd").val();
         //alert($("#IngredientToAdd").val());
@@ -165,34 +181,36 @@
     $('.edit-button').click(function (e) {
         e.preventDefault();
 
-    
+
         let id = this.dataset.id;
         let listtoedit = this.dataset.listtoedit;
         //alert(listtoedit);
         let inputNames = listtoedit === "IngredientsList" ? ["Ingredients"] : ["Directions"];
 
         $(this).closest('tr').find('td').each(function (index, value) {
-            if (index < inputNames.length) {
+            if (index === 0) {
                 let text = $(value).text().trim();
                 let name = inputNames[index];
                 $(value).append('<input type="text" name="' + name + '" id="' + name + '" class="form-control" value="' + text + '" />');
                 $(value).find('span').remove();
             }
-            else {
+            else if(index === 1) {
                 $(value).find('button').remove();
                 $(value).append('<input type="submit" value="Save" name="Save" class="btn btn-primary" />');
                 $(value).append('&nbsp;<input type="button" value="Cancel" onclick="UndoUpdateList();" name="Cancel" class="btn btn-primary" />');
 
-               
+
                 if (listtoedit === "IngredientsList") {
                     $(value).append('<input type="hidden" name="IngredientOriginal" value="' + id + '" />');
                 } else {
                     $(value).append('<input type="hidden" name="DirectionOriginal" value="' + id + '" />');
                 }
-               
+
             }
-        });
+        })
     })
+
+
 
 
     //var inputNames = [];

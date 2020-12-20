@@ -61,7 +61,34 @@ namespace Recipes.Pages.MenuRecipes
             }
             return new JsonResult(Message);
         }
-    
+
+        public IActionResult OnGetDeleteIngredient(string recipeId, string item)
+        {
+            RetrieveRecipe(recipeId, string.Empty);
+
+            var isItemRemoved = Recipe.Ingredients.Remove(item);
+
+
+            if (!isItemRemoved)
+            {
+                Message = $"Error in removing Ingredient ({item}).";
+            }
+            else
+            {
+                Recipe = recipeData.Update(Recipe);
+
+                if(Recipe == null)
+                {
+                    Message = $"Error in removing Ingredient ({item}).";
+                }
+                else
+                {
+                    Message = $"Ingredient ({item}) removed.";
+                }
+            }
+            return new JsonResult(Message);
+        }
+
         public IActionResult OnPost(string IngredientOriginal, string Ingredients, string DirectionOriginal, string Directions, Recipe recipe, string categoryId)
         {
             RetrieveRecipe(recipe.Id, string.Empty);
