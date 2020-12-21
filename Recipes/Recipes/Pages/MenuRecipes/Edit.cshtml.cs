@@ -108,6 +108,33 @@ namespace Recipes.Pages.MenuRecipes
             return new JsonResult(Message);
         }
 
+        public IActionResult OnGetDeleteDirection(string recipeId, string item)
+        {
+            RetrieveRecipe(recipeId, string.Empty);
+
+            var isItemRemoved = Recipe.Directions.Remove(item);
+
+
+            if (!isItemRemoved)
+            {
+                Message = $"Error in removing Direction ({item}).";
+            }
+            else
+            {
+                Recipe = recipeData.Update(Recipe);
+
+                if (Recipe == null)
+                {
+                    Message = $"Error in removing Direction ({item}).";
+                }
+                else
+                {
+                    Message = $"Direction ({item}) removed.";
+                }
+            }
+            return new JsonResult(Message);
+        }
+
         public IActionResult OnPost(string IngredientOriginal, string Ingredients, string DirectionOriginal, string Directions, Recipe recipe, string categoryId)
         {
             RetrieveRecipe(recipe.Id, string.Empty);

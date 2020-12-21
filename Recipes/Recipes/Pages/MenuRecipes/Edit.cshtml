@@ -75,14 +75,17 @@
         <tbody>
             @foreach (var direction in Model.Recipe.Directions)
             {
-                <tr>
-                    <td>@direction</td>
-                    @*<td><a href="" class="editor_edit">Edit</a></td>
-                        <td><a href="" class="editor_remove">Delete</a></td>*@
-                    <td>
-                        <button class="btn btn-primary edit-button" data-id="@direction" data-listtoedit="DirectionsList">Edit</button>
-                    </td>
-                </tr>
+            <tr>
+                <td>@direction</td>
+                @*<td><a href="" class="editor_edit">Edit</a></td>
+        <td><a href="" class="editor_remove">Delete</a></td>*@
+                <td>
+                    <button class="btn btn-primary edit-button" data-id="@direction" data-listtoedit="DirectionsList">Edit</button>
+                </td>
+                <td>
+                    <input class="btn btn-default" type="button" id="btnDeleteDirection" value="Delete" onclick="DeleteDirection(`@direction`)" />
+                </td>
+            </tr>
             }
         </tbody>
         <tfoot>
@@ -176,7 +179,17 @@
             });
     }
 
-
+      function DeleteDirection(item) {
+         $.ajax({
+                type: "GET",
+                data: { recipeId: `@Model.Recipe.Id`, item: item },
+                contentType: "application/json; charset=utf-8",
+                url: '@Url.Page("Edit","DeleteDirection")',
+             success: function (result) {
+                   location.href = "/MenuRecipes/Edit/@Model.Recipe.Id/" + result;
+                }
+            });
+    }
 
     $('.edit-button').click(function (e) {
         e.preventDefault();
