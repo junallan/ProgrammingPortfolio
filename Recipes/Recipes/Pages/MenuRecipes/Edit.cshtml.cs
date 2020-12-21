@@ -62,6 +62,25 @@ namespace Recipes.Pages.MenuRecipes
             return new JsonResult(Message);
         }
 
+        public IActionResult OnGetAddDirection(string recipeId, string directionToAdd)
+        {
+            RetrieveRecipe(recipeId, string.Empty);
+
+            if (Recipe.Directions.Contains(directionToAdd))
+            {
+                Message = $"Direction ({directionToAdd}) was not added.  It already exists.";
+            }
+            else
+            {
+                Recipe.Directions.Add(directionToAdd);
+
+                Recipe = recipeData.Update(Recipe);
+
+                Message = $"Direction ({directionToAdd}) added.";
+            }
+            return new JsonResult(Message);
+        }
+
         public IActionResult OnGetDeleteIngredient(string recipeId, string item)
         {
             RetrieveRecipe(recipeId, string.Empty);
