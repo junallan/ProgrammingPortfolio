@@ -1,0 +1,36 @@
+﻿@page "{recipeId?}"
+@model Recipes.Pages.MenuRecipes.DetailModel
+@{
+    ViewData["Title"] = "Detail";
+}
+
+<h1>@Model.Recipe.Name Details</h1>
+<div>
+    Recipe Name: @Model.Recipe.Name
+</div>
+<div>
+    Cook Time: @Model.Recipe.CookTimeMinutes minutes
+</div>
+<div>
+    Servings: @Model.Recipe.Servings minutes
+</div>
+<ul style="list-style-type:disc">
+
+    @foreach (var ingredient in Model.Recipe.Ingredients)
+    {
+        <li>@ingredient</li>
+    }
+</ul>
+
+<label asp-for="Recipe.Directions"></label>
+<ol>
+    @foreach (var direction in Model.Recipe.Directions)
+    {
+        <li>@direction</li>
+    }
+</ol>
+@*
+
+    <select id="CategoryId" name="CategoryId" asp-for="Recipe.CategoryId" asp-items="Model.Categories"></select>*@
+
+
