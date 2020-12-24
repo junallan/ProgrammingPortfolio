@@ -12,13 +12,18 @@ namespace Recipes.Pages.MenuRecipes
     public class DetailModel : PageModel
     {
         private readonly IRecipeData recipeData;
+        private readonly ICategoryData categoryData;
 
         [BindProperty]
         public Recipe Recipe { get; set; }
 
-        public DetailModel(IRecipeData recipeData)
+        [BindProperty]
+        public string CategoryNameOfRecipe { get; set; }
+
+        public DetailModel(IRecipeData recipeData, ICategoryData categoryData)
         {
             this.recipeData = recipeData;
+            this.categoryData = categoryData;
         }
 
         public IActionResult OnGet(string recipeId)
@@ -29,6 +34,8 @@ namespace Recipes.Pages.MenuRecipes
             {
                 return RedirectToPage("./NotFound");
             }
+
+            CategoryNameOfRecipe = categoryData.GetById(Recipe.CategoryId)?.Name;
 
             return Page();
         }
