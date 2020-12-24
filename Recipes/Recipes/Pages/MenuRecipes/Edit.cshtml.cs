@@ -140,16 +140,47 @@ namespace Recipes.Pages.MenuRecipes
             RetrieveRecipe(recipe.Id, string.Empty);
             SetUpdatedRecipe(recipe);
 
+            bool isAddRecipe = string.IsNullOrEmpty(Recipe.Id);
             bool isUpdatedMainRecipeInfo = IngredientOriginal == null && Ingredients == null && DirectionOriginal == null && Directions == null;
             bool isUpdateIngredients = IngredientOriginal != null || Ingredients != null;
             bool isUpdatedDirections = DirectionOriginal != null || Directions != null;
 
-            if(!(isUpdatedMainRecipeInfo || isUpdateIngredients || isUpdatedDirections))
+            if (!(isUpdatedMainRecipeInfo || isUpdateIngredients || isUpdatedDirections) && !isAddRecipe)
             {
                 Message = "Error in updating Recipe";
                 return Page();
             }
 
+            var action = isAddRecipe ? Action.Adding.ToString().ToLower() : Action.Editing.ToString().ToLower();
+
+            if (isAddRecipe)
+            {
+
+                Recipe = recipeData.Add(Recipe);
+               
+            }
+            else
+            {
+                UpdateRecipe(IngredientOriginal, Ingredients, DirectionOriginal, Directions, isUpdateIngredients, isUpdatedDirections);
+            }
+
+
+
+            if (Recipe == null)
+            {                
+                Message = $"Error in {action} Recipe";
+                return Page();
+            }
+
+            Message = isAddRecipe || isUpdatedMainRecipeInfo ? $"Completed {action} Recipe" : isUpdateIngredients ? $"Completed {action} Ingredient" : isUpdatedDirections ? $"Completed {action} Direction" : $"Error in {action} Recipe";
+
+
+            return Page();
+        }
+
+
+        private void UpdateRecipe(string IngredientOriginal, string Ingredients, string DirectionOriginal, string Directions, bool isUpdateIngredients, bool isUpdatedDirections)
+        {
             if (isUpdateIngredients)
             {
                 var ingredientEditedIndex = Recipe.Ingredients.FindIndex(ingredient => ingredient == IngredientOriginal);
@@ -170,18 +201,13 @@ namespace Recipes.Pages.MenuRecipes
             }
 
             Recipe = recipeData.Update(Recipe);
-
-            if(Recipe == null)
-            {
-                Message = "Error in updating Recipe";
-                return Page();
-            }
-
-            Message = isUpdatedMainRecipeInfo ? "Recipe updated" : isUpdateIngredients ? "Ingredient updated" : isUpdatedDirections ? "Direction updated" : "Error in updating Recipe";
-
-            return Page();
         }
-         
+
+        //private void UpdateRecipe()
+        //{
+
+        //}
+
         public IActionResult OnGet(string recipeId, string message)
         {
             RetrieveRecipe(recipeId, message);
