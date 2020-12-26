@@ -171,3 +171,5 @@ C:\ProgrammingPortflio\Recipes\Recipes\bin\Debug\netcoreapp3.1\Recipes.Views.pdb
 C:\ProgrammingPortflio\Recipes\Recipes\obj\Debug\netcoreapp3.1\Recipes.Views.pdb
 C:\ProgrammingPortflio\Recipes\Recipes\obj\Debug\netcoreapp3.1\scopedcss\bundle\Recipes.styles.css
 C:\ProgrammingPortflio\Recipes\Recipes\obj\Debug\netcoreapp3.1\Razor\Pages\MenuRecipes\Detail.cshtml.g.cs
+C:\ProgrammingPortflio\Recipes\Recipes\obj\Debug\netcoreapp3.1\Razor\Pages\MenuRecipes\Delete.cshtml.g.cs
+C:\ProgrammingPortflio\Recipes\Recipes\obj\Debug\netcoreapp3.1\Razor\Pages\MenuRecipes\NotFound.cshtml.g.cs

@@ -15,6 +15,7 @@ namespace Recipes.Data
         IEnumerable<Recipe> GetAll();
         Recipe GetById(string Id);
         Recipe Update(Recipe updatedRecipe);
+        Recipe Delete(string Id);
 
     }
 
@@ -81,10 +82,9 @@ namespace Recipes.Data
 
         public Recipe Delete(string id)
         {
-            return null;
-            //var category = GetById(id);
-            //var isDeletedCategory = _db.DeleteRecord<Category>("Categories", id);
-            //return isDeletedCategory ? category : null;
+            var recipe = GetById(id);
+            var isDeletedRecipe = _db.DeleteRecord<Recipe>("Recipes", id);
+            return isDeletedRecipe ? recipe : null;
         }
     }
 
@@ -163,6 +163,11 @@ namespace Recipes.Data
             recipes.Add(newRecipe);
 
             return newRecipe;
+        }
+
+        public Recipe Delete(string id)
+        {
+            return null;
         }
     }
 }
