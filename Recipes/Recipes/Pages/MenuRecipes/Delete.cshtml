@@ -5,41 +5,25 @@
 }
 
 <h1>Delete!</h1>
-<div>
-    Recipe Name: @Model.Recipe.Name
-</div>
-<div>
-    Cook Time: @Model.Recipe.CookTimeMinutes minutes
-</div>
-<div>
-    Servings: @Model.Recipe.Servings minutes
-</div>
-<label asp-for="Recipe.Ingredients"></label>
-<ul style="list-style-type:disc">
-
-    @foreach (var ingredient in Model.Recipe.Ingredients)
-    {
-        <li>@ingredient</li>
-    }
-</ul>
-
-<label asp-for="Recipe.Directions"></label>
-<ol>
-    @foreach (var direction in Model.Recipe.Directions)
-    {
-        <li>@direction</li>
-    }
-</ol>
-
-<div>
-    Recipe Category: @Model.CategoryNameOfRecipe
-</div>
-
+<partial name="_MenuRecipeDetail" model="Model.DetailModel" />
 
 <div class="alert alert-danger">
-    Are you sure you want to delete @Model.Recipe.Name
+    Are you sure you want to delete @Model.DetailModel.Recipe.Name
     <form method="post">
-        <button type="submit" class="btn btn-danger">Yes!</button>
+        <button type="button" class="btn btn-danger" onclick="DeleteMenuRecipe()">Yes!</button>
         <a asp-page="List" class="btn btn-dark">Cancel</a>
     </form>
 </div>
+
+<script type="text/javascript">
+    function DeleteMenuRecipe() {
+        $.ajax({
+            type: "GET",
+            data: { recipeId: `@Model.DetailModel.Recipe.Id` },
+            url: '@Url.Page("Delete", "DeleteMenuRecipe")',
+            success: function (result) {
+                location.href = "/MenuRecipes/List";
+            }
+        });
+    }
+</script>
