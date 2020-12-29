@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Recipes.Core;
 using Recipes.Data;
+using Recipes.ViewComponents;
 
 namespace Recipes.Pages.MenuRecipes
 {
@@ -14,35 +15,33 @@ namespace Recipes.Pages.MenuRecipes
         private readonly IRecipeData recipeData;
         private readonly ICategoryData categoryData;
 
-        [BindProperty]
-        public DetailModel DetailModel { get; set; }
+        public MenuRecipeDetailModel MenuRecipeDetailModel { get; set; }
 
         public DeleteModel(IRecipeData recipeData, ICategoryData categoryData)
         {
             this.recipeData = recipeData;
             this.categoryData = categoryData;
-            DetailModel = new DetailModel(recipeData,categoryData);
         }
 
         public IActionResult OnGet(string recipeId)
         {
-            DetailModel.Recipe = recipeData.GetById(recipeId);
+            var recipe = recipeData.GetById(recipeId);
 
-            if (DetailModel.Recipe == null)
+            if (recipe == null)
             {
-                return RedirectToPage("./NotFound");
+                return RedirectToPage("NotFound");
             }
 
-            DetailModel.CategoryNameOfRecipe = categoryData.GetById(DetailModel.Recipe.CategoryId)?.Name;
+            MenuRecipeDetailModel = new MenuRecipeDetailModel { Recipe = recipe, CategoryNameOfRecipe = categoryData.GetById(recipe.CategoryId)?.Name };
 
             return Page();
         }
 
-        public IActionResult OnGetDeleteMenuRecipe(string recipeId)
+        public IActionResult OnPost(string recipeId)
         {
             var recipe = recipeData.Delete(recipeId);
 
-            if(recipe == null)
+            if (recipe == null)
             {
                 TempData["Message"] = $"Error deleting {recipe.Name}";
             }
@@ -51,7 +50,7 @@ namespace Recipes.Pages.MenuRecipes
                 TempData["Message"] = $"{recipe.Name} deleted";
             }
 
-            return new JsonResult(string.Empty);
+            return RedirectToPage("List");
         }
     }
 }

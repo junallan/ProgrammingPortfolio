@@ -173,4 +173,4 @@ C:\ProgrammingPortflio\Recipes\Recipes\obj\Debug\netcoreapp3.1\scopedcss\bundle\
 C:\ProgrammingPortflio\Recipes\Recipes\obj\Debug\netcoreapp3.1\Razor\Pages\MenuRecipes\Detail.cshtml.g.cs
 C:\ProgrammingPortflio\Recipes\Recipes\obj\Debug\netcoreapp3.1\Razor\Pages\MenuRecipes\Delete.cshtml.g.cs
 C:\ProgrammingPortflio\Recipes\Recipes\obj\Debug\netcoreapp3.1\Razor\Pages\MenuRecipes\NotFound.cshtml.g.cs
-C:\ProgrammingPortflio\Recipes\Recipes\obj\Debug\netcoreapp3.1\Razor\Pages\Shared\_MenuRecipeDetail.cshtml.g.cs
+C:\ProgrammingPortflio\Recipes\Recipes\obj\Debug\netcoreapp3.1\Razor\Pages\Shared\Components\MenuRecipeDetail\Default.cshtml.g.cs

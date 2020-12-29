@@ -3,8 +3,9 @@
 @{
     ViewData["Title"] = "Detail";
 }
-<h1>@Model.Recipe.Name Details</h1>
-<partial name="_MenuRecipeDetail" model="Model" />
+<h1>@Model.MenuRecipeDetailModel.Recipe.Name Details</h1>
+
+<vc:menu-recipe-detail model="@Model.MenuRecipeDetailModel"></vc:menu-recipe-detail>
 
 <a asp-page="./List" class="btn btn-default">All Recipes</a>
 

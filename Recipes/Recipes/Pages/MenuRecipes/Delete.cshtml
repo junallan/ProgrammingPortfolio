@@ -5,25 +5,12 @@
 }
 
 <h1>Delete!</h1>
-<partial name="_MenuRecipeDetail" model="Model.DetailModel" />
-
+<vc:menu-recipe-detail model="@Model.MenuRecipeDetailModel"></vc:menu-recipe-detail>
 <div class="alert alert-danger">
-    Are you sure you want to delete @Model.DetailModel.Recipe.Name
+    Are you sure you want to delete @Model.MenuRecipeDetailModel.Recipe.Name
     <form method="post">
-        <button type="button" class="btn btn-danger" onclick="DeleteMenuRecipe()">Yes!</button>
+        <button type="submit" class="btn btn-danger">Yes!</button>
         <a asp-page="List" class="btn btn-dark">Cancel</a>
     </form>
 </div>
 
-<script type="text/javascript">
-    function DeleteMenuRecipe() {
-        $.ajax({
-            type: "GET",
-            data: { recipeId: `@Model.DetailModel.Recipe.Id` },
-            url: '@Url.Page("Delete", "DeleteMenuRecipe")',
-            success: function (result) {
-                location.href = "/MenuRecipes/List";
-            }
-        });
-    }
-</script>

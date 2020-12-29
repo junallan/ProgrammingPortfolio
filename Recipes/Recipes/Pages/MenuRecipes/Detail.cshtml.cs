@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Recipes.Core;
 using Recipes.Data;
+using Recipes.ViewComponents;
 
 namespace Recipes.Pages.MenuRecipes
 {
@@ -14,11 +15,8 @@ namespace Recipes.Pages.MenuRecipes
         private readonly IRecipeData recipeData;
         private readonly ICategoryData categoryData;
 
-        [BindProperty]
-        public Recipe Recipe { get; set; }
+        public MenuRecipeDetailModel MenuRecipeDetailModel { get; set; }
 
-        [BindProperty]
-        public string CategoryNameOfRecipe { get; set; }
 
         public DetailModel(IRecipeData recipeData, ICategoryData categoryData)
         {
@@ -28,14 +26,14 @@ namespace Recipes.Pages.MenuRecipes
 
         public IActionResult OnGet(string recipeId)
         {
-            Recipe = recipeData.GetById(recipeId);
+            var recipe = recipeData.GetById(recipeId);
 
-            if(Recipe == null)
+            if(recipe == null)
             {
-                return RedirectToPage("./NotFound");
+                return RedirectToPage("NotFound");
             }
 
-            CategoryNameOfRecipe = categoryData.GetById(Recipe.CategoryId)?.Name;
+            MenuRecipeDetailModel = new MenuRecipeDetailModel { Recipe = recipe, CategoryNameOfRecipe = categoryData.GetById(recipe.CategoryId)?.Name };
 
             return Page();
         }
