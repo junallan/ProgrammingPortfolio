@@ -138,7 +138,7 @@ namespace Recipes.Pages.MenuRecipes
         public IActionResult OnPost(string IngredientOriginal, string Ingredients, string DirectionOriginal, string Directions, Recipe recipe, string categoryId)
         {
             RetrieveRecipe(recipe.Id, string.Empty);
-            SetUpdatedRecipe(recipe);
+            SetUpdatedRecipe(recipe, categoryId);
 
             bool isAddRecipe = string.IsNullOrEmpty(Recipe.Id);
             bool isUpdatedMainRecipeInfo = IngredientOriginal == null && Ingredients == null && DirectionOriginal == null && Directions == null;
@@ -234,12 +234,12 @@ namespace Recipes.Pages.MenuRecipes
             Categories = this.categoryData.GetAll().Select(c => new SelectListItem { Value = c.Id, Text = c.Name }).ToList();
         }
 
-        private void SetUpdatedRecipe(Recipe updatedRecipe)
+        private void SetUpdatedRecipe(Recipe updatedRecipe, string categoryId)
         {
             Recipe.Name = updatedRecipe.Name;
             Recipe.CookTimeMinutes = updatedRecipe.CookTimeMinutes;
             Recipe.Servings = updatedRecipe.Servings;
-            Recipe.CategoryId = updatedRecipe.CategoryId;
+            Recipe.CategoryId = categoryId;
         }
 
         //public IActionResult OnPost()
