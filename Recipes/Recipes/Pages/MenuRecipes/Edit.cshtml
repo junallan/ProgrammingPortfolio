@@ -18,11 +18,11 @@
     <label asp-for="Recipe.Name"></label>
     <input asp-for="Recipe.Name" class="form-control" />
     <span class="text-danger" asp-validation-for="Recipe.Name"></span>
-    <label asp-for="Recipe.CookTimeMinutes"></label>
-    <input asp-for="Recipe.CookTimeMinutes" class="form-control" pattern="[0-9]{10}" />
+    <br /><label asp-for="Recipe.CookTimeMinutes"></label>
+    <input asp-for="Recipe.CookTimeMinutes" class="form-control" min="1" onkeypress="return ValidateWholeNumberEntered(event)" />
     <span class="text-danger" asp-validation-for="Recipe.CookTimeMinutes"></span>
-    <label asp-for="Recipe.Servings"></label>
-    <input asp-for="Recipe.Servings" class="form-control" type="number" min="1" />
+    <br /><label asp-for="Recipe.Servings"></label>
+    <input asp-for="Recipe.Servings" class="form-control" type="number" min="1" onkeypress="return ValidateWholeNumberEntered(event)" />
     <span class="text-danger" asp-validation-for="Recipe.Servings"></span>
 
     <ul style="list-style-type:disc">
@@ -125,6 +125,10 @@
         $('#tableIngredients').DataTable();
         $('#tableDirections').DataTable();
     });
+
+    function ValidateWholeNumberEntered(event) {
+        return event.charCode >= 48 && event.charCode <= 57;
+    }
 
 
     function UndoUpdateList() {
