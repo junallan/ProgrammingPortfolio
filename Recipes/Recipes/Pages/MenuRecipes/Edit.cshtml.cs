@@ -55,11 +55,12 @@ namespace Recipes.Pages.MenuRecipes
             {
                 Recipe.Ingredients.Add(ingredientToAdd);
 
-                Recipe = recipeData.Update(Recipe);
+                Recipe = string.IsNullOrEmpty(Recipe.Id) ? recipeData.Add(Recipe) : recipeData.Update(Recipe);
 
                 Message = $"Ingredient ({ingredientToAdd}) added.";
             }
-            return new JsonResult(Message);
+            
+            return new JsonResult(new { recipeId = Recipe.Id, message = Message });
         }
 
         public IActionResult OnGetAddDirection(string recipeId, string directionToAdd)

@@ -149,7 +149,7 @@
                  //alert('location.href');
                  //alert(result);
                  @*location.href = "/MenuRecipes/Edit?recipeId=@Model.Recipe.Id&message="+result;*@
-                   location.href = "/MenuRecipes/Edit/@Model.Recipe.Id/" + result;
+                   location.href = "/MenuRecipes/Edit/" + result.recipeId + "/" + result.message;
                 }
             });
     }
