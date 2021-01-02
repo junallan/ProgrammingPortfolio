@@ -204,10 +204,6 @@ namespace Recipes.Pages.MenuRecipes
             Recipe = recipeData.Update(Recipe);
         }
 
-        //private void UpdateRecipe()
-        //{
-
-        //}
 
         public IActionResult OnGet(string recipeId, string message)
         {

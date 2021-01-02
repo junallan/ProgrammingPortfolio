@@ -137,10 +137,36 @@
         location.href = "";
     }
 
+    function ValidateAddRecipe(){
+        if($("#IngredientToAdd").val() === 0) {
+            //alert("Enter ingredient to add");
+            return false;
+        }
+
+        if(`@Model.Recipe.Id`.length > 0) {
+            //alert("Recipe edit");
+            return true;
+        }
+
+       if($("#Recipe_Name").val().length === 0){
+            alert("The name filed is required.");
+            $('[data-valmsg-for="Recipe.Name"]').html("The Name field is required.");
+
+            return false;
+        }
+
+    //Validate -> Please enter a value greater than or equal to 1.
+    //Recipe.CookTimeMinute
+    //Recipe.Servings
+   
+        return true;
+    }
+
     function AddIngredient() {
-        let ingredientToAdd = $("#IngredientToAdd").val();
-        //alert($("#IngredientToAdd").val());
-         $.ajax({
+        if(ValidateAddRecipe()) {
+            let ingredientToAdd = $("#IngredientToAdd").val();
+
+            $.ajax({
                 type: "GET",
                 data: { recipeId: `@Model.Recipe.Id`, ingredientToAdd: ingredientToAdd },
                 contentType: "application/json; charset=utf-8",
@@ -152,6 +178,7 @@
                    location.href = "/MenuRecipes/Edit/" + result.recipeId + "/" + result.message;
                 }
             });
+        }
     }
 
    function DeleteIngredient(item) {
