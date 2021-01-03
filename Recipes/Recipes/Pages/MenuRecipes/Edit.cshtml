@@ -138,9 +138,10 @@
     }
 
     function ValidateAddRecipe(){
-        if($("#IngredientToAdd").val() === 0) {
+        let isValidEntry = true;
+        if ($("#IngredientToAdd").val() === 0) {
             //alert("Enter ingredient to add");
-            return false;
+            isValidEntry = false;
         }
 
         if(`@Model.Recipe.Id`.length > 0) {
@@ -149,17 +150,27 @@
         }
 
        if($("#Recipe_Name").val().length === 0){
-            alert("The name filed is required.");
+           // alert("The name filed is required.");
             $('[data-valmsg-for="Recipe.Name"]').html("The Name field is required.");
 
-            return false;
+           isValidEntry = false;
         }
 
-    //Validate -> Please enter a value greater than or equal to 1.
-    //Recipe.CookTimeMinute
-    //Recipe.Servings
-   
-        return true;
+        //alert($("#Recipe_CookTimeMinutes").val());
+        if ($("#Recipe_CookTimeMinutes").val() === "0") {
+            //alert("In Here");
+            $('[data-valmsg-for="Recipe.CookTimeMinutes"]').html("Please enter a value greater than or equal to 1.");
+
+            isValidEntry = false;
+        }
+
+        if ($("#Recipe_Servings").val() === "0") {
+            $('[data-valmsg-for="Recipe.Servings"]').html("Please enter a value greater than or equal to 1.");
+
+            isValidEntry = false;
+        }
+
+        return isValidEntry;
     }
 
     function AddIngredient() {
