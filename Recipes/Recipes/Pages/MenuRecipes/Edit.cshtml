@@ -62,6 +62,7 @@
                 </td>
                 <td>
                     <input class="btn btn-default" type="button" id="btnAddIngredient" value="Add Ingredient" onclick="AddIngredient()" />
+                    &nbsp;<span class="text-danger" id="IngredientToAddValidation"></span>
                 </td>
             </tr>
         </tfoot>
@@ -137,11 +138,19 @@
         location.href = "";
     }
 
-    function ValidateAddRecipe(){
+    function ValidateAddIngredient() {
         let isValidEntry = true;
+
         if ($("#IngredientToAdd").val() === 0) {
             //alert("Enter ingredient to add");
             isValidEntry = false;
+        }
+
+        if ($("#IngredientToAdd").val().length === 0) {
+            $("#IngredientToAddValidation").html("Enter ingredient to add.");
+            isValidEntry = false
+        } else {
+            $("#IngredientToAddValidation").html("");
         }
 
         if(`@Model.Recipe.Id`.length > 0) {
@@ -174,7 +183,7 @@
     }
 
     function AddIngredient() {
-        if(ValidateAddRecipe()) {
+        if(ValidateAddIngredient()) {
             let ingredientToAdd = $("#IngredientToAdd").val();
 
             $.ajax({
