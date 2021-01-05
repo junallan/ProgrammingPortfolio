@@ -96,6 +96,7 @@
                 </td>
                 <td>
                     <input class="btn btn-default" type="button" id="btnAddDirection" value="Add Direction" onclick="AddDirection()" />
+                    &nbsp;<span class="text-danger" id="DirectionToAddValidation"></span>
                 </td>
             </tr>
         </tfoot>
@@ -140,11 +141,6 @@
 
     function ValidateAddIngredient() {
         let isValidEntry = true;
-
-        if ($("#IngredientToAdd").val() === 0) {
-            //alert("Enter ingredient to add");
-            isValidEntry = false;
-        }
 
         if ($("#IngredientToAdd").val().length === 0) {
             $("#IngredientToAddValidation").html("Enter ingredient to add.");
@@ -213,21 +209,67 @@
             });
     }
 
-      function AddDirection() {
-        let directionToAdd = $("#DirectionToAdd").val();
-        //alert($("#IngredientToAdd").val());
-         $.ajax({
-                type: "GET",
-                data: { recipeId: `@Model.Recipe.Id`, directionToAdd: directionToAdd },
-                contentType: "application/json; charset=utf-8",
-                url: '@Url.Page("Edit","AddDirection")',
-             success: function (result) {
-                 //alert('location.href');
-                 //alert(result);
-                 @*location.href = "/MenuRecipes/Edit?recipeId=@Model.Recipe.Id&message="+result;*@
-                   location.href = "/MenuRecipes/Edit/@Model.Recipe.Id/" + result;
-                }
-            });
+    function ValidateAddDirection() {
+        let isValidEntry = true;
+        //alert($("#DirectionToAdd").val());
+
+        if ($("#DirectionToAdd").val() === 0) {
+            //alert("Enter ingredient to add");
+            isValidEntry = false;
+        }
+
+        if ($("#DirectionToAdd").val().length === 0) {
+            $("#DirectionToAddValidation").html("Enter direction to add.");
+            isValidEntry = false
+        } else {
+            $("#DirectionToAddValidation").html("");
+        }
+
+        if(`@Model.Recipe.Id`.length > 0) {
+            //alert("Recipe edit");
+            return true;
+        }
+
+       if($("#Recipe_Name").val().length === 0){
+           // alert("The name filed is required.");
+            $('[data-valmsg-for="Recipe.Name"]').html("The Name field is required.");
+
+           isValidEntry = false;
+        }
+
+        if ($("#Recipe_CookTimeMinutes").val() === "0") {
+            $('[data-valmsg-for="Recipe.CookTimeMinutes"]').html("Please enter a value greater than or equal to 1.");
+
+            isValidEntry = false;
+        }
+
+        if ($("#Recipe_Servings").val() === "0") {
+            $('[data-valmsg-for="Recipe.Servings"]').html("Please enter a value greater than or equal to 1.");
+
+            isValidEntry = false;
+        }
+
+        return isValidEntry;
+    }
+
+    function AddDirection() {
+
+        if (ValidateAddDirection()) {
+            let directionToAdd = $("#DirectionToAdd").val();
+            let recipeName = $("#Recipe_Name").val();
+            //alert($("#IngredientToAdd").val());
+             $.ajax({
+                    type: "GET",
+                 data: { recipeId: `@Model.Recipe.Id`, directionToAdd: directionToAdd, recipeNameToAdd: recipeName },
+                    contentType: "application/json; charset=utf-8",
+                    url: '@Url.Page("Edit","AddDirection")',
+                 success: function (result) {
+                     location.href = "/MenuRecipes/Edit/" + result.recipeId + "/" + result.message;
+                    }
+                  
+             });
+        }
+
     }
 
       function DeleteDirection(item) {

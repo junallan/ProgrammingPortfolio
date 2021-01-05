@@ -63,7 +63,7 @@ namespace Recipes.Pages.MenuRecipes
             return new JsonResult(new { recipeId = Recipe.Id, message = Message });
         }
 
-        public IActionResult OnGetAddDirection(string recipeId, string directionToAdd)
+        public IActionResult OnGetAddDirection(string recipeId, string directionToAdd, string recipeNameToAdd)
         {
             RetrieveRecipe(recipeId, string.Empty);
 
@@ -74,12 +74,12 @@ namespace Recipes.Pages.MenuRecipes
             else
             {
                 Recipe.Directions.Add(directionToAdd);
-
-                Recipe = recipeData.Update(Recipe);
+                Recipe.Name = recipeNameToAdd;
+                Recipe = string.IsNullOrEmpty(Recipe.Id) ? recipeData.Add(Recipe) : recipeData.Update(Recipe);
 
                 Message = $"Direction ({directionToAdd}) added.";
             }
-            return new JsonResult(Message);
+            return new JsonResult(new { recipeId = Recipe.Id, message = Message });
         }
 
         public IActionResult OnGetDeleteIngredient(string recipeId, string item)
