@@ -150,30 +150,27 @@
         }
 
         if(`@Model.Recipe.Id`.length > 0) {
-            //alert("Recipe edit");
             return true;
         }
 
        if($("#Recipe_Name").val().length === 0){
-           // alert("The name filed is required.");
             $('[data-valmsg-for="Recipe.Name"]').html("The Name field is required.");
 
            isValidEntry = false;
         }
 
-        //alert($("#Recipe_CookTimeMinutes").val());
-        if ($("#Recipe_CookTimeMinutes").val() === "0") {
-            //alert("In Here");
-            $('[data-valmsg-for="Recipe.CookTimeMinutes"]').html("Please enter a value greater than or equal to 1.");
+        //if ($("#Recipe_CookTimeMinutes").val() === "0") {
+        //    //alert("In Here");
+        //    $('[data-valmsg-for="Recipe.CookTimeMinutes"]').html("Please enter a value greater than or equal to 1.");
 
-            isValidEntry = false;
-        }
+        //    isValidEntry = false;
+        //}
 
-        if ($("#Recipe_Servings").val() === "0") {
-            $('[data-valmsg-for="Recipe.Servings"]').html("Please enter a value greater than or equal to 1.");
+        //if ($("#Recipe_Servings").val() === "0") {
+        //    $('[data-valmsg-for="Recipe.Servings"]').html("Please enter a value greater than or equal to 1.");
 
-            isValidEntry = false;
-        }
+        //    isValidEntry = false;
+        //}
 
         return isValidEntry;
     }
@@ -181,16 +178,14 @@
     function AddIngredient() {
         if(ValidateAddIngredient()) {
             let ingredientToAdd = $("#IngredientToAdd").val();
+            let recipeName = $("#Recipe_Name").val();
 
             $.ajax({
                 type: "GET",
-                data: { recipeId: `@Model.Recipe.Id`, ingredientToAdd: ingredientToAdd },
+                data: { recipeId: `@Model.Recipe.Id`, ingredientToAdd: ingredientToAdd, recipeNameToAdd: recipeName },
                 contentType: "application/json; charset=utf-8",
                 url: '@Url.Page("Edit","AddIngredient")',
              success: function (result) {
-                 //alert('location.href');
-                 //alert(result);
-                 @*location.href = "/MenuRecipes/Edit?recipeId=@Model.Recipe.Id&message="+result;*@
                    location.href = "/MenuRecipes/Edit/" + result.recipeId + "/" + result.message;
                 }
             });
@@ -237,17 +232,17 @@
            isValidEntry = false;
         }
 
-        if ($("#Recipe_CookTimeMinutes").val() === "0") {
-            $('[data-valmsg-for="Recipe.CookTimeMinutes"]').html("Please enter a value greater than or equal to 1.");
+        //if ($("#Recipe_CookTimeMinutes").val() === "0") {
+        //    $('[data-valmsg-for="Recipe.CookTimeMinutes"]').html("Please enter a value greater than or equal to 1.");
 
-            isValidEntry = false;
-        }
+        //    isValidEntry = false;
+        //}
 
-        if ($("#Recipe_Servings").val() === "0") {
-            $('[data-valmsg-for="Recipe.Servings"]').html("Please enter a value greater than or equal to 1.");
+        //if ($("#Recipe_Servings").val() === "0") {
+        //    $('[data-valmsg-for="Recipe.Servings"]').html("Please enter a value greater than or equal to 1.");
 
-            isValidEntry = false;
-        }
+        //    isValidEntry = false;
+        //}
 
         return isValidEntry;
     }
@@ -257,8 +252,8 @@
         if (ValidateAddDirection()) {
             let directionToAdd = $("#DirectionToAdd").val();
             let recipeName = $("#Recipe_Name").val();
-            //alert($("#IngredientToAdd").val());
-             $.ajax({
+
+            $.ajax({
                     type: "GET",
                  data: { recipeId: `@Model.Recipe.Id`, directionToAdd: directionToAdd, recipeNameToAdd: recipeName },
                     contentType: "application/json; charset=utf-8",

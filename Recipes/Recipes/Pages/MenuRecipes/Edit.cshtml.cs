@@ -43,7 +43,7 @@ namespace Recipes.Pages.MenuRecipes
 
 
 
-        public IActionResult OnGetAddIngredient(string recipeId, string ingredientToAdd)
+        public IActionResult OnGetAddIngredient(string recipeId, string ingredientToAdd, string recipeNameToAdd)
         { 
             RetrieveRecipe(recipeId, string.Empty);
 
@@ -53,6 +53,7 @@ namespace Recipes.Pages.MenuRecipes
             }
             else
             {
+                Recipe.Name = recipeNameToAdd;
                 Recipe.Ingredients.Add(ingredientToAdd);
 
                 Recipe = string.IsNullOrEmpty(Recipe.Id) ? recipeData.Add(Recipe) : recipeData.Update(Recipe);
