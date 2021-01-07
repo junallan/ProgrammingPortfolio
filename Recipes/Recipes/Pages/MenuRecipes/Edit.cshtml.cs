@@ -53,7 +53,8 @@ namespace Recipes.Pages.MenuRecipes
             }
             else
             {
-                Recipe.Name = recipeNameToAdd;
+                if (!string.IsNullOrEmpty(recipeNameToAdd)) { Recipe.Name = recipeNameToAdd; }
+                
                 Recipe.Ingredients.Add(ingredientToAdd);
 
                 Recipe = string.IsNullOrEmpty(Recipe.Id) ? recipeData.Add(Recipe) : recipeData.Update(Recipe);
@@ -75,7 +76,9 @@ namespace Recipes.Pages.MenuRecipes
             else
             {
                 Recipe.Directions.Add(directionToAdd);
-                Recipe.Name = recipeNameToAdd;
+
+                if (!string.IsNullOrEmpty(recipeNameToAdd)) { Recipe.Name = recipeNameToAdd; }
+
                 Recipe = string.IsNullOrEmpty(Recipe.Id) ? recipeData.Add(Recipe) : recipeData.Update(Recipe);
 
                 Message = $"Direction ({directionToAdd}) added.";

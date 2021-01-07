@@ -123,7 +123,6 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-        //alert(`@Model.Message`);
         $('#tableIngredients').DataTable();
         $('#tableDirections').DataTable();
     });
@@ -132,15 +131,14 @@
         return event.charCode >= 48 && event.charCode <= 57;
     }
 
-
     function UndoUpdateList() {
-        //e.preventtDefault();
-        //alert($("#Ingredients").val());
         location.href = "";
     }
 
     function ValidateAddIngredient() {
         let isValidEntry = true;
+
+        $("#DirectionToAddValidation").html("");
 
         if ($("#IngredientToAdd").val().length === 0) {
             $("#IngredientToAddValidation").html("Enter ingredient to add.");
@@ -149,32 +147,39 @@
             $("#IngredientToAddValidation").html("");
         }
 
-        if(`@Model.Recipe.Id`.length > 0) {
-            return true;
-        }
-
-       if($("#Recipe_Name").val().length === 0){
+        if ($("#Recipe_Name").val().length === 0) {
+            // alert("The name filed is required.");
             $('[data-valmsg-for="Recipe.Name"]').html("The Name field is required.");
 
-           isValidEntry = false;
+            isValidEntry = false;
         }
-
-        //if ($("#Recipe_CookTimeMinutes").val() === "0") {
-        //    //alert("In Here");
-        //    $('[data-valmsg-for="Recipe.CookTimeMinutes"]').html("Please enter a value greater than or equal to 1.");
-
-        //    isValidEntry = false;
-        //}
-
-        //if ($("#Recipe_Servings").val() === "0") {
-        //    $('[data-valmsg-for="Recipe.Servings"]').html("Please enter a value greater than or equal to 1.");
-
-        //    isValidEntry = false;
-        //}
 
         return isValidEntry;
     }
 
+    function ValidateAddDirection() {
+        let isValidEntry = true;
+
+        $("#IngredientToAddValidation").html("");
+
+
+        if ($("#DirectionToAdd").val().length === 0) {
+            $("#DirectionToAddValidation").html("Enter direction to add.");
+            isValidEntry = false
+        } else {
+            $("#DirectionToAddValidation").html("");
+        }
+
+        if ($("#Recipe_Name").val().length === 0) {
+            $('[data-valmsg-for="Recipe.Name"]').html("The Name field is required.");
+
+            isValidEntry = false;
+        }
+
+        return isValidEntry;
+    }
+
+    
     function AddIngredient() {
         if(ValidateAddIngredient()) {
             let ingredientToAdd = $("#IngredientToAdd").val();
@@ -204,49 +209,6 @@
             });
     }
 
-    function ValidateAddDirection() {
-        let isValidEntry = true;
-        //alert($("#DirectionToAdd").val());
-
-        if ($("#DirectionToAdd").val() === 0) {
-            //alert("Enter ingredient to add");
-            isValidEntry = false;
-        }
-
-        if ($("#DirectionToAdd").val().length === 0) {
-            $("#DirectionToAddValidation").html("Enter direction to add.");
-            isValidEntry = false
-        } else {
-            $("#DirectionToAddValidation").html("");
-        }
-
-        if(`@Model.Recipe.Id`.length > 0) {
-            //alert("Recipe edit");
-            return true;
-        }
-
-       if($("#Recipe_Name").val().length === 0){
-           // alert("The name filed is required.");
-            $('[data-valmsg-for="Recipe.Name"]').html("The Name field is required.");
-
-           isValidEntry = false;
-        }
-
-        //if ($("#Recipe_CookTimeMinutes").val() === "0") {
-        //    $('[data-valmsg-for="Recipe.CookTimeMinutes"]').html("Please enter a value greater than or equal to 1.");
-
-        //    isValidEntry = false;
-        //}
-
-        //if ($("#Recipe_Servings").val() === "0") {
-        //    $('[data-valmsg-for="Recipe.Servings"]').html("Please enter a value greater than or equal to 1.");
-
-        //    isValidEntry = false;
-        //}
-
-        return isValidEntry;
-    }
-
     function AddDirection() {
 
         if (ValidateAddDirection()) {
@@ -261,10 +223,9 @@
                  success: function (result) {
                      location.href = "/MenuRecipes/Edit/" + result.recipeId + "/" + result.message;
                     }
-                  
+
              });
         }
-
     }
 
       function DeleteDirection(item) {
@@ -285,7 +246,7 @@
 
         let id = this.dataset.id;
         let listtoedit = this.dataset.listtoedit;
-        //alert(listtoedit);
+    
         let inputNames = listtoedit === "IngredientsList" ? ["Ingredients"] : ["Directions"];
 
         $(this).closest('tr').find('td').each(function (index, value) {
@@ -310,15 +271,5 @@
             }
         })
     })
-
-
-
-
-    //var inputNames = [];
-    //$('.table > thead > tr > th').each(function (index, value) {
-    //    if ($(value).text().trim() != "") {
-    //        inputNames.push($(value).text().trim());
-    //    }
-    //});
 </script>
 }
