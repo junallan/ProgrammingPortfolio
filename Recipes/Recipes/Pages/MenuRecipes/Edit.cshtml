@@ -14,82 +14,100 @@
             @Model.Message
         </div>
     }
-    <div class="form-group">
-        <label asp-for="Recipe.Name"></label>
-        <input asp-for="Recipe.Name" class="form-control" />
-        <span class="text-danger" asp-validation-for="Recipe.Name"></span>
-        <br /><label asp-for="Recipe.CookTimeMinutes"></label>
-        <input asp-for="Recipe.CookTimeMinutes" class="form-control" min="1" onkeypress="return ValidateWholeNumberEntered(event)" />
-        <span class="text-danger" asp-validation-for="Recipe.CookTimeMinutes"></span>
-        <br /><label asp-for="Recipe.Servings"></label>
-        <input asp-for="Recipe.Servings" class="form-control" type="number" min="1" onkeypress="return ValidateWholeNumberEntered(event)" />
-        <span class="text-danger" asp-validation-for="Recipe.Servings"></span>
-        <table id="tableIngredients" class="table">
-            <thead>
+<div class="form-group">
+    <label asp-for="Recipe.Name"></label>
+    <input asp-for="Recipe.Name" class="form-control" />
+    <span class="text-danger" asp-validation-for="Recipe.Name"></span>
+    <br /><label asp-for="Recipe.CookTimeMinutes"></label>
+    <input asp-for="Recipe.CookTimeMinutes" class="form-control" min="1" onkeypress="return ValidateWholeNumberEntered(event)" />
+    <span class="text-danger" asp-validation-for="Recipe.CookTimeMinutes"></span>
+    <br /><label asp-for="Recipe.Servings"></label>
+    <input asp-for="Recipe.Servings" class="form-control" type="number" min="1" onkeypress="return ValidateWholeNumberEntered(event)" />
+    <span class="text-danger" asp-validation-for="Recipe.Servings"></span>
+    <table id="tableIngredients" style="width:100%">
+        <thead>
+            <tr>
+                <th colspan="3"></th>
+            </tr>
+            <tr>
+                <th>Ingredients</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody style="width:100%">
+            @foreach (var ingredient in Model.Recipe.Ingredients)
+            {
                 <tr>
-                    <th>Ingredients</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var ingredient in Model.Recipe.Ingredients)
-                {
-                    <tr>
-                        <td>@ingredient</td>
-                        <td>
-                            <button class="btn btn-primary edit-button" data-id="@ingredient" data-listtoedit="IngredientsList">Edit</button>
-                        </td>
-                        <td>
-                            <input class="btn btn-default" type="button" id="btnDeleteIngredient" value="Delete" onclick="DeleteIngredient(`@ingredient`)" />
-                        </td>
-                    </tr>
-                }
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td style="width:500px;">
-                        <input type="text" id="IngredientToAdd" class="form-control" />
+                    <td>@ingredient</td>
+                    <td style="width:5%">
+                        <button class="btn btn-primary edit-button" data-id="@ingredient" data-listtoedit="IngredientsList">Edit</button>
                     </td>
-                    <td>
-                        <input class="btn btn-default" type="button" id="btnAddIngredient" value="Add Ingredient" onclick="AddIngredient()" />
-                        &nbsp;<span class="text-danger" id="IngredientToAddValidation"></span>
+                    <td style="width:5%">
+                        <input class="btn btn-default" type="button" id="btnDeleteIngredient" value="Delete" onclick="DeleteIngredient(`@ingredient`)" />
                     </td>
                 </tr>
-            </tfoot>
-        </table>
-        <table id="tableDirections" class="table">
-            <thead>
-                <tr>
-                    <th>Directions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var direction in Model.Recipe.Directions)
-                {
-                <tr>
-                    <td>@direction</td>
-                    <td>
-                        <button class="btn btn-primary edit-button" data-id="@direction" data-listtoedit="DirectionsList">Edit</button>
-                    </td>
-                    <td>
-                        <input class="btn btn-default" type="button" id="btnDeleteDirection" value="Delete" onclick="DeleteDirection(`@direction`)" />
-                    </td>
-                </tr>
-                }
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td style="width:500px;">
-                        <input type="text" id="DirectionToAdd" class="form-control" />
-                    </td>
-                    <td>
-                        <input class="btn btn-default" type="button" id="btnAddDirection" value="Add Direction" onclick="AddDirection()" />
-                        &nbsp;<span class="text-danger" id="DirectionToAddValidation"></span>
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
-        <select id="CategoryId" name="CategoryId" asp-for="Recipe.CategoryId" asp-items="Model.Categories"></select>
-    </div>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>
+                    <input type="text" id="IngredientToAdd" class="form-control" />
+                </td>
+                <td colspan="2">
+                    <input class="btn btn-default" type="button" id="btnAddIngredient" value="Add Ingredient" onclick="AddIngredient()" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <span class="text-danger" id="IngredientToAddValidation"></span>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    <table id="tableDirections" style="width:100%">
+        <thead>
+            <tr>
+                <th colspan="3"></th>
+            </tr>
+            <tr>
+                <th>Directions</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody style="width:100%">
+            @foreach (var direction in Model.Recipe.Directions)
+            {
+            <tr>
+                <td>@direction</td>
+                <td style="width:5%">
+                    <button class="btn btn-primary edit-button" data-id="@direction" data-listtoedit="DirectionsList">Edit</button>
+                </td>
+                <td style="width:5%">
+                    <input class="btn btn-default" type="button" id="btnDeleteDirection" value="Delete" onclick="DeleteDirection(`@direction`)" />
+                </td>
+            </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>
+                    <input type="text" id="DirectionToAdd" class="form-control" />
+                </td>
+                <td colspan="2">
+                    <input class="btn btn-default" type="button" id="btnAddDirection" value="Add Direction" onclick="AddDirection()" />
+                </td>                  
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <span class="text-danger" id="DirectionToAddValidation"></span>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    <select id="CategoryId" name="CategoryId" asp-for="Recipe.CategoryId" asp-items="Model.Categories"></select>
+</div>
 
     <button type="submit" class="btn btn-primary">Save</button>
 </form>
@@ -100,10 +118,21 @@
 @section Scripts{
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 <script type="text/javascript">
-
     $(document).ready(function () {
-        $('#tableIngredients').DataTable();
-        $('#tableDirections').DataTable();
+        $('#tableIngredients').DataTable({
+            searching: false,
+            ordering: false,
+            paging: false,
+            info: false
+        });
+        $('#tableDirections').DataTable({
+            searching: false,
+            ordering: false,
+            paging: false,
+            info: false
+        });
+
+        $(".dataTables_empty").empty();
     });
 
     function ValidateWholeNumberEntered(event) {
