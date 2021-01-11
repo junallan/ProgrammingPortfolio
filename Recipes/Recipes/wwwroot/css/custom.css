@@ -1,0 +1,9 @@
+﻿.list_style {
+    width: 3%
+}
+
+.form_action_button {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}

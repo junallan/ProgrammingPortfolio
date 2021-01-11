@@ -10,11 +10,12 @@
     {
         <tr>
             <td>@recipe.Name</td>
-            <td><a class="btn btn-lg" asp-page="./Detail" asp-route-recipeId="@recipe.Id"><i class="glyphicon glyphicon-zoom-in"></i></a></td>
-            <td><a class="btn btn-lg" asp-page="./Edit" asp-route-recipeId="@recipe.Id"><i class="glyphicon glyphicon-edit"></i></a></td>
-            <td><a class="btn btn-lg" asp-page="./Delete" asp-route-recipeId="@recipe.Id"><i class="glyphicon glyphicon-trash"></i></a></td>
+            <td class="list_style"><a class="btn btn-lg" asp-page="./Detail" asp-route-recipeId="@recipe.Id"><i class="glyphicon glyphicon-zoom-in"></i></a></td>
+            <td class="list_style"><a class="btn btn-lg" asp-page="./Edit" asp-route-recipeId="@recipe.Id"><i class="glyphicon glyphicon-edit"></i></a></td>
+            <td class="list_style"><a class="btn btn-lg" asp-page="./Delete" asp-route-recipeId="@recipe.Id"><i class="glyphicon glyphicon-trash"></i></a></td>
         </tr>
     }
 </table>
-
-<a asp-page=".\Edit" class="btn btn-primary">Add New</a>
+<div class="form_action_button">
+    <a asp-page=".\Edit" class="btn btn-primary">Add New</a>
+</div>

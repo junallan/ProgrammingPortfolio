@@ -40,10 +40,10 @@
                 {
                     <tr>
                         <td>@ingredient</td>
-                        <td style="width:5%">
+                        <td class="list_style">
                             <button class="btn btn-primary edit-button" data-id="@ingredient" data-listtoedit="IngredientsList">Edit</button>
                         </td>
-                        <td style="width:5%">
+                        <td class="list_style">
                             <input class="btn btn-default" type="button" id="btnDeleteIngredient" value="Delete" onclick="DeleteIngredient(`@ingredient`)" />
                         </td>
                     </tr>
@@ -81,10 +81,10 @@
                 {
                 <tr>
                     <td>@direction</td>
-                    <td style="width:5%">
+                    <td class="list_style">
                         <button class="btn btn-primary edit-button" data-id="@direction" data-listtoedit="DirectionsList">Edit</button>
                     </td>
-                    <td style="width:5%">
+                    <td class="list_style">
                         <input class="btn btn-default" type="button" id="btnDeleteDirection" value="Delete" onclick="DeleteDirection(`@direction`)" />
                     </td>
                 </tr>
@@ -107,7 +107,7 @@
             </tfoot>
         </table>
         Recipe Category: <select id="CategoryId" name="CategoryId" asp-for="Recipe.CategoryId" asp-items="Model.Categories"></select>
-        <div style="align-items:center;justify-content:center;display:flex;">
+        <div class="form_action_button">
             <button type="submit" class="btn btn-primary">Save</button>
         </div>
     </div> 
