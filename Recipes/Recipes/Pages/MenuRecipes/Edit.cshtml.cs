@@ -20,8 +20,6 @@ namespace Recipes.Pages.MenuRecipes
        
         [BindProperty]
         public Recipe Recipe { get; set; }
-        //[BindProperty]
-        //public string CategoryId { get; set; }
         public IEnumerable<SelectListItem> Categories { get; set; }
 
         public string FormTitle { get; set; }
@@ -242,33 +240,5 @@ namespace Recipes.Pages.MenuRecipes
             Recipe.Servings = updatedRecipe.Servings;
             Recipe.CategoryId = categoryId;
         }
-
-        //public IActionResult OnPost()
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        if (string.IsNullOrEmpty(Category.Id))
-        //        {
-        //            Category = categoryData.Add(Category);
-        //        }
-        //        else
-        //        {
-        //            var categoryBeforeUpdate = categoryData.GetById(Category.Id);
-        //            if (categoryBeforeUpdate == null) { return RedirectToPage("./NotFound"); }
-
-        //            Category = categoryData.Update(Category);
-
-        //            if (Category == null) { return RedirectToPage("./NotFound"); }
-        //        }
-
-        //        return RedirectToPage("./Detail", new { categoryId = Category.Id });
-        //    }
-        //    else
-        //    {
-        //        RetrieveCategory(Category.Id);
-        //    }
-
-        //    return Page();
-        //}
     }
 }
