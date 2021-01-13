@@ -9,8 +9,16 @@ namespace Recipes.Pages.MenuRecipes
 {
     public class SearchModel : PageModel
     {
+        [BindProperty(SupportsGet = true)]
+        public string Ingredients { get; set; }
+
         public void OnGet()
         {
+        }
+
+        public void OnPost()
+        {
+
         }
     }
 }
