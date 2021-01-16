@@ -21,15 +21,19 @@ namespace Recipes.Pages.MenuRecipes
 
         [BindProperty(SupportsGet = true)]
         public string Ingredients { get; set; }
-
-
+        [BindProperty(SupportsGet = true)]
+        public string CookTime { get; set; }
 
         public void OnGet()
         {
-            var test = Ingredients;
+            //var test = Ingredients;
+            //var test2 = CookTime;
 
             //TODO: Add method on IRecipeData for search by Ingredients input
-            Recipes = recipeData.GetAll();
+            //Recipes = recipeData.GetAll();
+            if (string.IsNullOrEmpty(CookTime)) { return; }
+            var test = this.recipeData.GetBy("CookTimeMinutes", CookTime);
+
         }
 
         public void OnPost()

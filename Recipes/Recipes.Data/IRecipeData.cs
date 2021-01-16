@@ -14,6 +14,7 @@ namespace Recipes.Data
         Recipe Add(Recipe newRecipe);
         IEnumerable<Recipe> GetAll();
         Recipe GetById(string Id);
+        List<Recipe> GetBy(string fieldName, string value);
         Recipe Update(Recipe updatedRecipe);
         Recipe Delete(string Id);
       
@@ -49,9 +50,15 @@ namespace Recipes.Data
             return recs.Select(x => new Recipe { Id = x.Id, Name = x.Name, CookTimeMinutes = x.CookTimeMinutes, Servings = x.Servings, Ingredients = x.Ingredients, Directions = x.Directions, CategoryId = x.CategoryId });
         }
 
+        public List<Recipe> GetBy(string fieldName, string value)
+        {
+            //var test = _db.LoadRecordsBy<Recipe>("Recipes", "Id", Id);
+            var rec = _db.LoadRecordsBy<Recipe>("Recipes", fieldName, value);
+            return rec.ToList(); //TODO: WILL CHANGE LATER JUST STEP WISE PROCESS OF GETTING SEARCH TO WORK ON 1 FIELD THEN LATER WILL BE SEARCH ON MULTIPLE PARAMETER INPUTS
+        }
+
         public Recipe GetById(string Id)
         {
-            var test = _db.LoadRecordsBy<Recipe>("Recipes", "Id", Id);
             var rec = _db.LoadRecordById<Recipe>("Recipes", Id);
             return rec;
         }
@@ -170,6 +177,11 @@ namespace Recipes.Data
         public Recipe Delete(string id)
         {
             return null;
+        }
+
+        public List<Recipe> GetBy(string fieldName, string value)
+        {
+            throw new NotImplementedException();
         }
     }
 }
