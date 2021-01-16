@@ -39,6 +39,13 @@ namespace MongoDbCRUD
             return collection.Find(new BsonDocument()).ToList();
         }
 
+        public List<T> LoadRecordsBy<T>(string table, string fieldName, string id)
+        {
+            var collection = db.GetCollection<T>(table);
+            var filter = Builders<T>.Filter.Eq(fieldName, id);
+
+            return collection.Find(filter).ToList();
+        }
         public T LoadRecordById<T>(string table, Guid id)
         {
             var collection = db.GetCollection<T>(table);

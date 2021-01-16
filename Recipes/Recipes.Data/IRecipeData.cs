@@ -16,6 +16,7 @@ namespace Recipes.Data
         Recipe GetById(string Id);
         Recipe Update(Recipe updatedRecipe);
         Recipe Delete(string Id);
+      
 
     }
 
@@ -50,6 +51,7 @@ namespace Recipes.Data
 
         public Recipe GetById(string Id)
         {
+            var test = _db.LoadRecordsBy<Recipe>("Recipes", "Id", Id);
             var rec = _db.LoadRecordById<Recipe>("Recipes", Id);
             return rec;
         }
