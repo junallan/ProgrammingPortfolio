@@ -21,8 +21,18 @@ namespace Recipes.Pages.MenuRecipes
         }
         public void OnGet()
         {
-            //TODO: Next implement get by id recipe interface method
             Recipes = recipeData.GetAll();
+        }
+
+        public IActionResult OnGetFilteredSearch(string cooktime)
+        {
+            var recipesFiltered = this.recipeData.GetBy("CookTimeMinutes", cooktime);
+
+            if (recipesFiltered.Count == 0) { return RedirectToPage("Search"); }
+
+            Recipes = recipesFiltered;
+
+            return Page();
         }
     }
 }

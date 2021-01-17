@@ -24,16 +24,17 @@ namespace Recipes.Pages.MenuRecipes
         [BindProperty(SupportsGet = true)]
         public string CookTime { get; set; }
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
             //var test = Ingredients;
             //var test2 = CookTime;
 
             //TODO: Add method on IRecipeData for search by Ingredients input
             //Recipes = recipeData.GetAll();
-            if (string.IsNullOrEmpty(CookTime)) { return; }
-            var test = this.recipeData.GetBy("CookTimeMinutes", CookTime);
+            if (string.IsNullOrEmpty(CookTime)) { return Page(); }
 
+
+            return RedirectToPage("List", "FilteredSearch", new { cooktime = CookTime });
         }
 
         public void OnPost()
