@@ -1,4 +1,4 @@
-﻿@page "{ingredients?}/{CookTime?}"
+﻿@page "{ingredients?}/{CookTime?}/{RecipeName?}"
 @model Recipes.Pages.MenuRecipes.SearchModel
 @{
 }
@@ -8,11 +8,13 @@
         Ingredients: 
         <input type="text" asp-for="Ingredients" />
     </div>
-    <div>Search by category</div>
-    <div>Cook time:
+    <div>Search by Category</div>
+    <div>Cook Time:
         <input type="text" asp-for="CookTime" />
     </div>
-    <div>Search by recipe name</div>
+    <div>Recipe Name:
+        <input type="text" asp-for="RecipeName" />
+    </div>
     
     <button type="submit" class="btn">Search</button>
 </form>

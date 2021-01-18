@@ -23,6 +23,8 @@ namespace Recipes.Pages.MenuRecipes
         public string Ingredients { get; set; }
         [BindProperty(SupportsGet = true)]
         public string CookTime { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public string RecipeName { get; set; }
 
         public IActionResult OnGet()
         {
@@ -31,10 +33,10 @@ namespace Recipes.Pages.MenuRecipes
 
             //TODO: Add method on IRecipeData for search by Ingredients input
             //Recipes = recipeData.GetAll();
-            if (string.IsNullOrEmpty(CookTime)) { return Page(); }
+            if (string.IsNullOrEmpty(CookTime) && string.IsNullOrEmpty(RecipeName)) { return Page(); }
 
 
-            return RedirectToPage("List", "FilteredSearch", new { cooktime = CookTime });
+            return RedirectToPage("List", "FilteredSearch", new { cooktime = CookTime, recipename = RecipeName });
         }
 
         public void OnPost()

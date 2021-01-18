@@ -17,8 +17,7 @@ namespace Recipes.Data
         List<Recipe> GetBy(string fieldName, string value);
         Recipe Update(Recipe updatedRecipe);
         Recipe Delete(string Id);
-      
-
+        List<Recipe> GetByContains(string fieldName, string value);
     }
 
     public class RecipesModel
@@ -55,6 +54,12 @@ namespace Recipes.Data
             //var test = _db.LoadRecordsBy<Recipe>("Recipes", "Id", Id);
             var rec = _db.LoadRecordsBy<Recipe>("Recipes", fieldName, value);
             return rec.ToList(); //TODO: WILL CHANGE LATER JUST STEP WISE PROCESS OF GETTING SEARCH TO WORK ON 1 FIELD THEN LATER WILL BE SEARCH ON MULTIPLE PARAMETER INPUTS
+        }
+
+        public List<Recipe> GetByContains(string fieldName, string value)
+        {
+            var rec = _db.LoadRecordsLike<Recipe>("Recipes", fieldName, value);
+            return rec.ToList();
         }
 
         public Recipe GetById(string Id)
@@ -180,6 +185,11 @@ namespace Recipes.Data
         }
 
         public List<Recipe> GetBy(string fieldName, string value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Recipe> GetByContains(string fieldName, string value)
         {
             throw new NotImplementedException();
         }
