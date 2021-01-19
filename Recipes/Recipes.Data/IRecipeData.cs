@@ -18,6 +18,7 @@ namespace Recipes.Data
         Recipe Update(Recipe updatedRecipe);
         Recipe Delete(string Id);
         List<Recipe> GetByContains(string fieldName, string value);
+        List<Recipe> GetByIn(string fieldName, List<string> values);
     }
 
     public class RecipesModel
@@ -52,14 +53,14 @@ namespace Recipes.Data
         public List<Recipe> GetBy(string fieldName, string value)
         {
             //var test = _db.LoadRecordsBy<Recipe>("Recipes", "Id", Id);
-            var rec = _db.LoadRecordsBy<Recipe>("Recipes", fieldName, value);
-            return rec.ToList(); //TODO: WILL CHANGE LATER JUST STEP WISE PROCESS OF GETTING SEARCH TO WORK ON 1 FIELD THEN LATER WILL BE SEARCH ON MULTIPLE PARAMETER INPUTS
+            var recs = _db.LoadRecordsBy<Recipe>("Recipes", fieldName, value);
+            return recs.ToList(); //TODO: WILL CHANGE LATER JUST STEP WISE PROCESS OF GETTING SEARCH TO WORK ON 1 FIELD THEN LATER WILL BE SEARCH ON MULTIPLE PARAMETER INPUTS
         }
 
         public List<Recipe> GetByContains(string fieldName, string value)
         {
-            var rec = _db.LoadRecordsLike<Recipe>("Recipes", fieldName, value);
-            return rec.ToList();
+            var recs = _db.LoadRecordsLike<Recipe>("Recipes", fieldName, value);
+            return recs.ToList();
         }
 
         public Recipe GetById(string Id)
@@ -99,6 +100,12 @@ namespace Recipes.Data
             var recipe = GetById(id);
             var isDeletedRecipe = _db.DeleteRecord<Recipe>("Recipes", id);
             return isDeletedRecipe ? recipe : null;
+        }
+
+        public List<Recipe> GetByIn(string fieldName, List<string> values)
+        {
+            var recs = _db.LoadRecordsIn<Recipe>("Recipes", fieldName, values);
+            return recs.ToList();
         }
     }
 
@@ -190,6 +197,11 @@ namespace Recipes.Data
         }
 
         public List<Recipe> GetByContains(string fieldName, string value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Recipe> GetByIn(string fieldName, List<string> values)
         {
             throw new NotImplementedException();
         }

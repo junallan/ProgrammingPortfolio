@@ -24,11 +24,15 @@ namespace Recipes.Pages.MenuRecipes
             Recipes = recipeData.GetAll();
         }
 
-        public IActionResult OnGetFilteredSearch(string cooktime, string recipename)
+        public IActionResult OnGetFilteredSearch(string cooktime, string recipename, List<string> ingredients)
         {
             List<Recipe> recipesFiltered = new List<Recipe>();
 
-            if(!string.IsNullOrEmpty(cooktime))
+            if(ingredients.Count > 0)
+            {
+                recipesFiltered = this.recipeData.GetByIn("Ingredients", ingredients);
+            }
+            else if(!string.IsNullOrEmpty(cooktime))
             {
                 recipesFiltered = this.recipeData.GetBy("CookTimeMinutes", cooktime);
             }

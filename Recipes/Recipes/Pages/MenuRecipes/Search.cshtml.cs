@@ -33,10 +33,10 @@ namespace Recipes.Pages.MenuRecipes
 
             //TODO: Add method on IRecipeData for search by Ingredients input
             //Recipes = recipeData.GetAll();
-            if (string.IsNullOrEmpty(CookTime) && string.IsNullOrEmpty(RecipeName)) { return Page(); }
+            if (string.IsNullOrEmpty(CookTime) && string.IsNullOrEmpty(RecipeName) && string.IsNullOrEmpty(Ingredients)) { return Page(); }
 
 
-            return RedirectToPage("List", "FilteredSearch", new { cooktime = CookTime, recipename = RecipeName });
+            return RedirectToPage("List", "FilteredSearch", new { cooktime = CookTime, recipename = RecipeName, ingredients = Ingredients.Split(",") });
         }
 
         public void OnPost()
