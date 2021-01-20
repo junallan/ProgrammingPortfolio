@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MongoDB.Driver;
+using MongoDbCRUD;
 using Recipes.Core;
 using Recipes.Data;
 
@@ -28,19 +30,27 @@ namespace Recipes.Pages.MenuRecipes
         {
             List<Recipe> recipesFiltered = new List<Recipe>();
 
-            if(ingredients.Count > 0)
-            {
-                recipesFiltered = this.recipeData.GetByIn("Ingredients", ingredients);
-            }
-            else if(!string.IsNullOrEmpty(cooktime))
-            {
-                recipesFiltered = this.recipeData.GetBy("CookTimeMinutes", cooktime);
-            }
-            else if(!string.IsNullOrEmpty(recipename))
-            {
-                recipesFiltered = this.recipeData.GetByContains("Name", recipename);
-            }
-            
+            //if(ingredients.Count > 0)
+            //{
+            //    recipesFiltered = this.recipeData.GetByIn("Ingredients", ingredients);
+            //}
+            //else if(!string.IsNullOrEmpty(cooktime))
+            //{
+            //    recipesFiltered = this.recipeData.GetBy("CookTimeMinutes", cooktime);
+            //}
+            //else if(!string.IsNullOrEmpty(recipename))
+            //{
+            //    recipesFiltered = this.recipeData.GetByContains("Name", recipename);
+            //}
+
+
+            //TODO: Refactor later, this ideally is lower level details that should be extracted, revist once get this to work
+           FilterDefinition<Recipe>[] filters = { MongoDatabase.FilterDefinitionIn<Recipe>("Ingredients", ingredients),
+                                                                MongoDatabase.FilterDefinitionEqual<Recipe>("CookTimeMinutes", cooktime),
+                                                                MongoDatabase.FilterDefinitionLike<Recipe>("Name", recipename) };
+
+            recipesFiltered = this.recipeData.GetByOr(filters);
+
 
             if (recipesFiltered.Count == 0) { return RedirectToPage("Search"); }
 

@@ -22,4 +22,10 @@
     <ProjectReference Include="..\Recipes.Data\Recipes.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="MongoDbCRUD">
+      <HintPath>..\..\MongoDbCRUD\bin\Debug\netstandard2.0\MongoDbCRUD.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

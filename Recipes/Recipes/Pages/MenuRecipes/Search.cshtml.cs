@@ -36,7 +36,7 @@ namespace Recipes.Pages.MenuRecipes
             if (string.IsNullOrEmpty(CookTime) && string.IsNullOrEmpty(RecipeName) && string.IsNullOrEmpty(Ingredients)) { return Page(); }
 
 
-            return RedirectToPage("List", "FilteredSearch", new { cooktime = CookTime, recipename = RecipeName, ingredients = Ingredients.Split(",") });
+            return RedirectToPage("List", "FilteredSearch", new { cooktime = CookTime, recipename = RecipeName, ingredients = Ingredients?.Split(",") });
         }
 
         public void OnPost()

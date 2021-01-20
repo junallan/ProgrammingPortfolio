@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Driver;
 using MongoDbCRUD;
 using Recipes.Core;
 using System;
@@ -19,6 +20,7 @@ namespace Recipes.Data
         Recipe Delete(string Id);
         List<Recipe> GetByContains(string fieldName, string value);
         List<Recipe> GetByIn(string fieldName, List<string> values);
+        List<Recipe> GetByOr(FilterDefinition<Recipe>[] filters);
     }
 
     public class RecipesModel
@@ -105,6 +107,12 @@ namespace Recipes.Data
         public List<Recipe> GetByIn(string fieldName, List<string> values)
         {
             var recs = _db.LoadRecordsIn<Recipe>("Recipes", fieldName, values);
+            return recs.ToList();
+        }
+
+        public List<Recipe> GetByOr(FilterDefinition<Recipe>[] filters)
+        {
+            var recs = _db.LoadRecordsOr("Recipes", filters);
             return recs.ToList();
         }
     }
@@ -202,6 +210,11 @@ namespace Recipes.Data
         }
 
         public List<Recipe> GetByIn(string fieldName, List<string> values)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Recipe> GetByOr(FilterDefinition<Recipe>[] filters)
         {
             throw new NotImplementedException();
         }
