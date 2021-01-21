@@ -21,6 +21,21 @@ namespace Recipes.Data
         List<Recipe> GetByContains(string fieldName, string value);
         List<Recipe> GetByIn(string fieldName, List<string> values);
         List<Recipe> GetByOr(FilterDefinition<Recipe>[] filters);
+        List<Recipe> GetByOr(FilterValue[] filters);
+    }
+
+    public enum FilterType
+    {
+        IN,
+        EQUAL,
+        LIKE
+    }
+
+    public class FilterValue
+    {
+        public FilterType FilterType { get; set; }
+        public string ColumnName { get; set; }
+        public List<string> Values { get; set; }
     }
 
     public class RecipesModel
@@ -113,6 +128,29 @@ namespace Recipes.Data
         public List<Recipe> GetByOr(FilterDefinition<Recipe>[] filters)
         {
             var recs = _db.LoadRecordsOr("Recipes", filters);
+            return recs.ToList();
+        }
+
+        public List<Recipe> GetByOr(FilterValue[] filters)
+        {
+            FilterDefinition<Recipe>[] filterDefinitions = new FilterDefinition<Recipe>[filters.Length];
+            for (int i=0; i < filters.Length; i++)
+            {
+                switch (filters[i].FilterType)
+                {
+                    case FilterType.IN:
+                        filterDefinitions[i] = MongoDatabase.FilterDefinitionIn<Recipe>(filters[i].ColumnName, filters[i].Values);
+                        break;
+                    case FilterType.EQUAL:
+                        filterDefinitions[i] = MongoDatabase.FilterDefinitionEqual<Recipe>(filters[i].ColumnName, filters[i].Values.ElementAt(0));
+                        break;
+                    case FilterType.LIKE:
+                        filterDefinitions[i] = MongoDatabase.FilterDefinitionLike<Recipe>(filters[i].ColumnName, filters[i].Values.ElementAt(0));
+                        break;
+                }
+            }
+
+            var recs = _db.LoadRecordsOr("Recipes", filterDefinitions);
             return recs.ToList();
         }
     }
@@ -215,6 +253,11 @@ namespace Recipes.Data
         }
 
         public List<Recipe> GetByOr(FilterDefinition<Recipe>[] filters)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Recipe> GetByOr(FilterValue[] filters)
         {
             throw new NotImplementedException();
         }

@@ -45,9 +45,16 @@ namespace Recipes.Pages.MenuRecipes
 
 
             //TODO: Refactor later, this ideally is lower level details that should be extracted, revist once get this to work
-           FilterDefinition<Recipe>[] filters = { MongoDatabase.FilterDefinitionIn<Recipe>("Ingredients", ingredients),
-                                                                MongoDatabase.FilterDefinitionEqual<Recipe>("CookTimeMinutes", cooktime),
-                                                                MongoDatabase.FilterDefinitionLike<Recipe>("Name", recipename) };
+            //FilterDefinition<Recipe>[] filters = { MongoDatabase.FilterDefinitionIn<Recipe>("Ingredients", ingredients),
+            //                                                     MongoDatabase.FilterDefinitionEqual<Recipe>("CookTimeMinutes", cooktime),
+            //                                                     MongoDatabase.FilterDefinitionLike<Recipe>("Name", recipename) };
+
+            // recipesFiltered = this.recipeData.GetByOr(filters);
+            FilterValue[] filters = { 
+                                        new FilterValue { FilterType = FilterType.IN, ColumnName = "Ingredients", Values = ingredients },
+                                        new FilterValue { FilterType = FilterType.EQUAL, ColumnName = "CookTimeMinutes", Values = new List<string> { cooktime } },
+                                        new FilterValue { FilterType = FilterType.LIKE, ColumnName = "Name", Values = new List<string>{recipename } } 
+                                    };
 
             recipesFiltered = this.recipeData.GetByOr(filters);
 
