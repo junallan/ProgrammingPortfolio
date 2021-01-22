@@ -25,31 +25,28 @@ namespace Recipes.Pages.MenuRecipes
         {
             List<Recipe> recipesFiltered = new List<Recipe>();
 
-            //if(ingredients.Count > 0)
-            //{
-            //    recipesFiltered = this.recipeData.GetByIn("Ingredients", ingredients);
-            //}
-            //else if(!string.IsNullOrEmpty(cooktime))
-            //{
-            //    recipesFiltered = this.recipeData.GetBy("CookTimeMinutes", cooktime);
-            //}
-            //else if(!string.IsNullOrEmpty(recipename))
-            //{
-            //    recipesFiltered = this.recipeData.GetByContains("Name", recipename);
-            //}
+            bool isSearchByCooktime = !string.IsNullOrEmpty(cooktime);
+            bool isSearchByRecipeName = !string.IsNullOrEmpty(recipename);
+            bool isSearchByIngredients = ingredients.Count > 0;
 
+            int filtersCount = (isSearchByCooktime ? 1 : 0) + (isSearchByRecipeName ? 1 : 0) + (isSearchByIngredients ? 1 : 0);
+            FilterValue[] filters = new FilterValue[filtersCount];
 
-            //TODO: Refactor later, this ideally is lower level details that should be extracted, revist once get this to work
-            //FilterDefinition<Recipe>[] filters = { MongoDatabase.FilterDefinitionIn<Recipe>("Ingredients", ingredients),
-            //                                                     MongoDatabase.FilterDefinitionEqual<Recipe>("CookTimeMinutes", cooktime),
-            //                                                     MongoDatabase.FilterDefinitionLike<Recipe>("Name", recipename) };
+            int filterCount = 0;
+            if(isSearchByCooktime)
+            {
+                filters[filterCount++] = new FilterValue { FilterType = FilterType.EQUAL, ColumnName = "CookTimeMinutes", Values = new List<string> { cooktime } };              
+            }
 
-            // recipesFiltered = this.recipeData.GetByOr(filters);
-            FilterValue[] filters = { 
-                                        new FilterValue { FilterType = FilterType.IN, ColumnName = "Ingredients", Values = ingredients },
-                                        new FilterValue { FilterType = FilterType.EQUAL, ColumnName = "CookTimeMinutes", Values = new List<string> { cooktime } },
-                                        new FilterValue { FilterType = FilterType.LIKE, ColumnName = "Name", Values = new List<string>{recipename } } 
-                                    };
+            if (isSearchByRecipeName)
+            {
+                filters[filterCount++] = new FilterValue { FilterType = FilterType.LIKE, ColumnName = "Name", Values = new List<string> { recipename } };
+            }
+
+            if (isSearchByIngredients)
+            {
+                filters[filterCount++] = new FilterValue { FilterType = FilterType.IN, ColumnName = "Ingredients", Values = ingredients };
+            }
 
             recipesFiltered = this.recipeData.GetByOr(filters);
 

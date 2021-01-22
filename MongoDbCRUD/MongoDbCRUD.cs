@@ -50,7 +50,7 @@ namespace MongoDbCRUD
         {
             
             var collection = db.GetCollection<T>(tableName);
-            var filter = FilterDefinitionIn<T>(fieldName, values);//Builders<T>.Filter.In(fieldName, values);
+            var filter = FilterDefinitionIn<T>(fieldName, values);
             return collection.Find(filter).ToList();
         }
 
@@ -62,20 +62,20 @@ namespace MongoDbCRUD
         public List<T> LoadRecordsBy<T>(string tableName, string fieldName, string value)
         {
             var collection = db.GetCollection<T>(tableName);
-            var filter = FilterDefinitionEqual<T>(fieldName, value);//Builders<T>.Filter.Eq(fieldName, value);
+            var filter = FilterDefinitionEqual<T>(fieldName, value);
 
             return collection.Find(filter).ToList();
         }
 
         public static FilterDefinition<T> FilterDefinitionEqual<T>(string fieldName, string value)
         {
-            return Builders<T>.Filter.Regex(fieldName, new BsonRegularExpression($".*{value}.*"));
+            return Builders<T>.Filter.Eq(fieldName, value);
         }
 
         public List<T> LoadRecordsLike<T>(string tableName, string fieldName, string value)
         {
             var collection = db.GetCollection<T>(tableName);
-            var filter = FilterDefinitionLike<T>(fieldName, value); //Builders<T>.Filter.Regex(fieldName, new BsonRegularExpression($".*{value}.*"));
+            var filter = FilterDefinitionLike<T>(fieldName, value); 
             return collection.Find(filter).ToList();
         }
 

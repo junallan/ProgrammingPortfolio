@@ -20,7 +20,6 @@ namespace Recipes.Data
         Recipe Delete(string Id);
         List<Recipe> GetByContains(string fieldName, string value);
         List<Recipe> GetByIn(string fieldName, List<string> values);
-        List<Recipe> GetByOr(FilterDefinition<Recipe>[] filters);
         List<Recipe> GetByOr(FilterValue[] filters);
     }
 
@@ -125,11 +124,6 @@ namespace Recipes.Data
             return recs.ToList();
         }
 
-        public List<Recipe> GetByOr(FilterDefinition<Recipe>[] filters)
-        {
-            var recs = _db.LoadRecordsOr("Recipes", filters);
-            return recs.ToList();
-        }
 
         public List<Recipe> GetByOr(FilterValue[] filters)
         {
@@ -248,11 +242,6 @@ namespace Recipes.Data
         }
 
         public List<Recipe> GetByIn(string fieldName, List<string> values)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<Recipe> GetByOr(FilterDefinition<Recipe>[] filters)
         {
             throw new NotImplementedException();
         }
