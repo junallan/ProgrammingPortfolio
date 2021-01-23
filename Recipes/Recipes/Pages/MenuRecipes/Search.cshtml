@@ -11,7 +11,10 @@
         Ingredients: 
         <input type="text" asp-for="Ingredients" />
     </div>
-    <div>Search by Category</div>
+    <div>
+        Recipe Category:
+        <select id="CategoryId" name="CategoryId" asp-for="CategoryId" asp-items="Model.Categories"></select>
+    </div>
     <div>Cook Time:
         <input type="text" asp-for="CookTime" />
     </div>

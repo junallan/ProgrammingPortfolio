@@ -21,15 +21,16 @@ namespace Recipes.Pages.MenuRecipes
             Recipes = recipeData.GetAll();
         }
 
-        public IActionResult OnGetFilteredSearch(string cooktime, string recipename, List<string> ingredients)
+        public IActionResult OnGetFilteredSearch(string cooktime, string recipename, List<string> ingredients, string categorySelectedId)
         {
             List<Recipe> recipesFiltered = new List<Recipe>();
 
             bool isSearchByCooktime = !string.IsNullOrEmpty(cooktime);
             bool isSearchByRecipeName = !string.IsNullOrEmpty(recipename);
             bool isSearchByIngredients = ingredients.Count > 0;
+            bool isCategorySelected = !string.IsNullOrEmpty(categorySelectedId);
 
-            int filtersCount = (isSearchByCooktime ? 1 : 0) + (isSearchByRecipeName ? 1 : 0) + (isSearchByIngredients ? 1 : 0);
+            int filtersCount = (isSearchByCooktime ? 1 : 0) + (isSearchByRecipeName ? 1 : 0) + (isSearchByIngredients ? 1 : 0) + (isCategorySelected ? 1 : 0);
             FilterValue[] filters = new FilterValue[filtersCount];
 
             int filterCount = 0;
@@ -46,6 +47,11 @@ namespace Recipes.Pages.MenuRecipes
             if (isSearchByIngredients)
             {
                 filters[filterCount++] = new FilterValue { FilterType = FilterType.IN, ColumnName = "Ingredients", Values = ingredients };
+            }
+
+            if (isCategorySelected)
+            {
+                filters[filterCount++] = new FilterValue { FilterType = FilterType.EQUAL, ColumnName = "CategoryId", Values = new List<string> { categorySelectedId } };
             }
 
             recipesFiltered = this.recipeData.GetByOr(filters);
