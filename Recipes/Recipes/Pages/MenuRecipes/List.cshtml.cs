@@ -57,7 +57,7 @@ namespace Recipes.Pages.MenuRecipes
             recipesFiltered = this.recipeData.GetByOr(filters);
 
 
-            if (recipesFiltered.Count == 0) { return RedirectToPage("Search"); }
+            if (recipesFiltered.Count == 0) { return RedirectToPage("Search", new { message = "No menu recipe(s) found based on search" }); }
 
             Recipes = recipesFiltered;
 

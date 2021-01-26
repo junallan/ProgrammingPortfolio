@@ -1,10 +1,18 @@
 ﻿@page "{ingredients?}/{CookTime?}/{RecipeName?}"
 @model Recipes.Pages.MenuRecipes.SearchModel
 @{
+    var isMessage = !string.IsNullOrEmpty(Model.Message);
+
 }
 
 <form>
     <h1>Search Recipes</h1>
+    @if (isMessage)
+    {
+        <div class="alert alert-info">
+            @Model.Message
+        </div>
+    }
     <div class="form-group">
         <div class="row">
             <div class="col-sm-1">
@@ -26,7 +34,7 @@
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <select id="CategoryId" name="CategoryId" asp-for="CategoryId" asp-items="Model.Categories"  class="form-control"></select>
+                <select id="CategoryId" name="CategoryId" asp-for="CategoryId" asp-items="Model.Categories" class="form-control"></select>
             </div>
         </div>
         <div class="row">
@@ -36,7 +44,7 @@
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <input type="text" asp-for="CookTime"  class="form-control" />
+                <input type="text" asp-for="CookTime" class="form-control"  min="1" onkeypress="return ValidateWholeNumberEntered(event)" />
             </div>
         </div>
         <div class="row">
@@ -46,7 +54,7 @@
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <input type="text" asp-for="RecipeName"  class="form-control" />
+                <input type="text" asp-for="RecipeName" class="form-control" />
             </div>
         </div>
     </div>

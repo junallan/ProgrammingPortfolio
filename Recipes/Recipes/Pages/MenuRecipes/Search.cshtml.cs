@@ -17,12 +17,8 @@ namespace Recipes.Pages.MenuRecipes
 
         public IEnumerable<Recipe> Recipes { get; set; }
 
-        public SearchModel(IRecipeData recipeData, ICategoryData categoryData)
-        {
-            this.recipeData = recipeData;
-            this.categoryData = categoryData;
-        }
-
+        [BindProperty]
+        public string Message { get; set; }
         [BindProperty(SupportsGet = true)]
         public string Ingredients { get; set; }
         [BindProperty(SupportsGet = true)]
@@ -33,22 +29,30 @@ namespace Recipes.Pages.MenuRecipes
         [BindProperty(SupportsGet = true)]
         public string RecipeName { get; set; }
 
-
-        public IActionResult OnGet()
+        public SearchModel(IRecipeData recipeData, ICategoryData categoryData)
         {
-            //var test = Ingredients;
-            //var test2 = CookTime;
-
-            //TODO: Add method on IRecipeData for search by Ingredients input
-            //Recipes = recipeData.GetAll();
-
+            this.recipeData = recipeData;
+            this.categoryData = categoryData;
+        }
+        public IActionResult OnGet(string message)
+        {
             var categories = this.categoryData.GetAll().Select(c => new SelectListItem { Value = c.Id, Text = c.Name }).ToList();
             categories.Insert(0, new SelectListItem { Value = string.Empty, Text = string.Empty });
 
             Categories = categories;
           
+            if(!string.IsNullOrEmpty(message))
+            {
+                Message = message;
 
-            if (string.IsNullOrEmpty(CookTime) && string.IsNullOrEmpty(RecipeName) && string.IsNullOrEmpty(Ingredients) && string.IsNullOrEmpty(CategoryId)) { return Page(); }
+                return Page();
+            }
+            else if (string.IsNullOrEmpty(CookTime) && string.IsNullOrEmpty(RecipeName) && string.IsNullOrEmpty(Ingredients) && string.IsNullOrEmpty(CategoryId)) 
+            {
+                Message = "Enter criteria to search for recipe(s)";
+
+                return Page(); 
+            }
 
 
             return RedirectToPage("List", "FilteredSearch", new { cooktime = CookTime, recipename = RecipeName, ingredients = Ingredients?.Split(","), categorySelectedId = CategoryId });
