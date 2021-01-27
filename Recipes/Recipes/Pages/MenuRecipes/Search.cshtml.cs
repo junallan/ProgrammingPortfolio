@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Recipes.Core;
 using Recipes.Data;
+using Recipes.Pages.Shared.Models;
 
 namespace Recipes.Pages.MenuRecipes
 {
@@ -41,26 +42,31 @@ namespace Recipes.Pages.MenuRecipes
 
             Categories = categories;
           
-            if(!string.IsNullOrEmpty(message))
+            if(IsSearchValidationError(message))
+            {
+                return Page();
+            }
+
+            var model = new MenuRecipeSearchModel { CookTimeSelected = CookTime, RecipeNameSelected = RecipeName, IngredientsSelected = Ingredients?.Split(",").ToList(), CategorySelectedId = CategoryId };
+            return RedirectToPage("List", "FilteredSearch", model);
+        }
+
+        private bool IsSearchValidationError(string message)
+        {
+            if (!string.IsNullOrEmpty(message))
             {
                 Message = message;
 
-                return Page();
+                return true;
             }
-            else if (string.IsNullOrEmpty(CookTime) && string.IsNullOrEmpty(RecipeName) && string.IsNullOrEmpty(Ingredients) && string.IsNullOrEmpty(CategoryId)) 
+            else if (string.IsNullOrEmpty(CookTime) && string.IsNullOrEmpty(RecipeName) && string.IsNullOrEmpty(Ingredients) && string.IsNullOrEmpty(CategoryId))
             {
                 Message = "Enter criteria to search for recipe(s)";
 
-                return Page(); 
+                return true;
             }
 
-
-            return RedirectToPage("List", "FilteredSearch", new { cooktime = CookTime, recipename = RecipeName, ingredients = Ingredients?.Split(","), categorySelectedId = CategoryId });
-        }
-
-        public void OnPost()
-        {
-
+            return false;
         }
     }
 }

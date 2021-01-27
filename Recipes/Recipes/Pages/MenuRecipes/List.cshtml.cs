@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Recipes.Core;
 using Recipes.Data;
+using Recipes.Pages.Shared.Models;
 
 namespace Recipes.Pages.MenuRecipes
 {
@@ -21,37 +22,32 @@ namespace Recipes.Pages.MenuRecipes
             Recipes = recipeData.GetAll();
         }
 
-        public IActionResult OnGetFilteredSearch(string cooktime, string recipename, List<string> ingredients, string categorySelectedId)
+        
+        public IActionResult OnGetFilteredSearch(MenuRecipeSearchModel menuRecipeSearchModel)
         {
             List<Recipe> recipesFiltered = new List<Recipe>();
-
-            bool isSearchByCooktime = !string.IsNullOrEmpty(cooktime);
-            bool isSearchByRecipeName = !string.IsNullOrEmpty(recipename);
-            bool isSearchByIngredients = ingredients.Count > 0;
-            bool isCategorySelected = !string.IsNullOrEmpty(categorySelectedId);
-
-            int filtersCount = (isSearchByCooktime ? 1 : 0) + (isSearchByRecipeName ? 1 : 0) + (isSearchByIngredients ? 1 : 0) + (isCategorySelected ? 1 : 0);
-            FilterValue[] filters = new FilterValue[filtersCount];
+            FilterValue[] filters = new FilterValue[menuRecipeSearchModel.CountOfFiltersApplied];
 
             int filterCount = 0;
-            if(isSearchByCooktime)
+            //TODO: Refactor repetition??
+            if (menuRecipeSearchModel.IsCookTimeEntered)
             {
-                filters[filterCount++] = new FilterValue { FilterType = FilterType.EQUAL, ColumnName = "CookTimeMinutes", Values = new List<string> { cooktime } };              
+                filters[filterCount++] = new FilterValue { FilterType = FilterType.EQUAL, ColumnName = "CookTimeMinutes", Values = new List<string> { menuRecipeSearchModel.CookTimeSelected } };
             }
 
-            if (isSearchByRecipeName)
+            if (menuRecipeSearchModel.IsRecipeEntered)
             {
-                filters[filterCount++] = new FilterValue { FilterType = FilterType.LIKE, ColumnName = "Name", Values = new List<string> { recipename } };
+                filters[filterCount++] = new FilterValue { FilterType = FilterType.LIKE, ColumnName = "Name", Values = new List<string> { menuRecipeSearchModel.RecipeNameSelected } };
             }
 
-            if (isSearchByIngredients)
+            if (menuRecipeSearchModel.IsIngredientsEntered)
             {
-                filters[filterCount++] = new FilterValue { FilterType = FilterType.IN, ColumnName = "Ingredients", Values = ingredients };
+                filters[filterCount++] = new FilterValue { FilterType = FilterType.IN, ColumnName = "Ingredients", Values = menuRecipeSearchModel.IngredientsSelected };
             }
 
-            if (isCategorySelected)
+            if (menuRecipeSearchModel.IsCategoryEntered)
             {
-                filters[filterCount++] = new FilterValue { FilterType = FilterType.EQUAL, ColumnName = "CategoryId", Values = new List<string> { categorySelectedId } };
+                filters[filterCount++] = new FilterValue { FilterType = FilterType.EQUAL, ColumnName = "CategoryId", Values = new List<string> { menuRecipeSearchModel.CategorySelectedId } };
             }
 
             recipesFiltered = this.recipeData.GetByOr(filters);
