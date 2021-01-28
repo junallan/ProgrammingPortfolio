@@ -7,11 +7,11 @@ namespace Recipes.Pages.Shared.Models
 {
     public class MenuRecipeSearchModel
     {
-        public string CookTimeSelected { get; set; }
+        public int CookTimeSelected { get; set; }
         public string RecipeNameSelected { get; set; }
         public List<string> IngredientsSelected { get; set; }
         public string CategorySelectedId { get; set; }
-        public bool IsCookTimeEntered => !string.IsNullOrEmpty(CookTimeSelected);
+        public bool IsCookTimeEntered => CookTimeSelected != 0;
         public bool IsRecipeEntered => !string.IsNullOrEmpty(RecipeNameSelected);
         public bool IsIngredientsEntered => IngredientsSelected?.Count > 0;
         public bool IsCategoryEntered => !string.IsNullOrEmpty(CategorySelectedId);

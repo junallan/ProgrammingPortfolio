@@ -26,7 +26,7 @@ namespace Recipes.Pages.MenuRecipes
         public string CategoryId { get; set; }
         public IEnumerable<SelectListItem> Categories { get; set; }
         [BindProperty(SupportsGet = true)]
-        public string CookTime { get; set; }
+        public int? CookTime { get; set; }
         [BindProperty(SupportsGet = true)]
         public string RecipeName { get; set; }
 
@@ -47,7 +47,7 @@ namespace Recipes.Pages.MenuRecipes
                 return Page();
             }
 
-            var model = new MenuRecipeSearchModel { CookTimeSelected = CookTime, RecipeNameSelected = RecipeName, IngredientsSelected = Ingredients?.Split(",").ToList(), CategorySelectedId = CategoryId };
+            var model = new MenuRecipeSearchModel { CookTimeSelected = CookTime.HasValue ? CookTime.Value : 0, RecipeNameSelected = RecipeName, IngredientsSelected = Ingredients?.Split(",").ToList(), CategorySelectedId = CategoryId };
             return RedirectToPage("List", "FilteredSearch", model);
         }
 
@@ -59,7 +59,7 @@ namespace Recipes.Pages.MenuRecipes
 
                 return true;
             }
-            else if (string.IsNullOrEmpty(CookTime) && string.IsNullOrEmpty(RecipeName) && string.IsNullOrEmpty(Ingredients) && string.IsNullOrEmpty(CategoryId))
+            else if (!CookTime.HasValue && string.IsNullOrEmpty(RecipeName) && string.IsNullOrEmpty(Ingredients) && string.IsNullOrEmpty(CategoryId))
             {
                 Message = "Enter criteria to search for recipe(s)";
 
