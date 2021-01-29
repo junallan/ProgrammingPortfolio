@@ -2,6 +2,7 @@
 @model Recipes.Pages.MenuRecipes.EditModel
 @{
     var isMessage = !string.IsNullOrEmpty(Model.Message);
+    ViewData["Title"] = @Model.FormTitle;
 }
 
 <h1>@Model.FormTitle</h1>

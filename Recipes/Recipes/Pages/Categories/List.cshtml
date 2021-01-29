@@ -1,6 +1,7 @@
 ﻿@page
 @model Recipes.Pages.Categories.ListModel
 @{
+    ViewData["Title"] = "Menu Recipe Categories";
 }
 
 <h1>Categories</h1>
@@ -8,12 +9,12 @@
 <table class="table">
     @foreach (var category in Model.Categories)
     {
-    <tr>
-        <td>@category.Name</td>
-        <td class="list_style"><a class="btn btn-lg" asp-page="./Detail" asp-route-categoryId="@category.Id"><i class="glyphicon glyphicon-zoom-in"></i></a></td>
-        <td class="list_style"><a class="btn btn-lg" asp-page="./Edit" asp-route-categoryId="@category.Id"><i class="glyphicon glyphicon-edit"></i></a></td>
-        <td class="list_style"><a class="btn btn-lg" asp-page="./Delete" asp-route-categoryId="@category.Id"><i class="glyphicon glyphicon-trash"></i></a></td>
-    </tr>
+        <tr>
+            <td>@category.Name</td>
+            <td class="list_style"><a class="btn btn-lg" asp-page="./Detail" asp-route-categoryId="@category.Id"><i class="glyphicon glyphicon-zoom-in"></i></a></td>
+            <td class="list_style"><a class="btn btn-lg" asp-page="./Edit" asp-route-categoryId="@category.Id"><i class="glyphicon glyphicon-edit"></i></a></td>
+            <td class="list_style"><a class="btn btn-lg" asp-page="./Delete" asp-route-categoryId="@category.Id"><i class="glyphicon glyphicon-trash"></i></a></td>
+        </tr>
     }
 </table>
 <div class="form_action_button">
@@ -21,4 +22,4 @@
 </div>
 
 
- 
+
