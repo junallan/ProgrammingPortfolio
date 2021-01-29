@@ -47,7 +47,7 @@ namespace Recipes.Pages.MenuRecipes
                 return Page();
             }
 
-            var model = new MenuRecipeSearchModel { CookTimeSelected = CookTime.HasValue ? CookTime.Value : 0, RecipeNameSelected = RecipeName, IngredientsSelected = Ingredients?.Split(",").ToList(), CategorySelectedId = CategoryId };
+            var model = new MenuRecipeSearchModel { CookTimeSelected = CookTime, RecipeNameSelected = RecipeName, IngredientsSelected = Ingredients?.Split(",").ToList(), CategorySelectedId = CategoryId };
             return RedirectToPage("List", "FilteredSearch", model);
         }
 
