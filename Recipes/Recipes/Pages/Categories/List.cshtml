@@ -4,7 +4,7 @@
 }
 
 <h1>Categories</h1>
-<div class="alert-info">@TempData["Message"]</div>
+<div class="alert-info">@Model.Message</div>
 <table class="table">
     @foreach (var category in Model.Categories)
     {

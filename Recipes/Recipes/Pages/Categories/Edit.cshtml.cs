@@ -57,6 +57,7 @@ namespace Recipes.Pages.Categories
                 if (string.IsNullOrEmpty(Category.Id))
                 {
                     Category = categoryData.Add(Category);
+                    return RedirectToPage("List", new { Message = $"Category {Category.Name} added" });
                 }
                 else
                 {
