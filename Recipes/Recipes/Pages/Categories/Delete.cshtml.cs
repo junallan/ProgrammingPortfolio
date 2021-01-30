@@ -12,13 +12,19 @@ namespace Recipes.Pages.Categories
     public class DeleteModel : PageModel
     {
         private readonly ICategoryData categoryData;
+        private readonly IRecipeData recipeData;
+
+        [BindProperty]
+        public string Message { get; set; }
+
 
         [BindProperty]
         public Category Category { get; set; }
 
-        public DeleteModel(ICategoryData categoryData)
+        public DeleteModel(ICategoryData categoryData, IRecipeData recipeData)
         {
             this.categoryData = categoryData;
+            this.recipeData = recipeData;
         }
 
         public IActionResult OnGet(string categoryId)
@@ -28,6 +34,14 @@ namespace Recipes.Pages.Categories
             {
                 return RedirectToPage("./NotFound");
             }
+
+            var recipeInAssignedCategory = recipeData.GetBy("CategoryId", Category.Id);
+
+            if(recipeInAssignedCategory.Any())
+            {
+                Message = $"Recipe category {Category.Name} has assigned recipe(s).  Make sure you are okay unassigning category with recipe before deleting.";
+            }
+
             return Page();
         }
 
@@ -40,9 +54,8 @@ namespace Recipes.Pages.Categories
                 return RedirectToPage("./NotFound");
             }
 
-            TempData["Message"] = $"{category.Name} deleted";
-
-            return RedirectToPage("./List");
+            
+            return RedirectToPage("./List", new { Message = $"{category.Name} deleted" });
         }
     }
 }

@@ -3,6 +3,12 @@
 @{
 }
 <h2>Delete!</h2>
+@if(!string.IsNullOrEmpty(Model.Message))
+{
+<div class="alert alert-info">
+    @Model.Message
+</div>
+}
 <div class="alert alert-danger">
     Are you sure you want to delete @Model.Category.Name
     <form method="post">
