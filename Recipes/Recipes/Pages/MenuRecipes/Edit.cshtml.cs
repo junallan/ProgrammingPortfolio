@@ -230,7 +230,9 @@ namespace Recipes.Pages.MenuRecipes
                 Message = message;
             }
 
-            Categories = this.categoryData.GetAll().Select(c => new SelectListItem { Value = c.Id, Text = c.Name }).ToList();
+            var categories = this.categoryData.GetAll().Select(c => new SelectListItem { Value = c.Id, Text = c.Name }).ToList();
+            categories.Insert(0, new SelectListItem { Value = string.Empty, Text = "Select..." });
+            Categories = categories;
         }
 
         private void SetUpdatedRecipe(Recipe updatedRecipe, string categoryId)

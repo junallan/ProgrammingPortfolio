@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -35,11 +36,13 @@ namespace Recipes.Pages.Categories
                 return RedirectToPage("./NotFound");
             }
 
-            var recipeInAssignedCategory = recipeData.GetBy("CategoryId", Category.Id);
+            var recipesInAssignedCategory = recipeData.GetBy("CategoryId", Category.Id);
 
-            if(recipeInAssignedCategory.Any())
+            if(recipesInAssignedCategory.Any())
             {
-                Message = $"Recipe category {Category.Name} has assigned recipe(s).  Make sure you are okay unassigning category with recipe before deleting.";
+                var recipeNamesToUnassignCategory = RecipeNamesToUnassignCategory(recipesInAssignedCategory);
+
+                Message = $"Recipe category {Category.Name} has assigned recipe(s).  Make sure you are okay unassigning category with recipe(s) ({recipeNamesToUnassignCategory}) before deleting.";
             }
 
             return Page();
@@ -47,15 +50,53 @@ namespace Recipes.Pages.Categories
 
         public IActionResult OnPost(string categoryId)
         {
+            var recipesInAssignedCategory = recipeData.GetBy("CategoryId", categoryId);
+            
+            //TODO: COMPLETE AS TRANSACTION
             var category = categoryData.Delete(categoryId);
-
-            if(category == null)
+            UnassignCategoryForRecipes(recipesInAssignedCategory);
+            //
+            if (category == null)
             {
                 return RedirectToPage("./NotFound");
             }
 
-            
-            return RedirectToPage("./List", new { Message = $"{category.Name} deleted" });
+           
+            string message = $"{category.Name} deleted";
+            StringBuilder recipesUnassignedCategories = RecipeNamesToUnassignCategory(recipesInAssignedCategory);
+
+            if (recipesInAssignedCategory.Any())
+            {
+                message = $"{message}.  Recipes unassigned categories: {recipesUnassignedCategories.ToString()}.";
+            }
+
+      
+
+            return RedirectToPage("./List", new { Message = message });
+        }
+
+        private void UnassignCategoryForRecipes(List<Recipe> recipesInAssignedCategory)
+        {
+            foreach (var recipeCategoryToClear in recipesInAssignedCategory)
+            {
+                recipeCategoryToClear.CategoryId = null;
+                recipeData.Update(recipeCategoryToClear);
+            }    
+        }
+
+        private StringBuilder RecipeNamesToUnassignCategory(List<Recipe> recipesInAssignedCategory)
+        {
+            StringBuilder recipesUnassignedCategories = new StringBuilder();
+
+            foreach (var recipeCategoryToClear in recipesInAssignedCategory)
+            {
+                if (recipesUnassignedCategories.Length > 0) { recipesUnassignedCategories.Append(","); }
+
+                recipesUnassignedCategories.Append(recipeCategoryToClear.Name);
+
+            }
+
+            return recipesUnassignedCategories;
         }
     }
 }
