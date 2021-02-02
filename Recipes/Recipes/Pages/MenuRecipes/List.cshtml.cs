@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -33,7 +34,7 @@ namespace Recipes.Pages.MenuRecipes
             filterCount = ApplyFilter(menuRecipeSearchModel.IsCookTimeEntered, FilterType.EQUAL, "CookTimeMinutes", new List<string> { menuRecipeSearchModel.CookTimeSelected?.ToString() }, filters, filterCount);
             filterCount = ApplyFilter(menuRecipeSearchModel.IsRecipeEntered, FilterType.LIKE, "Name", new List<string> { menuRecipeSearchModel.RecipeNameSelected }, filters, filterCount);
             filterCount = ApplyFilter(menuRecipeSearchModel.IsIngredientsEntered, FilterType.IN, "Ingredients", menuRecipeSearchModel.IngredientsSelected, filters, filterCount);
-            filterCount = ApplyFilter(menuRecipeSearchModel.IsCategoryEntered, FilterType.EQUAL, "CategoryId", new List<string> { menuRecipeSearchModel.CategorySelectedId }, filters, filterCount);
+            filterCount = ApplyFilter(menuRecipeSearchModel.IsCategoryEntered, FilterType.EQUAL, Enum.GetName(typeof(CategoryFields), CategoryFields.CategoryId), new List<string> { menuRecipeSearchModel.CategorySelectedId }, filters, filterCount);
 
             recipesFiltered = this.recipeData.GetByOr(filters);
 

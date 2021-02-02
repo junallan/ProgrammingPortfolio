@@ -36,7 +36,7 @@ namespace Recipes.Pages.Categories
                 return RedirectToPage("./NotFound");
             }
 
-            var recipesInAssignedCategory = recipeData.GetBy("CategoryId", Category.Id);
+            var recipesInAssignedCategory = recipeData.GetBy(Enum.GetName(typeof(CategoryFields), CategoryFields.CategoryId), Category.Id);
 
             if(recipesInAssignedCategory.Any())
             {
@@ -50,7 +50,7 @@ namespace Recipes.Pages.Categories
 
         public IActionResult OnPost(string categoryId)
         {
-            var recipesInAssignedCategory = recipeData.GetBy("CategoryId", categoryId);
+            var recipesInAssignedCategory = recipeData.GetBy(Enum.GetName(typeof(CategoryFields), CategoryFields.CategoryId), categoryId);
             
             //TODO: COMPLETE AS TRANSACTION
             var category = categoryData.Delete(categoryId);

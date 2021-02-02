@@ -19,6 +19,11 @@ namespace Recipes.Data
         Category Delete(string Id);
     }
 
+    public enum CategoryFields
+    {
+        CategoryId
+    }
+
 
     public class CategoriesModel
     {
