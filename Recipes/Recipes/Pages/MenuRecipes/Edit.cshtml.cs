@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -39,7 +40,24 @@ namespace Recipes.Pages.MenuRecipes
             this.htmlHelper = htmlHelper;
         }
 
+        //public string UrlEncode(string value)
+        //{
+        //    string reservedCharacters = "!*'();:@&=+$,/?%#[]";
 
+        //    if (String.IsNullOrEmpty(value))
+        //        return String.Empty;
+
+        //    var sb = new StringBuilder();
+
+        //    foreach (char @char in value)
+        //    {
+        //        if (reservedCharacters.IndexOf(@char) == -1)
+        //            sb.Append(@char);
+        //        else
+        //            sb.AppendFormat("%{0:X2}", (int)@char);
+        //    }
+        //    return sb.ToString();
+        //}
 
         public IActionResult OnGetAddIngredient(string recipeId, string ingredientToAdd, string recipeNameToAdd)
         { 
@@ -59,7 +77,14 @@ namespace Recipes.Pages.MenuRecipes
 
                 Message = $"Ingredient ({ingredientToAdd}) added.";
             }
-            
+
+            //TODO: Handle / special character in URL
+            /*Message = Message.Replace("<","%3E");*///UrlEncode(Message);
+            //Message = Message.Replace("/", "%2F");
+
+            //Message = System.Web.HttpUtility.UrlEncode(Message);
+
+
             return new JsonResult(new { recipeId = Recipe.Id, message = Message });
         }
 
