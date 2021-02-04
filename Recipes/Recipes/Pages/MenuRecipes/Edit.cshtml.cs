@@ -74,8 +74,16 @@ namespace Recipes.Pages.MenuRecipes
                 Recipe.Ingredients.Add(ingredientToAdd);
 
                 Recipe = string.IsNullOrEmpty(Recipe.Id) ? recipeData.Add(Recipe) : recipeData.Update(Recipe);
+                
+                if(ingredientToAdd.Contains("/"))
+                {
+                    Message = "Ingredient added.";
+                }
+                else
+                {
+                    Message = $"Ingredient ({ingredientToAdd}) added.";
 
-                Message = $"Ingredient ({ingredientToAdd}) added.";
+                }
             }
 
             //TODO: Handle / special character in URL
