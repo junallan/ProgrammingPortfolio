@@ -127,24 +127,25 @@ namespace Recipes.Data
 
         public List<Recipe> GetByOr(FilterValue[] filters)
         {
-            FilterDefinition<Recipe>[] filterDefinitions = new FilterDefinition<Recipe>[filters.Length];
+            var filterDefinitions = new List<FilterDefinition<Recipe>>();
+
             for (int i=0; i < filters.Length; i++)
             {
                 switch (filters[i].FilterType)
                 {
                     case FilterType.IN:
-                        filterDefinitions[i] = MongoDatabase.FilterDefinitionIn<Recipe>(filters[i].ColumnName, filters[i].Values);
+                        filterDefinitions.Add(MongoDatabase.FilterDefinitionIn<Recipe>(filters[i].ColumnName, filters[i].Values));
                         break;
                     case FilterType.EQUAL:
-                        filterDefinitions[i] = MongoDatabase.FilterDefinitionEqual<Recipe>(filters[i].ColumnName, filters[i].Values.ElementAt(0));
+                        filterDefinitions.Add(MongoDatabase.FilterDefinitionEqual<Recipe>(filters[i].ColumnName, filters[i].Values.ElementAt(0)));
                         break;
                     case FilterType.LIKE:
-                        filterDefinitions[i] = MongoDatabase.FilterDefinitionLike<Recipe>(filters[i].ColumnName, filters[i].Values.ElementAt(0));
+                        filterDefinitions.AddRange(MongoDatabase.FilterDefinitionLike<Recipe>(filters[i].ColumnName, filters[i].Values));
                         break;
                 }
             }
 
-            var recs = _db.LoadRecordsOr("Recipes", filterDefinitions);
+            var recs = _db.LoadRecordsOr("Recipes", filterDefinitions.ToArray());
             return recs.ToList();
         }
     }

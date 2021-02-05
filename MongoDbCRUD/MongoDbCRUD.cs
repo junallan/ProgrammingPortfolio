@@ -79,6 +79,25 @@ namespace MongoDbCRUD
             return collection.Find(filter).ToList();
         }
 
+        public List<T> LoadRecordsLike<T>(string tableName, string fieldName, List<string> values)
+        {
+            var collection = db.GetCollection<T>(tableName);
+            var filters = FilterDefinitionLike<T>(fieldName, values);
+            return LoadRecordsOr<T>(tableName, filters.ToArray());
+        }
+
+        public static List<FilterDefinition<T>> FilterDefinitionLike<T>(string fieldName, List<string> values)
+        {
+            List<FilterDefinition<T>> resultFilters = new List<FilterDefinition<T>>();
+
+            foreach (var value in values)
+            {
+                resultFilters.Add(Builders<T>.Filter.Regex(fieldName, new BsonRegularExpression($".*{value}.*")));
+            }
+
+            return resultFilters;
+        }
+
         public static FilterDefinition<T> FilterDefinitionLike<T>(string fieldName, string value)
         {
             return Builders<T>.Filter.Regex(fieldName, new BsonRegularExpression($".*{value}.*"));

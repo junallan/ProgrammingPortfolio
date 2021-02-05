@@ -33,7 +33,7 @@ namespace Recipes.Pages.MenuRecipes
  
             filterCount = ApplyFilter(menuRecipeSearchModel.IsCookTimeEntered, FilterType.EQUAL, Enum.GetName(typeof(CategoryFields), CategoryFields.CookTimeMinutes), new List<string> { menuRecipeSearchModel.CookTimeSelected?.ToString() }, filters, filterCount);
             filterCount = ApplyFilter(menuRecipeSearchModel.IsRecipeEntered, FilterType.LIKE, Enum.GetName(typeof(CategoryFields), CategoryFields.Name), new List<string> { menuRecipeSearchModel.RecipeNameSelected }, filters, filterCount);
-            filterCount = ApplyFilter(menuRecipeSearchModel.IsIngredientsEntered, FilterType.IN, Enum.GetName(typeof(CategoryFields), CategoryFields.Ingredients), menuRecipeSearchModel.IngredientsSelected, filters, filterCount);
+            filterCount = ApplyFilter(menuRecipeSearchModel.IsIngredientsEntered, FilterType.LIKE, Enum.GetName(typeof(CategoryFields), CategoryFields.Ingredients), menuRecipeSearchModel.IngredientsSelected, filters, filterCount);
             filterCount = ApplyFilter(menuRecipeSearchModel.IsCategoryEntered, FilterType.EQUAL, Enum.GetName(typeof(CategoryFields), CategoryFields.CategoryId), new List<string> { menuRecipeSearchModel.CategorySelectedId }, filters, filterCount);
 
             recipesFiltered = this.recipeData.GetByOr(filters);
