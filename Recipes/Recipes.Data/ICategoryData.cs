@@ -19,13 +19,9 @@ namespace Recipes.Data
         Category Delete(string Id);
     }
 
-    public enum CategoryFields
-    {
-        CookTimeMinutes,
-        Name,
-        Ingredients,
-        CategoryId
-    }
+
+    
+  
 
 
     public class CategoriesModel
@@ -39,20 +35,23 @@ namespace Recipes.Data
     public class MongoCategoryData : ICategoryData
     {
         private readonly MongoDatabase _db;
+
+       
+
         public MongoCategoryData()
         {
-            _db = new MongoDatabase("Recipes");
+            _db = new MongoDatabase(CollectionMappings.RecipeTableName);
         }
 
         public IEnumerable<Category> GetAll()
         {
-            var recs = _db.LoadRecords<CategoriesModel>("Categories");
+            var recs = _db.LoadRecords<CategoriesModel>(CollectionMappings.CategoryTableName);
             return recs.Select(x => new Category { Id=x.Id, Name = x.Name });
         }
 
         public Category GetById(string Id)
         {
-            var rec = _db.LoadRecordById<Category>("Categories", Id);
+            var rec = _db.LoadRecordById<Category>(CollectionMappings.CategoryTableName, Id);
             return rec;
         }
 
@@ -61,7 +60,7 @@ namespace Recipes.Data
             var rec = GetById(updatedCategory.Id);
             rec.Name = updatedCategory.Name;
 
-            _db.UpsertRecord<Category>("Categories", rec.Id, rec);
+            _db.UpsertRecord<Category>(CollectionMappings.CategoryTableName, rec.Id, rec);
 
             rec = GetById(updatedCategory.Id);
             return rec; 
@@ -70,14 +69,14 @@ namespace Recipes.Data
         Category ICategoryData.Add(Category newCategory)
         {
             newCategory.Id = ObjectId.GenerateNewId().ToString();
-            var categoryAdded = _db.UpsertRecord<Category>("Categories", newCategory.Id, newCategory);
+            var categoryAdded = _db.UpsertRecord<Category>(CollectionMappings.CategoryTableName, newCategory.Id, newCategory);
             return categoryAdded;
         }
 
         public Category Delete(string id)
         {
             var category = GetById(id);
-            var isDeletedCategory =_db.DeleteRecord<Category>("Categories", id);
+            var isDeletedCategory =_db.DeleteRecord<Category>(CollectionMappings.CategoryTableName, id);
             return isDeletedCategory ? category : null;
         }
     }

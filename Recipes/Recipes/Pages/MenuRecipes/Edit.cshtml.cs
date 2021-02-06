@@ -40,25 +40,6 @@ namespace Recipes.Pages.MenuRecipes
             this.htmlHelper = htmlHelper;
         }
 
-        //public string UrlEncode(string value)
-        //{
-        //    string reservedCharacters = "!*'();:@&=+$,/?%#[]";
-
-        //    if (String.IsNullOrEmpty(value))
-        //        return String.Empty;
-
-        //    var sb = new StringBuilder();
-
-        //    foreach (char @char in value)
-        //    {
-        //        if (reservedCharacters.IndexOf(@char) == -1)
-        //            sb.Append(@char);
-        //        else
-        //            sb.AppendFormat("%{0:X2}", (int)@char);
-        //    }
-        //    return sb.ToString();
-        //}
-
         public IActionResult OnGetAddIngredient(string recipeId, string ingredientToAdd, string recipeNameToAdd)
         { 
             RetrieveRecipe(recipeId, string.Empty);
@@ -85,13 +66,6 @@ namespace Recipes.Pages.MenuRecipes
 
                 }
             }
-
-            //TODO: Handle / special character in URL
-            /*Message = Message.Replace("<","%3E");*///UrlEncode(Message);
-            //Message = Message.Replace("/", "%2F");
-
-            //Message = System.Web.HttpUtility.UrlEncode(Message);
-
 
             return new JsonResult(new { recipeId = Recipe.Id, message = Message });
         }
