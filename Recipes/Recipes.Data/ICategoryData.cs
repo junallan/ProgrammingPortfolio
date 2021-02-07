@@ -10,13 +10,8 @@ using System.Linq;
 
 namespace Recipes.Data
 {
-    public interface ICategoryData
+    public interface ICategoryData : IBaseData<Category>
     {
-        IEnumerable<Category> GetAll();
-        Category GetById(string Id);
-        Category Update(Category updatedCategory);
-        Category Add(Category newCategory);
-        Category Delete(string Id);
     }
 
 
@@ -66,7 +61,7 @@ namespace Recipes.Data
             return rec; 
         }
 
-        Category ICategoryData.Add(Category newCategory)
+        public Category Add(Category newCategory)
         {
             newCategory.Id = ObjectId.GenerateNewId().ToString();
             var categoryAdded = _db.UpsertRecord<Category>(CollectionMappings.CategoryTableName, newCategory.Id, newCategory);
@@ -116,7 +111,7 @@ namespace Recipes.Data
             return categoryLookedUp;
         }
 
-        Category ICategoryData.Add(Category newCategory)
+        public Category Add(Category newCategory)
         {
             categories.Add(newCategory);
 

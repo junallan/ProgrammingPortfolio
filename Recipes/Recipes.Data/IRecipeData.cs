@@ -10,14 +10,9 @@ using System.Text;
 
 namespace Recipes.Data
 {
-    public interface IRecipeData
+    public interface IRecipeData : IBaseData<Recipe>
     {
-        Recipe Add(Recipe newRecipe);
-        IEnumerable<Recipe> GetAll();
-        Recipe GetById(string Id);
         List<Recipe> GetBy(string fieldName, string value);
-        Recipe Update(Recipe updatedRecipe);
-        Recipe Delete(string Id);
         List<Recipe> GetByContains(string fieldName, string value);
         List<Recipe> GetByIn(string fieldName, List<string> values);
         List<Recipe> GetByOr(FilterValue[] filters);
@@ -102,7 +97,7 @@ namespace Recipes.Data
             return rec;
         }
 
-        Recipe IRecipeData.Add(Recipe newRecipe)
+        public Recipe Add(Recipe newRecipe)
         {
             //return null;
             newRecipe.Id = ObjectId.GenerateNewId().ToString();
@@ -219,7 +214,7 @@ namespace Recipes.Data
             throw new NotImplementedException();
         }
 
-        Recipe IRecipeData.Add(Recipe newRecipe)
+        public Recipe Add(Recipe newRecipe)
         {
             recipes.Add(newRecipe);
 
