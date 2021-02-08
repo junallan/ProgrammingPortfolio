@@ -1,12 +1,19 @@
 ﻿@page "{categoryId?}"
 @model Recipes.Pages.Categories.EditModel
 @{
+    var isMessage = !string.IsNullOrEmpty(Model.Message);
     ViewData["Title"] = @Model.FormTitle;
 }
 
 <h1>@Model.FormTitle</h1>
 
 <form method="post">
+    @if (isMessage)
+    {
+        <div class="alert alert-info">
+            @Model.Message
+        </div>
+    }
     <input type="hidden" asp-for="Category.Id" />
     <div class="form-group">
         <div class="row">
@@ -28,7 +35,7 @@
             <div class="col-sm-12 form_action_button">
                 <button type="submit" class="btn btn-primary">Save</button>
             </div>
-        </div>      
+        </div>
     </div>
 </form>
 

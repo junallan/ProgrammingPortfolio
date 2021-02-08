@@ -17,6 +17,8 @@ namespace Recipes.Pages.Categories
 
         [BindProperty]
         public Category Category { get; set; }
+        [BindProperty]
+        public string Message { get; set; }
         public string FormTitle { get; set; }
         public enum Action
         {
@@ -56,6 +58,12 @@ namespace Recipes.Pages.Categories
             {
                 if (string.IsNullOrEmpty(Category.Id))
                 {
+                    var existingCategories = categoryData.GetBy(nameof(CollectionMappings.CategoryFields.Name), Category.Name.Trim());
+                    if(existingCategories.Count > 0)
+                    {
+                        Message = $"Category ({Category.Name}) already exists.  Enter a different cateogry name.";
+                        return Page();
+                    }
                     Category = categoryData.Add(Category);
                     return RedirectToPage("List", new { Message = $"Category {Category.Name} added" });
                 }

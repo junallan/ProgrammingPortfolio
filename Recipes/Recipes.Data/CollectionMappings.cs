@@ -15,6 +15,11 @@ namespace Recipes.Data
             Categories
         }
 
+        public enum CategoryFields
+        {
+            Name
+        }
+
         public enum RecipeFields
         {
             CookTimeMinutes,

@@ -61,12 +61,6 @@ namespace Recipes.Data
             return recs.Select(x => new Recipe { Id = x.Id, Name = x.Name, CookTimeMinutes = x.CookTimeMinutes, Servings = x.Servings, Ingredients = x.Ingredients, Directions = x.Directions, CategoryId = x.CategoryId });
         }
 
-        public List<Recipe> GetBy(string fieldName, string value)
-        {
-            var recs = _db.LoadRecordsBy<Recipe>(CollectionMappings.RecipeCollectionName, fieldName, value);
-            return recs.ToList(); //TODO: WILL CHANGE LATER JUST STEP WISE PROCESS OF GETTING SEARCH TO WORK ON 1 FIELD THEN LATER WILL BE SEARCH ON MULTIPLE PARAMETER INPUTS
-        }
-
         public List<Recipe> GetByContains(string fieldName, string value)
         {
             var recs = _db.LoadRecordsLike<Recipe>(CollectionMappings.RecipeCollectionName, fieldName, value);
@@ -77,6 +71,12 @@ namespace Recipes.Data
         {
             var rec = _db.LoadRecordById<Recipe>(CollectionMappings.RecipeCollectionName, Id);
             return rec;
+        }
+
+        public List<Recipe> GetBy(string fieldName, string value)
+        {
+            var recs = _db.LoadRecordsBy<Recipe>(CollectionMappings.RecipeCollectionName, fieldName, value);
+            return recs.ToList(); //TODO: WILL CHANGE LATER JUST STEP WISE PROCESS OF GETTING SEARCH TO WORK ON 1 FIELD THEN LATER WILL BE SEARCH ON MULTIPLE PARAMETER INPUTS
         }
 
         public Recipe Update(Recipe updatedRecipe)

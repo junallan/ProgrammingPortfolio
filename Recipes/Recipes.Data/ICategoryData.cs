@@ -14,11 +14,6 @@ namespace Recipes.Data
     {
     }
 
-
-    
-  
-
-
     public class CategoriesModel
     {
         [BsonId]
@@ -31,7 +26,6 @@ namespace Recipes.Data
     {
         private readonly MongoDatabase _db;
 
-       
 
         public MongoCategoryData()
         {
@@ -48,6 +42,12 @@ namespace Recipes.Data
         {
             var rec = _db.LoadRecordById<Category>(CollectionMappings.CategoryCollectionName, Id);
             return rec;
+        }
+
+        public List<Category> GetBy(string fieldName, string value)
+        {
+            var recs = _db.LoadRecordsBy<Category>(CollectionMappings.CategoryCollectionName, fieldName, value);
+            return recs.ToList(); 
         }
 
         public Category Update(Category updatedCategory)
@@ -124,6 +124,11 @@ namespace Recipes.Data
             categories.Remove(categoryToDelete);
 
             return categoryToDelete;
+        }
+
+        public List<Category> GetBy(string fieldName, string value)
+        {
+            throw new NotImplementedException();
         }
     }
 }
