@@ -6,8 +6,8 @@ namespace Recipes.Data
 {
     public class CollectionMappings
     {
-        public static string RecipeTableName => nameof(CollectionMappings.Collections.Recipes);
-        public static string CategoryTableName => nameof(CollectionMappings.Collections.Categories);
+        public static string RecipeCollectionName => nameof(CollectionMappings.Collections.Recipes);
+        public static string CategoryCollectionName => nameof(CollectionMappings.Collections.Categories);
 
         public enum Collections
         {

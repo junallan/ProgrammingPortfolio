@@ -35,18 +35,18 @@ namespace Recipes.Data
 
         public MongoCategoryData()
         {
-            _db = new MongoDatabase(CollectionMappings.RecipeTableName);
+            _db = new MongoDatabase(CollectionMappings.RecipeCollectionName);
         }
 
         public IEnumerable<Category> GetAll()
         {
-            var recs = _db.LoadRecords<CategoriesModel>(CollectionMappings.CategoryTableName);
+            var recs = _db.LoadRecords<CategoriesModel>(CollectionMappings.CategoryCollectionName);
             return recs.Select(x => new Category { Id=x.Id, Name = x.Name });
         }
 
         public Category GetById(string Id)
         {
-            var rec = _db.LoadRecordById<Category>(CollectionMappings.CategoryTableName, Id);
+            var rec = _db.LoadRecordById<Category>(CollectionMappings.CategoryCollectionName, Id);
             return rec;
         }
 
@@ -55,7 +55,7 @@ namespace Recipes.Data
             var rec = GetById(updatedCategory.Id);
             rec.Name = updatedCategory.Name;
 
-            _db.UpsertRecord<Category>(CollectionMappings.CategoryTableName, rec.Id, rec);
+            _db.UpsertRecord<Category>(CollectionMappings.CategoryCollectionName, rec.Id, rec);
 
             rec = GetById(updatedCategory.Id);
             return rec; 
@@ -64,14 +64,14 @@ namespace Recipes.Data
         public Category Add(Category newCategory)
         {
             newCategory.Id = ObjectId.GenerateNewId().ToString();
-            var categoryAdded = _db.UpsertRecord<Category>(CollectionMappings.CategoryTableName, newCategory.Id, newCategory);
+            var categoryAdded = _db.UpsertRecord<Category>(CollectionMappings.CategoryCollectionName, newCategory.Id, newCategory);
             return categoryAdded;
         }
 
         public Category Delete(string id)
         {
             var category = GetById(id);
-            var isDeletedCategory =_db.DeleteRecord<Category>(CollectionMappings.CategoryTableName, id);
+            var isDeletedCategory =_db.DeleteRecord<Category>(CollectionMappings.CategoryCollectionName, id);
             return isDeletedCategory ? category : null;
         }
     }

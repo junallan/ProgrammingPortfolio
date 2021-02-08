@@ -52,30 +52,30 @@ namespace Recipes.Data
         private MongoDatabase _db;
         public MongoRecipeData()
         {
-            _db = new MongoDatabase(CollectionMappings.RecipeTableName);
+            _db = new MongoDatabase(CollectionMappings.RecipeCollectionName);
         }
 
         public IEnumerable<Recipe> GetAll()
         {
-            var recs = _db.LoadRecords<RecipesModel>(CollectionMappings.RecipeTableName);
+            var recs = _db.LoadRecords<RecipesModel>(CollectionMappings.RecipeCollectionName);
             return recs.Select(x => new Recipe { Id = x.Id, Name = x.Name, CookTimeMinutes = x.CookTimeMinutes, Servings = x.Servings, Ingredients = x.Ingredients, Directions = x.Directions, CategoryId = x.CategoryId });
         }
 
         public List<Recipe> GetBy(string fieldName, string value)
         {
-            var recs = _db.LoadRecordsBy<Recipe>(CollectionMappings.RecipeTableName, fieldName, value);
+            var recs = _db.LoadRecordsBy<Recipe>(CollectionMappings.RecipeCollectionName, fieldName, value);
             return recs.ToList(); //TODO: WILL CHANGE LATER JUST STEP WISE PROCESS OF GETTING SEARCH TO WORK ON 1 FIELD THEN LATER WILL BE SEARCH ON MULTIPLE PARAMETER INPUTS
         }
 
         public List<Recipe> GetByContains(string fieldName, string value)
         {
-            var recs = _db.LoadRecordsLike<Recipe>(CollectionMappings.RecipeTableName, fieldName, value);
+            var recs = _db.LoadRecordsLike<Recipe>(CollectionMappings.RecipeCollectionName, fieldName, value);
             return recs.ToList();
         }
 
         public Recipe GetById(string Id)
         {
-            var rec = _db.LoadRecordById<Recipe>(CollectionMappings.RecipeTableName, Id);
+            var rec = _db.LoadRecordById<Recipe>(CollectionMappings.RecipeCollectionName, Id);
             return rec;
         }
 
@@ -91,7 +91,7 @@ namespace Recipes.Data
             rec.Ingredients = updatedRecipe.Ingredients;
             rec.Directions = updatedRecipe.Directions;
 
-            _db.UpsertRecord<Recipe>(CollectionMappings.RecipeTableName, rec.Id, rec);
+            _db.UpsertRecord<Recipe>(CollectionMappings.RecipeCollectionName, rec.Id, rec);
 
             rec = GetById(updatedRecipe.Id);
             return rec;
@@ -101,20 +101,20 @@ namespace Recipes.Data
         {
             //return null;
             newRecipe.Id = ObjectId.GenerateNewId().ToString();
-            var recipeAdded = _db.UpsertRecord<Recipe>(CollectionMappings.RecipeTableName, newRecipe.Id, newRecipe);
+            var recipeAdded = _db.UpsertRecord<Recipe>(CollectionMappings.RecipeCollectionName, newRecipe.Id, newRecipe);
             return recipeAdded;
         }
 
         public Recipe Delete(string id)
         {
             var recipe = GetById(id);
-            var isDeletedRecipe = _db.DeleteRecord<Recipe>(CollectionMappings.RecipeTableName, id);
+            var isDeletedRecipe = _db.DeleteRecord<Recipe>(CollectionMappings.RecipeCollectionName, id);
             return isDeletedRecipe ? recipe : null;
         }
 
         public List<Recipe> GetByIn(string fieldName, List<string> values)
         {
-            var recs = _db.LoadRecordsIn<Recipe>(CollectionMappings.RecipeTableName, fieldName, values);
+            var recs = _db.LoadRecordsIn<Recipe>(CollectionMappings.RecipeCollectionName, fieldName, values);
             return recs.ToList();
         }
 
@@ -139,7 +139,7 @@ namespace Recipes.Data
                 }
             }
 
-            var recs = _db.LoadRecordsOr(CollectionMappings.RecipeTableName, filterDefinitions.ToArray());
+            var recs = _db.LoadRecordsOr(CollectionMappings.RecipeCollectionName, filterDefinitions.ToArray());
             return recs.ToList();
         }
     }
