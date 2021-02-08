@@ -6,7 +6,7 @@ namespace Recipes.Data
 {
     public interface IBaseData<T>
     {
-        IEnumerable<T> GetAll();
+       IEnumerable<T> GetAll();
         T GetById(string Id);
         List<T> GetBy(string fieldName, string value);
         T Update(T item);

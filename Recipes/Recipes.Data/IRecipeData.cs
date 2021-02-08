@@ -12,7 +12,7 @@ namespace Recipes.Data
 {
     public interface IRecipeData : IBaseData<Recipe>
     {
-        List<Recipe> GetBy(string fieldName, string value);
+        public string CollectionName => CollectionMappings.RecipeCollectionName;
         List<Recipe> GetByContains(string fieldName, string value);
         List<Recipe> GetByIn(string fieldName, List<string> values);
         List<Recipe> GetByOr(FilterValue[] filters);
@@ -47,12 +47,11 @@ namespace Recipes.Data
         public string CategoryId { get; set; }
     }
 
-    public class MongoRecipeData : IRecipeData
+    public class MongoRecipeData : BaseData<Recipe>, IRecipeData
     {
-        private MongoDatabase _db;
-        public MongoRecipeData()
+  
+        public MongoRecipeData() : base(new MongoDatabase(CollectionMappings.RecipeCollectionName), CollectionMappings.RecipeCollectionName)
         {
-            _db = new MongoDatabase(CollectionMappings.RecipeCollectionName);
         }
 
         public IEnumerable<Recipe> GetAll()
@@ -73,11 +72,11 @@ namespace Recipes.Data
             return rec;
         }
 
-        public List<Recipe> GetBy(string fieldName, string value)
-        {
-            var recs = _db.LoadRecordsBy<Recipe>(CollectionMappings.RecipeCollectionName, fieldName, value);
-            return recs.ToList(); //TODO: WILL CHANGE LATER JUST STEP WISE PROCESS OF GETTING SEARCH TO WORK ON 1 FIELD THEN LATER WILL BE SEARCH ON MULTIPLE PARAMETER INPUTS
-        }
+        //public List<Recipe> GetBy(string fieldName, string value)
+        //{
+        //    var recs = _db.LoadRecordsBy<Recipe>(CollectionMappings.RecipeCollectionName, fieldName, value);
+        //    return recs.ToList(); //TODO: WILL CHANGE LATER JUST STEP WISE PROCESS OF GETTING SEARCH TO WORK ON 1 FIELD THEN LATER WILL BE SEARCH ON MULTIPLE PARAMETER INPUTS
+        //}
 
         public Recipe Update(Recipe updatedRecipe)
         {

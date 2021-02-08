@@ -12,6 +12,7 @@ namespace Recipes.Data
 {
     public interface ICategoryData : IBaseData<Category>
     {
+        public string CollectionName => CollectionMappings.CategoryCollectionName;
     }
 
     public class CategoriesModel
@@ -22,14 +23,10 @@ namespace Recipes.Data
         public string Name { get; set; }
     }
 
-    public class MongoCategoryData : ICategoryData
+    public class MongoCategoryData : BaseData<Category>, ICategoryData
     {
-        private readonly MongoDatabase _db;
-
-
-        public MongoCategoryData()
+        public MongoCategoryData() : base(new MongoDatabase(CollectionMappings.RecipeCollectionName), CollectionMappings.CategoryCollectionName)
         {
-            _db = new MongoDatabase(CollectionMappings.RecipeCollectionName);
         }
 
         public IEnumerable<Category> GetAll()
@@ -44,11 +41,11 @@ namespace Recipes.Data
             return rec;
         }
 
-        public List<Category> GetBy(string fieldName, string value)
-        {
-            var recs = _db.LoadRecordsBy<Category>(CollectionMappings.CategoryCollectionName, fieldName, value);
-            return recs.ToList(); 
-        }
+        //public List<Category> GetBy(string fieldName, string value)
+        //{
+        //    var recs = _db.LoadRecordsBy<Category>(CollectionMappings.CategoryCollectionName, fieldName, value);
+        //    return recs.ToList(); 
+        //}
 
         public Category Update(Category updatedCategory)
         {
@@ -130,5 +127,10 @@ namespace Recipes.Data
         {
             throw new NotImplementedException();
         }
+
+        //public List<Category> GetBy(string fieldName, string value)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }
