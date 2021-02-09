@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Recipes.Core
 {
-    public class Recipe
+    public class Recipe : IBaseItem
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]

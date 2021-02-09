@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Recipes.Core
 {
-    public class Category
+    public class Category : IBaseItem
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]

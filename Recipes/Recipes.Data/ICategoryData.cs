@@ -29,24 +29,6 @@ namespace Recipes.Data
         {
         }
 
-        public IEnumerable<Category> GetAll()
-        {
-            var recs = _db.LoadRecords<CategoriesModel>(CollectionMappings.CategoryCollectionName);
-            return recs.Select(x => new Category { Id=x.Id, Name = x.Name });
-        }
-
-        public Category GetById(string Id)
-        {
-            var rec = _db.LoadRecordById<Category>(CollectionMappings.CategoryCollectionName, Id);
-            return rec;
-        }
-
-        //public List<Category> GetBy(string fieldName, string value)
-        //{
-        //    var recs = _db.LoadRecordsBy<Category>(CollectionMappings.CategoryCollectionName, fieldName, value);
-        //    return recs.ToList(); 
-        //}
-
         public Category Update(Category updatedCategory)
         {
             var rec = GetById(updatedCategory.Id);
@@ -55,21 +37,13 @@ namespace Recipes.Data
             _db.UpsertRecord<Category>(CollectionMappings.CategoryCollectionName, rec.Id, rec);
 
             rec = GetById(updatedCategory.Id);
-            return rec; 
+            return rec;
         }
 
-        public Category Add(Category newCategory)
+        public IEnumerable<Category> GetAll()
         {
-            newCategory.Id = ObjectId.GenerateNewId().ToString();
-            var categoryAdded = _db.UpsertRecord<Category>(CollectionMappings.CategoryCollectionName, newCategory.Id, newCategory);
-            return categoryAdded;
-        }
-
-        public Category Delete(string id)
-        {
-            var category = GetById(id);
-            var isDeletedCategory =_db.DeleteRecord<Category>(CollectionMappings.CategoryCollectionName, id);
-            return isDeletedCategory ? category : null;
+            var recs = _db.LoadRecords<CategoriesModel>(CollectionMappings.CategoryCollectionName);
+            return recs.Select(x => new Category { Id=x.Id, Name = x.Name });
         }
     }
     
@@ -85,22 +59,11 @@ namespace Recipes.Data
                 new Category{ Id=ObjectId.GenerateNewId().ToString(), Name="Meat Recipes"}
             };
         }
-
-        public IEnumerable<Category> GetAll()
-        {
-            return categories;
-        }
-
-        public Category GetById(string Id)
-        {
-            return categories.Where(x => x.Id == Id).SingleOrDefault();
-        }
-
         public Category Update(Category updatedCategory)
         {
             var categoryLookedUp = categories.Where(c => c.Id == updatedCategory.Id).SingleOrDefault();
-            
-            if(categoryLookedUp != null)
+
+            if (categoryLookedUp != null)
             {
                 categoryLookedUp.Name = updatedCategory.Name;
             }
@@ -123,14 +86,19 @@ namespace Recipes.Data
             return categoryToDelete;
         }
 
+        public IEnumerable<Category> GetAll()
+        {
+            return categories;
+        }
+
+        public Category GetById(string Id)
+        {
+            return categories.Where(x => x.Id == Id).SingleOrDefault();
+        }
+
         public List<Category> GetBy(string fieldName, string value)
         {
             throw new NotImplementedException();
         }
-
-        //public List<Category> GetBy(string fieldName, string value)
-        //{
-        //    throw new NotImplementedException();
-        //}
     }
 }

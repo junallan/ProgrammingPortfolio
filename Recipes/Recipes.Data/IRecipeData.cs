@@ -54,30 +54,6 @@ namespace Recipes.Data
         {
         }
 
-        public IEnumerable<Recipe> GetAll()
-        {
-            var recs = _db.LoadRecords<RecipesModel>(CollectionMappings.RecipeCollectionName);
-            return recs.Select(x => new Recipe { Id = x.Id, Name = x.Name, CookTimeMinutes = x.CookTimeMinutes, Servings = x.Servings, Ingredients = x.Ingredients, Directions = x.Directions, CategoryId = x.CategoryId });
-        }
-
-        public List<Recipe> GetByContains(string fieldName, string value)
-        {
-            var recs = _db.LoadRecordsLike<Recipe>(CollectionMappings.RecipeCollectionName, fieldName, value);
-            return recs.ToList();
-        }
-
-        public Recipe GetById(string Id)
-        {
-            var rec = _db.LoadRecordById<Recipe>(CollectionMappings.RecipeCollectionName, Id);
-            return rec;
-        }
-
-        //public List<Recipe> GetBy(string fieldName, string value)
-        //{
-        //    var recs = _db.LoadRecordsBy<Recipe>(CollectionMappings.RecipeCollectionName, fieldName, value);
-        //    return recs.ToList(); //TODO: WILL CHANGE LATER JUST STEP WISE PROCESS OF GETTING SEARCH TO WORK ON 1 FIELD THEN LATER WILL BE SEARCH ON MULTIPLE PARAMETER INPUTS
-        //}
-
         public Recipe Update(Recipe updatedRecipe)
         {
             //return null;
@@ -96,19 +72,16 @@ namespace Recipes.Data
             return rec;
         }
 
-        public Recipe Add(Recipe newRecipe)
+        public IEnumerable<Recipe> GetAll()
         {
-            //return null;
-            newRecipe.Id = ObjectId.GenerateNewId().ToString();
-            var recipeAdded = _db.UpsertRecord<Recipe>(CollectionMappings.RecipeCollectionName, newRecipe.Id, newRecipe);
-            return recipeAdded;
+            var recs = _db.LoadRecords<RecipesModel>(CollectionMappings.RecipeCollectionName);
+            return recs.Select(x => new Recipe { Id = x.Id, Name = x.Name, CookTimeMinutes = x.CookTimeMinutes, Servings = x.Servings, Ingredients = x.Ingredients, Directions = x.Directions, CategoryId = x.CategoryId });
         }
 
-        public Recipe Delete(string id)
+        public List<Recipe> GetByContains(string fieldName, string value)
         {
-            var recipe = GetById(id);
-            var isDeletedRecipe = _db.DeleteRecord<Recipe>(CollectionMappings.RecipeCollectionName, id);
-            return isDeletedRecipe ? recipe : null;
+            var recs = _db.LoadRecordsLike<Recipe>(CollectionMappings.RecipeCollectionName, fieldName, value);
+            return recs.ToList();
         }
 
         public List<Recipe> GetByIn(string fieldName, List<string> values)
