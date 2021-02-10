@@ -240,10 +240,12 @@
         if(ValidateAddIngredient()) {
             let ingredientToAdd = $("#IngredientToAdd").val();
             let recipeName = $("#Recipe_Name").val();
+            let cookTimeMinutes = $("#Recipe_CookTimeMinutes").val();
+            let servings = $("#Recipe_Servings").val();
 
             $.ajax({
                 type: "GET",
-                data: { recipeId: `@Model.Recipe.Id`, ingredientToAdd: ingredientToAdd, recipeNameToAdd: recipeName },
+                data: { recipeId: `@Model.Recipe.Id`, ingredientToAdd: ingredientToAdd, recipeNameToAdd: recipeName, cookTimeMinutesToAdd: cookTimeMinutes, servingsToAdd: servings },
                 contentType: "application/json; charset=utf-8",
                 url: '@Url.Page("Edit","AddIngredient")',
              success: function (result) {

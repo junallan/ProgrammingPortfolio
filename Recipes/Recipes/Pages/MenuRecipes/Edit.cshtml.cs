@@ -40,7 +40,7 @@ namespace Recipes.Pages.MenuRecipes
             this.htmlHelper = htmlHelper;
         }
 
-        public IActionResult OnGetAddIngredient(string recipeId, string ingredientToAdd, string recipeNameToAdd)
+        public IActionResult OnGetAddIngredient(string recipeId, string ingredientToAdd, string recipeNameToAdd, string cookTimeMinutesToAdd, string servingsToAdd)
         { 
             RetrieveRecipe(recipeId, string.Empty);
 
@@ -51,7 +51,9 @@ namespace Recipes.Pages.MenuRecipes
             else
             {
                 if (!string.IsNullOrEmpty(recipeNameToAdd)) { Recipe.Name = recipeNameToAdd; }
-                
+                if (!string.IsNullOrEmpty(cookTimeMinutesToAdd)) { Recipe.CookTimeMinutes = int.Parse(cookTimeMinutesToAdd); }
+                if (!string.IsNullOrEmpty(servingsToAdd)) { Recipe.Servings = int.Parse(servingsToAdd); }
+
                 Recipe.Ingredients.Add(ingredientToAdd);
 
                 Recipe = string.IsNullOrEmpty(Recipe.Id) ? recipeData.Add(Recipe) : recipeData.Update(Recipe);
@@ -82,7 +84,10 @@ namespace Recipes.Pages.MenuRecipes
             {
                 Recipe.Directions.Add(directionToAdd);
 
-                if (!string.IsNullOrEmpty(recipeNameToAdd)) { Recipe.Name = recipeNameToAdd; }
+                if (!string.IsNullOrEmpty(recipeNameToAdd)) 
+                { 
+                    Recipe.Name = recipeNameToAdd; 
+                }
 
                 Recipe = string.IsNullOrEmpty(Recipe.Id) ? recipeData.Add(Recipe) : recipeData.Update(Recipe);
 
