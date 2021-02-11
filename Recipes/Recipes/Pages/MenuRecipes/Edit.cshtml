@@ -166,7 +166,13 @@
 @section Scripts{
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 <script type="text/javascript">
-    $(document).ready(function () {
+    $(document).ready(function () {   
+        if ($("#Recipe_Name").val().length > 0) {
+            $("#DirectionToAdd").focus();
+        }
+        else {
+            $("#Recipe_Name").focus();
+        }
         $('#tableIngredients').DataTable({
             searching: false,
             ordering: false,

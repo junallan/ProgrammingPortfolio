@@ -44,7 +44,7 @@
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <input  asp-for="CookTime" class="form-control"  min="1" onkeypress="return ValidateWholeNumberEntered(event)" />
+                <input asp-for="CookTime" class="form-control" min="1" onkeypress="return ValidateWholeNumberEntered(event)" />
             </div>
         </div>
         <div class="row">
@@ -61,3 +61,10 @@
     <button type="submit" class="btn btn-primary">Search</button>
 </form>
 
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#Ingredients").focus();
+        });
+    </script>
+}
