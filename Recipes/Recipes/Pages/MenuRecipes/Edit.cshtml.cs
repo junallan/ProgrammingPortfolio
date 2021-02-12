@@ -172,7 +172,7 @@ namespace Recipes.Pages.MenuRecipes
             {
 
                 Recipe = recipeData.Add(Recipe);
-               
+                FormTitle = $"{Action.Editing.ToString()} {Recipe.Name}";
             }
             else
             {

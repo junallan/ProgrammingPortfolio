@@ -61,6 +61,21 @@
             <span class="text-danger" asp-validation-for="Recipe.Servings"></span>
         </div>
     </div>
+    <div class="row">
+        <div class="col-sm-12">
+            Recipe Category:
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <select id="CategoryId" name="CategoryId" asp-for="Recipe.CategoryId" asp-items="Model.Categories"></select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 form_action_button">
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    </div>
     <table id="tableIngredients" style="width:100%">
         <thead>
             <tr>
@@ -143,21 +158,6 @@
             </tr>
         </tfoot>
     </table>
-    <div class="row">
-        <div class="col-sm-12">
-            Recipe Category:
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12">
-            <select id="CategoryId" name="CategoryId" asp-for="Recipe.CategoryId" asp-items="Model.Categories"></select>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12 form_action_button">
-            <button type="submit" class="btn btn-primary">Save</button>
-        </div>
-    </div>
 </div>
 </form>
 
