@@ -10,8 +10,8 @@
     @foreach (var recipe in Model.Recipes)
     {
     <tr>
-        <td>@recipe.RecipeName</td>
-        <td>@recipe.CategoryName</td>
+        <td style="width:25%">@recipe.RecipeName</td>
+        <td style="width:25%">@recipe.CategoryName</td>
         <td class="list_style"><a class="btn btn-lg" asp-page="./Detail" asp-route-recipeId="@recipe.RecipeId"><i class="glyphicon glyphicon-zoom-in"></i></a></td>
         <td class="list_style"><a class="btn btn-lg" asp-page="./Edit" asp-route-recipeId="@recipe.RecipeId"><i class="glyphicon glyphicon-edit"></i></a></td>
         <td class="list_style"><a class="btn btn-lg" asp-page="./Delete" asp-route-recipeId="@recipe.RecipeId"><i class="glyphicon glyphicon-trash"></i></a></td>

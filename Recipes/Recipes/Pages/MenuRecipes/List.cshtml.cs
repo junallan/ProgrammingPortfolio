@@ -30,7 +30,7 @@ namespace Recipes.Pages.MenuRecipes
         }
         public void OnGet()
         {
-            Recipes = recipeData.GetAll().Select(x => new RecipeModel { RecipeId = x.Id, CategoryName = this.categoryData.GetById(x.CategoryId)?.Name, RecipeName = x.Name });
+            Recipes = recipeData.GetAll().Select(x => new RecipeModel { RecipeId = x.Id, CategoryName = this.categoryData.GetById(x.CategoryId)?.Name, RecipeName = x.Name }).OrderBy(x => x.CategoryName).ThenBy(x => x.RecipeName);
         }
 
         
@@ -51,7 +51,7 @@ namespace Recipes.Pages.MenuRecipes
 
             if (recipesFiltered.Count == 0) { return RedirectToPage("Search", new { message = "No menu recipe(s) found based on search" }); }
 
-            Recipes = recipesFiltered.Select(x => new RecipeModel { RecipeId = x.Id, CategoryName = this.categoryData.GetById(x.CategoryId)?.Name, RecipeName = x.Name }); ;
+            Recipes = recipesFiltered.Select(x => new RecipeModel { RecipeId = x.Id, CategoryName = this.categoryData.GetById(x.CategoryId)?.Name, RecipeName = x.Name }).OrderBy(x => x.CategoryName).ThenBy(x => x.RecipeName); 
 
             return Page();
         }
