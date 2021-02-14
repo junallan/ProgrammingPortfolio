@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Recipes.Core;
@@ -8,19 +9,28 @@ using Recipes.Pages.Shared.Models;
 
 namespace Recipes.Pages.MenuRecipes
 {
+    public class RecipeModel
+    {
+        public string RecipeId { get; set; }
+        public string RecipeName { get; set; }
+        public string CategoryName { get; set; }
+    }
+
     public class ListModel : PageModel
     {
         private readonly IRecipeData recipeData;
+        private readonly ICategoryData categoryData;
 
-        public IEnumerable<Recipe> Recipes { get; set; }
+        public IEnumerable<RecipeModel> Recipes { get; set; }
 
-        public ListModel(IRecipeData recipeData)
+        public ListModel(IRecipeData recipeData, ICategoryData categoryData)
         {
             this.recipeData = recipeData;
+            this.categoryData = categoryData;
         }
         public void OnGet()
         {
-            Recipes = recipeData.GetAll();
+            Recipes = recipeData.GetAll().Select(x => new RecipeModel { RecipeId = x.Id, CategoryName = this.categoryData.GetById(x.CategoryId)?.Name, RecipeName = x.Name });
         }
 
         
@@ -41,7 +51,7 @@ namespace Recipes.Pages.MenuRecipes
 
             if (recipesFiltered.Count == 0) { return RedirectToPage("Search", new { message = "No menu recipe(s) found based on search" }); }
 
-            Recipes = recipesFiltered;
+            Recipes = recipesFiltered.Select(x => new RecipeModel { RecipeId = x.Id, CategoryName = this.categoryData.GetById(x.CategoryId)?.Name, RecipeName = x.Name }); ;
 
             return Page();
         }

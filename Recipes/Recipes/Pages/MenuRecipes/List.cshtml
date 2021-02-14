@@ -9,12 +9,13 @@
 <table class="table">
     @foreach (var recipe in Model.Recipes)
     {
-        <tr>
-            <td>@recipe.Name</td>
-            <td class="list_style"><a class="btn btn-lg" asp-page="./Detail" asp-route-recipeId="@recipe.Id"><i class="glyphicon glyphicon-zoom-in"></i></a></td>
-            <td class="list_style"><a class="btn btn-lg" asp-page="./Edit" asp-route-recipeId="@recipe.Id"><i class="glyphicon glyphicon-edit"></i></a></td>
-            <td class="list_style"><a class="btn btn-lg" asp-page="./Delete" asp-route-recipeId="@recipe.Id"><i class="glyphicon glyphicon-trash"></i></a></td>
-        </tr>
+    <tr>
+        <td>@recipe.RecipeName</td>
+        <td>@recipe.CategoryName</td>
+        <td class="list_style"><a class="btn btn-lg" asp-page="./Detail" asp-route-recipeId="@recipe.RecipeId"><i class="glyphicon glyphicon-zoom-in"></i></a></td>
+        <td class="list_style"><a class="btn btn-lg" asp-page="./Edit" asp-route-recipeId="@recipe.RecipeId"><i class="glyphicon glyphicon-edit"></i></a></td>
+        <td class="list_style"><a class="btn btn-lg" asp-page="./Delete" asp-route-recipeId="@recipe.RecipeId"><i class="glyphicon glyphicon-trash"></i></a></td>
+    </tr>
     }
 </table>
 <div class="form_action_button">

@@ -241,7 +241,7 @@ namespace Recipes.Pages.MenuRecipes
                 FormTitle = $"{Action.Editing.ToString()} {Recipe.Name}";
                 Message = message;
             }
-
+            
             var categories = this.categoryData.GetAll().Select(c => new SelectListItem { Value = c.Id, Text = c.Name }).ToList();
             categories.Insert(0, new SelectListItem { Value = string.Empty, Text = "Select..." });
             Categories = categories;
