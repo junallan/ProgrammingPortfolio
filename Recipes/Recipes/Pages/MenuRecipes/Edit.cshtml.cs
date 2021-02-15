@@ -170,6 +170,14 @@ namespace Recipes.Pages.MenuRecipes
 
             if (isAddRecipe)
             {
+                var existingRecipes = recipeData.GetBy(nameof(CollectionMappings.RecipeFields.Name), Recipe.Name.Trim());
+
+                if(existingRecipes.Count > 0)
+                {
+                    Message = $"Recipe ({Recipe.Name}) already exists.  Enter a different recipe name.";
+                    return Page();
+                }
+
 
                 Recipe = recipeData.Add(Recipe);
                 FormTitle = $"{Action.Editing.ToString()} {Recipe.Name}";
