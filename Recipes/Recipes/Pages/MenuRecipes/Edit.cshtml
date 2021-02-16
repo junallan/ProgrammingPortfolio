@@ -2,6 +2,7 @@
 @model Recipes.Pages.MenuRecipes.EditModel
 @{
     var isMessage = !string.IsNullOrEmpty(Model.Message);
+    var isAddRecipe = string.IsNullOrEmpty(Model.Recipe.Name);
     ViewData["Title"] = @Model.FormTitle;
 }
 
@@ -73,7 +74,7 @@
     </div>
     <div class="row">
         <div class="col-sm-12 form_action_button">
-            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="submit" id="SaveRecipe" class="btn btn-primary">Save</button>
         </div>
     </div>
     <table id="tableIngredients" style="width:100%">
@@ -166,7 +167,14 @@
 @section Scripts{
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 <script type="text/javascript">
-    $(document).ready(function () {   
+    $(document).ready(function () {
+        let isEditMode = `@Model.FormTitle`.includes(`Editing`);
+
+        if (isEditMode) {
+            $("#Recipe_Name").prop('readonly', true);
+            $("#SaveRecipe").hide();
+        }
+
         if ($("#Recipe_Name").val().length > 0) {
             $("#DirectionToAdd").focus();
         }
@@ -211,7 +219,7 @@
         $("#DirectionToAddValidation").html("");
 
         isValidEntry = ListItemValidation("Ingredient");
-       
+
 
         if ($("#Recipe_Name").val().length === 0) {
             // alert("The name filed is required.");
@@ -230,7 +238,7 @@
 
         isValidEntry = ListItemValidation("Direction");
 
-     
+
 
         if ($("#Recipe_Name").val().length === 0) {
             $('[data-valmsg-for="Recipe.Name"]').html("The Name field is required.");
@@ -241,7 +249,7 @@
         return isValidEntry;
     }
 
-    
+
     function AddIngredient() {
         if(ValidateAddIngredient()) {
             let ingredientToAdd = $("#IngredientToAdd").val();
@@ -310,7 +318,7 @@
 
         let id = this.dataset.id;
         let listtoedit = this.dataset.listtoedit;
-    
+
         let inputNames = listtoedit === "IngredientsList" ? ["Ingredients"] : ["Directions"];
 
         $(this).closest('tr').find('td').each(function (index, value) {

@@ -175,6 +175,7 @@ namespace Recipes.Pages.MenuRecipes
                 if(existingRecipes.Count > 0)
                 {
                     Message = $"Recipe ({Recipe.Name}) already exists.  Enter a different recipe name.";
+        
                     return Page();
                 }
 
