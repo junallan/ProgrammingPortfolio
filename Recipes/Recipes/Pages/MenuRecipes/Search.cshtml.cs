@@ -29,6 +29,9 @@ namespace Recipes.Pages.MenuRecipes
         public int? CookTime { get; set; }
         [BindProperty(SupportsGet = true)]
         public string RecipeName { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public string ServingNumber { get; set; }
+        public IEnumerable<SelectListItem> Servings { get; set; }
 
         public SearchModel(IRecipeData recipeData, ICategoryData categoryData)
         {
@@ -41,7 +44,20 @@ namespace Recipes.Pages.MenuRecipes
             categories.Insert(0, new SelectListItem { Value = string.Empty, Text = string.Empty });
 
             Categories = categories;
-          
+
+            var minGroupServings = new SelectListGroup { Name="2 or 1 with left"};
+            var mediumGroupServings = new SelectListGroup { Name = "4 or 2-3 with leftovers" };
+            var largeGroupServings = new SelectListGroup { Name = "Family of 5+" };
+
+            var servings = new List<SelectListItem>
+            {
+                new SelectListItem{ Value = "2", Text="2 servings", Group=minGroupServings},
+                new SelectListItem{Value="4", Text="4 servings", Group=mediumGroupServings},
+                new SelectListItem{Value="6", Text="6 servings", Group=largeGroupServings}
+            };
+
+            Servings = servings;
+
             if(IsSearchValidationError(message))
             {
                 return Page();

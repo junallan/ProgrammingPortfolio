@@ -13,51 +13,61 @@
             @Model.Message
         </div>
     }
-    <div class="form-group">
-        <div class="row">
-            <div class="col-sm-1">
-                Ingredients:
-            </div>
-            <div class="col-sm-10 text-info">
-                (Enter , to separate multiple items)
-            </div>
+<div class="form-group">
+    <div class="row">
+        <div class="col-sm-1">
+            Ingredients:
         </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <input type="text" asp-for="Ingredients" class="form-control" />
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12">
-                Recipe Category:
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <select id="CategoryId" name="CategoryId" asp-for="CategoryId" asp-items="Model.Categories" class="form-control"></select>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12">
-                Cook Time:
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <input asp-for="CookTime" class="form-control" min="1" onkeypress="return ValidateWholeNumberEntered(event)" />
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12">
-                Recipe Name:
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <input type="text" asp-for="RecipeName" class="form-control" />
-            </div>
+        <div class="col-sm-10 text-info">
+            (Enter , to separate multiple items)
         </div>
     </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <input type="text" asp-for="Ingredients" class="form-control" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            Recipe Category:
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <select id="CategoryId" name="CategoryId" asp-for="CategoryId" asp-items="Model.Categories" class="form-control"></select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            Cook Time:
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <input asp-for="CookTime" class="form-control" min="1" onkeypress="return ValidateWholeNumberEntered(event)" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            Recipe Name:
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <input type="text" asp-for="RecipeName" class="form-control" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            Serving Size:
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <select id="ServingNumber" name="ServingNumber" asp-for="ServingNumber" asp-items="Model.Servings" class="form-control"></select>
+        </div>
+    </div>
+</div>
     <button type="submit" class="btn btn-primary">Search</button>
 </form>
 
