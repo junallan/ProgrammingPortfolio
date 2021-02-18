@@ -51,9 +51,10 @@ namespace Recipes.Pages.MenuRecipes
 
             var servings = new List<SelectListItem>
             {
-                new SelectListItem{ Value = "2", Text="2 servings", Group=minGroupServings},
-                new SelectListItem{Value="4", Text="4 servings", Group=mediumGroupServings},
-                new SelectListItem{Value="6", Text="6 servings", Group=largeGroupServings}
+                new SelectListItem{ Value=string.Empty, Text=string.Empty},
+                new SelectListItem { Value = "2", Text="2 servings", Group=minGroupServings },
+                new SelectListItem { Value="4", Text="4 servings", Group=mediumGroupServings },
+                new SelectListItem { Value="6", Text="6 servings", Group=largeGroupServings }
             };
 
             Servings = servings;
@@ -63,7 +64,9 @@ namespace Recipes.Pages.MenuRecipes
                 return Page();
             }
 
-            var model = new MenuRecipeSearchModel { CookTimeSelected = CookTime, RecipeNameSelected = RecipeName, IngredientsSelected = Ingredients?.Split(",").ToList(), CategorySelectedId = CategoryId };
+
+            var model = new MenuRecipeSearchModel { CookTimeSelected = CookTime, ServingsSelected = ServingNumber, RecipeNameSelected = RecipeName, IngredientsSelected = Ingredients?.Split(",").ToList(), CategorySelectedId = CategoryId };
+
             return RedirectToPage("List", "FilteredSearch", model);
         }
 
@@ -75,7 +78,7 @@ namespace Recipes.Pages.MenuRecipes
 
                 return true;
             }
-            else if (!CookTime.HasValue && string.IsNullOrEmpty(RecipeName) && string.IsNullOrEmpty(Ingredients) && string.IsNullOrEmpty(CategoryId))
+            else if (!CookTime.HasValue && string.IsNullOrEmpty(RecipeName) && string.IsNullOrEmpty(Ingredients) && string.IsNullOrEmpty(CategoryId) && string.IsNullOrEmpty(ServingNumber))
             {
                 Message = "Enter criteria to search for recipe(s)";
 

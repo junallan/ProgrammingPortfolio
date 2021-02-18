@@ -23,6 +23,7 @@ namespace Recipes.Data
         public enum RecipeFields
         {
             CookTimeMinutes,
+            Servings,
             Name,
             Ingredients,
             CategoryId

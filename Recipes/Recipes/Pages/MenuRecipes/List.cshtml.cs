@@ -46,6 +46,10 @@ namespace Recipes.Pages.MenuRecipes
             filterCount = ApplyFilter(menuRecipeSearchModel.IsIngredientsEntered, FilterType.LIKE, Enum.GetName(typeof(CollectionMappings.RecipeFields), CollectionMappings.RecipeFields.Ingredients), menuRecipeSearchModel.IngredientsSelected, filters, filterCount);
             filterCount = ApplyFilter(menuRecipeSearchModel.IsCategoryEntered, FilterType.EQUAL, Enum.GetName(typeof(CollectionMappings.RecipeFields), CollectionMappings.RecipeFields.CategoryId), new List<string> { menuRecipeSearchModel.CategorySelectedId }, filters, filterCount);
 
+            //TODO: MONGO CRUD for range filter, less than, greater than
+            //filterCount = ApplyFilter(menuRecipeSearchModel.IsServingsSelected, FilterType.EQUAL, Enum.GetName(typeof(CollectionMappings.RecipeFields), CollectionMappings.RecipeFields.Servings), new List<string> { menuRecipeSearchModel.ServingsSelected }, filters, filterCount);
+
+
             recipesFiltered = this.recipeData.GetByOr(filters);
 
 
