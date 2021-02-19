@@ -86,6 +86,19 @@ namespace MongoDbCRUD
             return LoadRecordsOr<T>(tableName, filters.ToArray());
         }
 
+        public List<T> LoadRecordsByRange<T>(string tableName, string fieldName, string startValue, string endValue)
+        {
+            var collection = db.GetCollection<T>(tableName);
+            var filter = FilterDefinitionRange<T>(fieldName, startValue, endValue);
+            return collection.Find(filter).ToList();
+        }
+
+        public static FilterDefinition<T> FilterDefinitionRange<T>(string fieldName, string startValue, string endValue)
+        {
+            var filterDefinition = Builders<T>.Filter.Gte(fieldName, startValue) & Builders<T>.Filter.Lte(fieldName, endValue);
+            return filterDefinition;
+        }
+
         public static List<FilterDefinition<T>> FilterDefinitionLike<T>(string fieldName, List<string> values)
         {
             List<FilterDefinition<T>> resultFilters = new List<FilterDefinition<T>>();

@@ -18,6 +18,6 @@ namespace Recipes.Pages.Shared.Models
         public bool IsRecipeEntered => !string.IsNullOrEmpty(RecipeNameSelected);
         public bool IsIngredientsEntered => IngredientsSelected?.Count > 0;
         public bool IsCategoryEntered => !string.IsNullOrEmpty(CategorySelectedId);
-        public int CountOfFiltersApplied => (IsCookTimeEntered ? 1 : 0) + (IsRecipeEntered ? 1 : 0) + (IsIngredientsEntered ? 1 : 0) + (IsCategoryEntered ? 1 : 0);
+        public int CountOfFiltersApplied => (IsCookTimeEntered ? 1 : 0) + (IsRecipeEntered ? 1 : 0) + (IsIngredientsEntered ? 1 : 0) + (IsCategoryEntered ? 1 : 0) + (IsServingsSelected ? 1 : 0);
     }
 }

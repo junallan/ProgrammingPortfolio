@@ -22,7 +22,8 @@ namespace Recipes.Data
     {
         IN,
         EQUAL,
-        LIKE
+        LIKE,
+        RANGE
     }
 
     public class FilterValue
@@ -108,6 +109,10 @@ namespace Recipes.Data
                     case FilterType.LIKE:
                         filterDefinitions.AddRange(MongoDatabase.FilterDefinitionLike<Recipe>(filters[i].ColumnName, filters[i].Values));
                         break;
+                    case FilterType.RANGE:
+                        filterDefinitions.Add(MongoDatabase.FilterDefinitionRange<Recipe>(filters[i].ColumnName, filters[i].Values.ElementAt(0), filters[i].Values.ElementAt(1)));
+                        break;
+                    
                 }
             }
 
