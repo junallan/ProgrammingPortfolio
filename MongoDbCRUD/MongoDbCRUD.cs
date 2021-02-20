@@ -86,6 +86,9 @@ namespace MongoDbCRUD
             return LoadRecordsOr<T>(tableName, filters.ToArray());
         }
 
+        
+
+        //TODO: MULTIPLE GENERIC TYPE PARAMETER, https://stackoverflow.com/questions/965580/c-sharp-generics-syntax-for-multiple-type-parameter-constraints
         public List<T> LoadRecordsByRange<T>(string tableName, string fieldName, string startValue, string endValue)
         {
             var collection = db.GetCollection<T>(tableName);
@@ -96,6 +99,32 @@ namespace MongoDbCRUD
         public static FilterDefinition<T> FilterDefinitionRange<T>(string fieldName, string startValue, string endValue)
         {
             var filterDefinition = Builders<T>.Filter.Gte(fieldName, startValue) & Builders<T>.Filter.Lte(fieldName, endValue);
+            return filterDefinition;
+        }
+
+        public List<T> LoadRecordsGreaterThanOrEqual<T>(string tableName, string fieldName, string value)
+        {
+            var collection = db.GetCollection<T>(tableName);
+            var filter = FilterDefinitionGreaterThanOrEqual<T>(fieldName, value);
+            return collection.Find(filter).ToList();
+        }
+
+        public static FilterDefinition<T> FilterDefinitionGreaterThanOrEqual<T>(string fieldName, string value)
+        {
+            var filterDefinition = Builders<T>.Filter.Gte(fieldName, value);
+            return filterDefinition;
+        }
+
+        public List<T> LoadRecordsLessThanOrEqual<T>(string tableName, string fieldName, string value)
+        {
+            var collection = db.GetCollection<T>(tableName);
+            var filter = FilterDefinitionLessThanOrEqual<T>(fieldName, value);
+            return collection.Find(filter).ToList();
+        }
+
+        public static FilterDefinition<T> FilterDefinitionLessThanOrEqual<T>(string fieldName, string value)
+        {
+            var filterDefinition =  Builders<T>.Filter.Lte(fieldName, value);
             return filterDefinition;
         }
 

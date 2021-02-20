@@ -47,7 +47,24 @@ namespace Recipes.Pages.MenuRecipes
             filterCount = ApplyFilter(menuRecipeSearchModel.IsCategoryEntered, FilterType.EQUAL, Enum.GetName(typeof(CollectionMappings.RecipeFields), CollectionMappings.RecipeFields.CategoryId), new List<string> { menuRecipeSearchModel.CategorySelectedId }, filters, filterCount);
 
             //TODO: MONGO CRUD for range filter, less than, greater than, REFACTOR RANGE PASSED PARAMETERS TO GENERIC MONGO REPOSITORY CLASS FUNCTION
-            filterCount = ApplyFilter(menuRecipeSearchModel.IsServingsSelected, FilterType.RANGE, Enum.GetName(typeof(CollectionMappings.RecipeFields), CollectionMappings.RecipeFields.Servings), new List<string> { "8", "10" }, filters, filterCount);
+            if(menuRecipeSearchModel.IsServingsSelected)
+            {
+                ServingRangeModel servingOptions = new ServingRangeModel();
+                if (servingOptions.ServingsSmall.HighEnd == int.Parse(menuRecipeSearchModel.ServingsSelected))
+                {
+                    filterCount = ApplyFilter(menuRecipeSearchModel.IsServingsSelected, FilterType.LESS_THAN_EQUAL, Enum.GetName(typeof(CollectionMappings.RecipeFields), CollectionMappings.RecipeFields.Servings), new List<string> { servingOptions.ServingsSmall.HighEnd.ToString() }, filters, filterCount);
+                }
+                else if (servingOptions.ServingsMedium.HighEnd == int.Parse(menuRecipeSearchModel.ServingsSelected))
+                {
+                    filterCount = ApplyFilter(menuRecipeSearchModel.IsServingsSelected, FilterType.RANGE, Enum.GetName(typeof(CollectionMappings.RecipeFields), CollectionMappings.RecipeFields.Servings), new List<string> { servingOptions.ServingsMedium.LowEnd.ToString(), servingOptions.ServingsMedium.HighEnd.ToString() }, filters, filterCount);
+                }
+                else if (servingOptions.ServingsLarge.LowEnd == int.Parse(menuRecipeSearchModel.ServingsSelected))
+                {
+                    filterCount = ApplyFilter(menuRecipeSearchModel.IsServingsSelected, FilterType.GREATER_THAN_EQUAL, Enum.GetName(typeof(CollectionMappings.RecipeFields), CollectionMappings.RecipeFields.Servings), new List<string> { servingOptions.ServingsLarge.LowEnd.ToString() }, filters, filterCount);
+                }
+            }
+            //filterCount = ApplyFilter(menuRecipeSearchModel.IsServingsSelected, FilterType.RANGE, Enum.GetName(typeof(CollectionMappings.RecipeFields), CollectionMappings.RecipeFields.Servings), new List<string> { "8", "10" }, filters, filterCount);
+            
             //filterCount = ApplyFilter(menuRecipeSearchModel.IsServingsSelected, FilterType.RANGE, Enum.GetName(typeof(CollectionMappings.RecipeFields), CollectionMappings.RecipeFields.Servings), new List<string> { menuRecipeSearchModel.ServingsSelected }, filters, filterCount);
 
 

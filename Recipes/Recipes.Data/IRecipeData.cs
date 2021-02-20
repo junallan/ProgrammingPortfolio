@@ -23,7 +23,9 @@ namespace Recipes.Data
         IN,
         EQUAL,
         LIKE,
-        RANGE
+        RANGE,
+        LESS_THAN_EQUAL,
+        GREATER_THAN_EQUAL
     }
 
     public class FilterValue
@@ -112,7 +114,12 @@ namespace Recipes.Data
                     case FilterType.RANGE:
                         filterDefinitions.Add(MongoDatabase.FilterDefinitionRange<Recipe>(filters[i].ColumnName, filters[i].Values.ElementAt(0), filters[i].Values.ElementAt(1)));
                         break;
-                    
+                    case FilterType.LESS_THAN_EQUAL: 
+                        filterDefinitions.Add(MongoDatabase.FilterDefinitionLessThanOrEqual<Recipe>(filters[i].ColumnName, filters[i].Values.ElementAt(0)));
+                        break;
+                    case FilterType.GREATER_THAN_EQUAL:
+                        filterDefinitions.Add(MongoDatabase.FilterDefinitionGreaterThanOrEqual<Recipe>(filters[i].ColumnName, filters[i].Values.ElementAt(0)));
+                        break;
                 }
             }
 

@@ -11,6 +11,20 @@ using Recipes.Pages.Shared.Models;
 
 namespace Recipes.Pages.MenuRecipes
 {
+    public class ServingRangeModel
+    {
+        public ServingRangeItem ServingsSmall => new ServingRangeItem { LowEnd = 0, HighEnd = 2, Description = "2 or 1 with left" };
+        public ServingRangeItem ServingsMedium => new ServingRangeItem { LowEnd = 3, HighEnd = 4, Description = "4 or 2-3 with leftovers" };
+        public ServingRangeItem ServingsLarge => new ServingRangeItem { LowEnd = 5, HighEnd = int.MaxValue, Description = "Family of 5+" };
+    }
+
+    public class ServingRangeItem
+    {
+        public string Description { get; set; }
+        public int LowEnd { get; set; }
+        public int HighEnd { get; set; }
+    }
+
     public class SearchModel : PageModel
     {
         private readonly IRecipeData recipeData;
@@ -33,6 +47,8 @@ namespace Recipes.Pages.MenuRecipes
         public string ServingNumber { get; set; }
         public IEnumerable<SelectListItem> Servings { get; set; }
 
+        public ServingRangeModel ServingOptions => new ServingRangeModel();
+
         public SearchModel(IRecipeData recipeData, ICategoryData categoryData)
         {
             this.recipeData = recipeData;
@@ -45,16 +61,16 @@ namespace Recipes.Pages.MenuRecipes
 
             Categories = categories;
 
-            var minGroupServings = new SelectListGroup { Name="2 or 1 with left"};
-            var mediumGroupServings = new SelectListGroup { Name = "4 or 2-3 with leftovers" };
-            var largeGroupServings = new SelectListGroup { Name = "Family of 5+" };
-
+            var minGroupServings = new SelectListGroup { Name= ServingOptions.ServingsSmall.Description };
+            var mediumGroupServings = new SelectListGroup { Name = ServingOptions.ServingsMedium.Description };
+            var largeGroupServings = new SelectListGroup { Name = ServingOptions.ServingsLarge.Description };
+            
             var servings = new List<SelectListItem>
             {
                 new SelectListItem{ Value=string.Empty, Text=string.Empty},
-                new SelectListItem { Value = "2", Text="2 servings", Group=minGroupServings },
-                new SelectListItem { Value="4", Text="4 servings", Group=mediumGroupServings },
-                new SelectListItem { Value="6", Text="6 servings", Group=largeGroupServings }
+                new SelectListItem { Value=ServingOptions.ServingsSmall.HighEnd.ToString(), Text=$"{ServingOptions.ServingsSmall.HighEnd.ToString()} servings", Group=minGroupServings },
+                new SelectListItem { Value=ServingOptions.ServingsMedium.HighEnd.ToString(), Text=$"{ServingOptions.ServingsMedium.HighEnd.ToString()} servings", Group=mediumGroupServings },
+                new SelectListItem { Value=ServingOptions.ServingsLarge.LowEnd.ToString(), Text=$"{ServingOptions.ServingsLarge.LowEnd.ToString()} servings", Group=largeGroupServings }
             };
 
             Servings = servings;
