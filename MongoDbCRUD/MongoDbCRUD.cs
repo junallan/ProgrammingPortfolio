@@ -85,20 +85,17 @@ namespace MongoDbCRUD
             var filters = FilterDefinitionLike<T>(fieldName, values);
             return LoadRecordsOr<T>(tableName, filters.ToArray());
         }
-
         
-
-        //TODO: MULTIPLE GENERIC TYPE PARAMETER, https://stackoverflow.com/questions/965580/c-sharp-generics-syntax-for-multiple-type-parameter-constraints
-        public List<T> LoadRecordsByRange<T>(string tableName, string fieldName, string startValue, string endValue)
+        public List<TItems> LoadRecordsByRange<TItems,TValue>(string tableName, string fieldName, TValue startValue, TValue endValue)
         {
-            var collection = db.GetCollection<T>(tableName);
-            var filter = FilterDefinitionRange<T>(fieldName, startValue, endValue);
+            var collection = db.GetCollection<TItems>(tableName);
+            var filter = FilterDefinitionRange<TItems, TValue>(fieldName, startValue, endValue);
             return collection.Find(filter).ToList();
         }
 
-        public static FilterDefinition<T> FilterDefinitionRange<T>(string fieldName, string startValue, string endValue)
+        public static FilterDefinition<TItems> FilterDefinitionRange<TItems, TValue>(string fieldName, TValue startValue, TValue endValue)
         {
-            var filterDefinition = Builders<T>.Filter.Gte(fieldName, startValue) & Builders<T>.Filter.Lte(fieldName, endValue);
+            var filterDefinition = Builders<TItems>.Filter.Gte(fieldName, startValue) & Builders<TItems>.Filter.Lte(fieldName, endValue);
             return filterDefinition;
         }
 

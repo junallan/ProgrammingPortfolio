@@ -112,7 +112,7 @@ namespace Recipes.Data
                         filterDefinitions.AddRange(MongoDatabase.FilterDefinitionLike<Recipe>(filters[i].ColumnName, filters[i].Values));
                         break;
                     case FilterType.RANGE:
-                        filterDefinitions.Add(MongoDatabase.FilterDefinitionRange<Recipe>(filters[i].ColumnName, filters[i].Values.ElementAt(0), filters[i].Values.ElementAt(1)));
+                        filterDefinitions.Add(MongoDatabase.FilterDefinitionRange<Recipe,string>(filters[i].ColumnName, filters[i].Values.ElementAt(0), filters[i].Values.ElementAt(1)));
                         break;
                     case FilterType.LESS_THAN_EQUAL: 
                         filterDefinitions.Add(MongoDatabase.FilterDefinitionLessThanOrEqual<Recipe>(filters[i].ColumnName, filters[i].Values.ElementAt(0)));
